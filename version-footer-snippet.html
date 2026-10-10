@@ -1,0 +1,20 @@
+<!-- ==========================================================================
+  EcoOils HSSE — STANDARD VERSION FOOTER  (paste into EVERY app, same place)
+  Location : very last thing inside <body>, centred at the bottom of the page
+  Format   : "EcoOils HSSE · <App name> · v1.0 · 2026-10-10"
+  To update: change ONLY the three values in the first <script> block below.
+  Rule     : small change (fix, wording, new field)  -> 1.0 -> 1.1
+             big change (new module, redesign)       -> 1.1 -> 2.0
+             always update the date, and update the same version on the hub card.
+=========================================================================== -->
+<style>
+  .eco-ver{margin:24px auto 12px;padding:8px 16px;text-align:center;font:12px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;color:#6b7f72;font-variant-numeric:tabular-nums}
+  @media print{.eco-ver{display:block}}
+</style>
+<div class="eco-ver" id="ecoVer"></div>
+<script>
+  /* ---- EDIT THESE THREE ---- */
+  var APP_NAME = "Site Induction", APP_VERSION = "1.0", APP_DATE = "2026-10-10";
+  /* -------------------------- */
+  document.getElementById("ecoVer").textContent = "EcoOils HSSE · " + APP_NAME + " · v" + APP_VERSION + " · " + APP_DATE;
+</script>
