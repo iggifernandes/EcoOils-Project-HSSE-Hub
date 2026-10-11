@@ -87,7 +87,12 @@
   .btn.alt svg{width:15px;height:15px}
   .btn[aria-disabled="true"]{background:#e8eeea;color:#7b8d82;pointer-events:none}
 
-.panelhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 0 10px}
+.qs{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 14px}
+  .qs .lbl{font-size:.8rem;font-weight:600;color:var(--green-800);margin-right:2px}
+  .qs a{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-size:.82rem;font-weight:600;color:var(--green-800);background:#fff;border:1px solid var(--green-700);border-radius:999px;padding:5px 12px 5px 9px;transition:background .15s}
+  .qs a:hover{background:var(--green-50)}
+  .qs a svg{width:16px;height:16px}
+  .panelhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 0 10px}
   .panelhead .note{margin:0}
   .sc{display:flex;gap:6px;flex:none}
   .sc a,.sc span{width:34px;height:34px;border-radius:50%;border:1px solid var(--green-700);color:var(--green-800);background:#fff;display:grid;place-items:center;text-decoration:none;transition:background .15s}
@@ -173,7 +178,16 @@ const B = "https://iggifernandes.github.io/";
 
 /* VERSION of this hub. Same format in every app: "v1.0 · 2026-10-10", always in the footer.
    Small change = bump the second number (1.0 -> 1.1). Big change = bump the first (1.1 -> 2.0). */
-const HUB_VERSION = "1.0", HUB_DATE = "2026-10-10";
+const HUB_VERSION = "1.1", HUB_DATE = "2026-10-11";
+
+/* QUICK ACCESS SHEETS: buttons on the front tab (Projects) that open a Google Sheet directly.
+   To rename a button, change its two names. To add one, copy a line. */
+const QUICK_SHEETS = [
+  { en:"Sheet 1", id:"Sheet 1", url:"https://docs.google.com/spreadsheets/d/1491t3_AvjvW_gT3mSfqkvFicKxFA8WhlD0ABtbahi7w/edit?gid=1628419838#gid=1628419838" },
+  { en:"Sheet 2", id:"Sheet 2", url:"https://docs.google.com/spreadsheets/d/1m9maZz_ouW-kPOjSPy9OLQmG8K0hVU71XvDOLwH2AU8/edit?gid=2105590538#gid=2105590538" },
+  { en:"Sheet 3", id:"Sheet 3", url:"https://docs.google.com/spreadsheets/d/1MPyWIu52ji8LwFi5bSNZ28q63GfrsL-Cx-ZYJuSIzms/edit?gid=2055461571#gid=2055461571" },
+  { en:"Sheet 4", id:"Sheet 4", url:"https://docs.google.com/spreadsheets/d/1MPyWIu52ji8LwFi5bSNZ28q63GfrsL-Cx-ZYJuSIzms/edit?gid=483046206#gid=483046206" }
+];
 
 /* SHORTCUT ICONS shown at the top of each tab. Paste a Google Sheet and a Drive folder link per tab.
    Leave "" and the icon shows faded (link not added yet). */
@@ -248,7 +262,7 @@ const T = {
   en:{ heroTitle:"Every HSSE tool, in one place.",
        heroSub:"Pick a tab, then open the tool you need.",
        search:"Search",
-       open:"Open", tabSheet:"Google Sheet for this tab", tabDrive:"Google Drive folder for this tab", notLinked:"link not added yet", sheet:"Sheet", sheetTip:"Open the Google Sheet", drive:"Drive", driveTip:"Open the Google Drive folder", soon:"Coming soon", tagOpen:"Open", tagTeam:"Team only",
+       open:"Open", qsLabel:"Your sheets", tabSheet:"Google Sheet for this tab", tabDrive:"Google Drive folder for this tab", notLinked:"link not added yet", sheet:"Sheet", sheetTip:"Open the Google Sheet", drive:"Drive", driveTip:"Open the Google Drive folder", soon:"Coming soon", tagOpen:"Open", tagTeam:"Team only",
        t_projects:"Projects", t_training:"Induction & Training", t_health:"Health", t_records:"Records", t_dev:"In development",
        n_projects:"All your tools. Live tools come first.",
        n_training:"Induction and training pages. These can be shared with contractors and crews.",
@@ -261,7 +275,7 @@ const T = {
   id:{ heroTitle:"Semua alat HSSE, dalam satu tempat.",
        heroSub:"Pilih tab, lalu buka alat yang Anda perlukan.",
        search:"Cari",
-       open:"Buka", tabSheet:"Google Sheet untuk tab ini", tabDrive:"Folder Google Drive untuk tab ini", notLinked:"tautan belum ditambahkan", sheet:"Sheet", sheetTip:"Buka Google Sheet", drive:"Drive", driveTip:"Buka folder Google Drive", soon:"Segera hadir", tagOpen:"Terbuka", tagTeam:"Khusus tim",
+       open:"Buka", qsLabel:"Sheet Anda", tabSheet:"Google Sheet untuk tab ini", tabDrive:"Folder Google Drive untuk tab ini", notLinked:"tautan belum ditambahkan", sheet:"Sheet", sheetTip:"Buka Google Sheet", drive:"Drive", driveTip:"Buka folder Google Drive", soon:"Segera hadir", tagOpen:"Terbuka", tagTeam:"Khusus tim",
        t_projects:"Proyek", t_training:"Induksi & Pelatihan", t_health:"Kesehatan", t_records:"Catatan", t_dev:"Dalam pengembangan",
        n_projects:"Semua alat Anda. Alat yang sudah aktif ada di depan.",
        n_training:"Halaman induksi dan pelatihan. Boleh dibagikan ke kontraktor dan kru.",
@@ -326,6 +340,12 @@ function card(a){
   return `<article class="card"><div class="card-top"><div class="icon">${ICONS[a.icon]}</div>${tag}</div><h3>${c.name}</h3><p>${c.desc}</p>${btn}</article>`;
 }
 
+function quick(){
+  if(!QUICK_SHEETS.length) return "";
+  const t = T[lang];
+  return `<div class="qs"><span class="lbl">${t.qsLabel}</span>${QUICK_SHEETS.map(x => `<a href="${x.url}" target="_blank" rel="noopener noreferrer" title="${t.tabSheet}">${ICONS.sheet}${x[lang]}</a>`).join("")}</div>`;
+}
+
 function shortcuts(k){
   const t = T[lang], L = TAB_LINKS[k] || {};
   const one = (url, icon, label) => url
@@ -349,7 +369,7 @@ function render(){
     html = `<p class="note">${t.results}</p>` + (hits.length ? `<div class="grid">${hits.map(card).join("")}</div>` : `<p class="empty">${t.none}</p>`);
   } else {
     const list = APPS.filter(a => inTab(a, tab));
-    html = `<div class="panelhead"><p class="note">${t["n_"+tab]}</p>${shortcuts(tab)}</div><div class="grid">${list.map(card).join("")}</div>`;
+    html = `<div class="panelhead"><p class="note">${t["n_"+tab]}</p>${shortcuts(tab)}</div>${tab==="projects" ? quick() : ""}<div class="grid">${list.map(card).join("")}</div>`;
     if (tab === "projects") html += `<section class="dash"><div class="icon">${ICONS.dash}</div><div><h3>${t.dashTitle}</h3><p>${t.dashDesc}</p></div></section>`;
   }
   main.innerHTML = html;
