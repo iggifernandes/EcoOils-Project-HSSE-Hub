@@ -85,7 +85,9 @@
   .btn.alt{background:#fff;color:var(--green-800);border:1px solid var(--green-700)}
   .btn.alt:hover{background:var(--green-50)}
   .btn.alt svg{width:15px;height:15px}
-  .btn.icon{padding:7px 9px}
+  .btn.icon{padding:5px 6px;background:transparent;border:0;color:var(--green-700)}
+  .btn.icon:hover{background:var(--green-50)}
+  .btn.icon svg{width:20px;height:20px}
   .btn[aria-disabled="true"]{background:#e8eeea;color:#7b8d82;pointer-events:none}
 
 .qs{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 14px}
@@ -96,10 +98,10 @@
   .panelhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 0 10px}
   .panelhead .note{margin:0}
   .sc{display:flex;gap:6px;flex:none}
-  .sc a,.sc span{width:34px;height:34px;border-radius:50%;border:1px solid var(--green-700);color:var(--green-800);background:#fff;display:grid;place-items:center;text-decoration:none;transition:background .15s}
+  .sc a,.sc span{width:34px;height:34px;border-radius:6px;border:0;color:var(--green-700);background:transparent;display:grid;place-items:center;text-decoration:none;transition:background .15s}
   .sc a:hover{background:var(--green-50)}
   .sc svg{width:18px;height:18px}
-  .sc .off{border:1px dashed var(--line);color:#9db0a4;cursor:default}
+  .sc .off{border:0;color:#b4c3b9;cursor:default}
   .ver{margin-left:auto;font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums}
   .vline{margin-top:4px;font-size:.74rem;color:var(--muted);font-variant-numeric:tabular-nums}
   .dash{margin-top:18px;border:1.5px dashed var(--green-500);border-radius:var(--radius);padding:12px 14px;background:var(--green-50);display:flex;gap:12px;align-items:center}
@@ -179,7 +181,7 @@ const B = "https://iggifernandes.github.io/";
 
 /* VERSION of this hub. Same format in every app: "v1.0 · 2026-10-10", always in the footer.
    Small change = bump the second number (1.0 -> 1.1). Big change = bump the first (1.1 -> 2.0). */
-const HUB_VERSION = "1.5", HUB_DATE = "2026-10-12";
+const HUB_VERSION = "1.6", HUB_DATE = "2026-10-12";
 
 /* QUICK ACCESS SHEETS: buttons on the front tab (Projects) that open a Google Sheet directly.
    To rename a button, change its two names. To add one, copy a line. */
