@@ -1,0 +1,14 @@
+<!-- ==========================================================================
+  EcoOils HSSE — STANDARD HOME BUTTON (team-only apps)
+  Location : paste just before the version footer, near the end of <body>
+  Look     : small green round house icon, fixed top-left on every app
+  NOT for the Induction / open training pages (they must not expose the hub link).
+=========================================================================== -->
+<a class="eco-home" href="https://iggifernandes.github.io/EcoOils-Project-HSSE-Hub/" title="HSSE Hub" aria-label="HSSE Hub">
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v10h13V10"/><path d="M10 20v-5h4v5"/></svg>
+</a>
+<style>
+  .eco-home{position:fixed;top:10px;left:10px;z-index:9999;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#1f6b3a;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.25);text-decoration:none}
+  .eco-home:hover{background:#17542d}
+  @media print{.eco-home{display:none}}
+</style>
