@@ -181,7 +181,7 @@ const B = "https://iggifernandes.github.io/";
 
 /* VERSION of this hub. Same format in every app: "v1.0 · 2026-10-10", always in the footer.
    Small change = bump the second number (1.0 -> 1.1). Big change = bump the first (1.1 -> 2.0). */
-const HUB_VERSION = "1.9", HUB_DATE = "2026-10-12";
+const HUB_VERSION = "1.10", HUB_DATE = "2026-10-13";
 
 /* QUICK ACCESS SHEETS: buttons on the front tab (Projects) that open a Google Sheet directly.
    To rename a button, change its two names. To add one, copy a line. */
@@ -210,6 +210,10 @@ const APPS = [
     url:B+"EcoOils-Project-IMS/",
     en:{name:"IMS",                    desc:"Project IMS, including incident records, trends and learning."},
     id:{name:"IMS",                    desc:"IMS proyek, termasuk catatan insiden, tren, dan pembelajaran."} },
+  { id:"health",    cat:"health",   access:"team", icon:"heart", sheet:"https://docs.google.com/spreadsheets/d/1MPyWIu52ji8LwFi5bSNZ28q63GfrsL-Cx-ZYJuSIzms/edit", drive:"", ver:"1.1",
+    url:B+"EcoOils-Project-Health-Monitoring/",
+    en:{name:"Health Monitoring",      desc:"Both health tools and the admin trends dashboard, from one page."},
+    id:{name:"Pemantauan Kesehatan",   desc:"Kedua alat kesehatan dan dasbor tren admin, dalam satu halaman."} },
   { id:"bp",        cat:"health",   access:"team", icon:"pulse", sheet:"https://docs.google.com/spreadsheets/d/1MPyWIu52ji8LwFi5bSNZ28q63GfrsL-Cx-ZYJuSIzms/edit?gid=483046206#gid=483046206", drive:"", ver:"",
     url:B+"EcoOils-Project-blood-pressure-monitoring/",
     en:{name:"Blood Pressure Monitoring", desc:"Blood pressure readings and follow-up for the crew."},
