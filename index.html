@@ -190,7 +190,7 @@ const B = "https://iggifernandes.github.io/";
 
 /* VERSION of this hub. Same format in every app: "v1.0 · 2026-10-10", always in the footer.
    Small change = bump the second number (1.0 -> 1.1). Big change = bump the first (1.1 -> 2.0). */
-const HUB_VERSION = "1.13", HUB_DATE = "2026-10-16";
+const HUB_VERSION = "1.14", HUB_DATE = "2026-10-19";
 
 /* QUICK ACCESS SHEETS: buttons on the front tab (Projects) that open a Google Sheet directly.
    To rename a button, change its two names. To add one, copy a line. */
@@ -205,6 +205,7 @@ const TAB_LINKS = {
   records:  { sheet:"", drive:"" },
   equip:    { sheet:"", drive:"" },
   gonogo:   { sheet:"", drive:"" },
+  security: { sheet:"", drive:"" },
   reports:  { sheet:"", drive:"" },
   dev:      { sheet:"", drive:"" }
 };
@@ -287,13 +288,17 @@ const APPS = [
   { key:"bulletin",  cat:"dev", access:"team", icon:"news", sheet:"", drive:"", ver:"", url:"",
     en:{name:"Quarterly HSSE Bulletin",desc:"Current and past editions of the HSSE bulletin."},
     id:{name:"Buletin HSSE Triwulan",  desc:"Edisi terbaru dan sebelumnya dari buletin HSSE."} },
-  { key:"security",  cat:"dev", access:"team", icon:"clock", sheet:"", drive:"", ver:"", url:"",
+  { key:"security",  cat:"security", access:"team", icon:"clock", sheet:"", drive:"", ver:"", url:"",
     en:{name:"Security Timesheets",    desc:"Daily timesheet upload and print for security personnel."},
-    id:{name:"Absensi Keamanan",       desc:"Unggah dan cetak absensi harian personel keamanan."} }
+    id:{name:"Absensi Keamanan",       desc:"Unggah dan cetak absensi harian personel keamanan."} },
+
+  { key:"patrol",    cat:"security", access:"team", icon:"pin", sheet:"", drive:"", ver:"", url:"",
+    en:{name:"Security Patrol",        desc:"Guards scan QR checkpoints on their phones; every round is logged with time and place."},
+    id:{name:"Patroli Keamanan",       desc:"Penjaga memindai QR di titik pemeriksaan lewat ponsel; setiap ronde dicatat lengkap dengan waktu dan lokasi."} }
 ];
 
 /* Tabs, in the order shown. "projects" shows everything. */
-const TABS = ["used","favs","projects","training","health","records","equip","gonogo","reports","dev"];
+const TABS = ["used","favs","projects","training","health","records","security","equip","gonogo","reports","dev"];
 
 /* =====================================================================
    2) Wording in both languages
@@ -303,12 +308,13 @@ const T = {
        heroSub:"Pick a tab, then open the tool you need.",
        search:"Search",
        open:"Open", qsLabel:"Your sheets", tabSheet:"Google Sheet for this tab", tabDrive:"Google Drive folder for this tab", notLinked:"link not added yet", sheet:"Sheet", sheetTip:"Open the Google Sheet", drive:"Drive", driveTip:"Open the Google Drive folder", soon:"Coming soon", tagOpen:"Open", tagTeam:"Team only",
-       t_used:"Most used", t_favs:"Favourites", t_projects:"Projects", t_training:"Induction & Training", t_health:"Health", t_records:"Records", t_equip:"Equipment & Operators", t_gonogo:"Go / No-Go", t_reports:"Reports", t_dev:"In development",
+       t_used:"Most used", t_favs:"Favourites", t_projects:"Projects", t_training:"Induction & Training", t_health:"Health", t_records:"Records", t_security:"Security", t_equip:"Equipment & Operators", t_gonogo:"Go / No-Go", t_reports:"Reports", t_dev:"In development",
        n_used:"Your most-opened tools. This list builds itself as you use the hub.", n_favs:"Your pinned tools. Tap the star on any card to add or remove it.", usedEmpty:"Nothing here yet. Tools you open will appear automatically.", favsEmpty:"No favourites yet. Tap the star on a tool to pin it here.", star:"Add to favourites", unstar:"Remove from favourites",
        n_projects:"All your tools. Live tools come first.",
        n_training:"Induction and training pages. These can be shared with contractors and crews.",
        n_health:"Crew health records. Team only.",
        n_records:"Trackers and registers. Team only.",
+       n_security:"Security tools: timesheets and guard patrols. Being built.",
        n_equip:"Heavy equipment, vehicles and their operators: registers, licences and competency. Being built.",
        n_gonogo:"Pre-mobilization Go / No-Go review for contractors. Team only.",
        n_reports:"Report generator. Fill in a form, add photos, get a PDF and a Word file. Coming soon.",
@@ -320,12 +326,13 @@ const T = {
        heroSub:"Pilih tab, lalu buka alat yang Anda perlukan.",
        search:"Cari",
        open:"Buka", qsLabel:"Sheet Anda", tabSheet:"Google Sheet untuk tab ini", tabDrive:"Folder Google Drive untuk tab ini", notLinked:"tautan belum ditambahkan", sheet:"Sheet", sheetTip:"Buka Google Sheet", drive:"Drive", driveTip:"Buka folder Google Drive", soon:"Segera hadir", tagOpen:"Terbuka", tagTeam:"Khusus tim",
-       t_used:"Paling sering", t_favs:"Favorit", t_projects:"Proyek", t_training:"Induksi & Pelatihan", t_health:"Kesehatan", t_records:"Catatan", t_equip:"Peralatan & Operator", t_gonogo:"Go / No-Go", t_reports:"Laporan", t_dev:"Dalam pengembangan",
+       t_used:"Paling sering", t_favs:"Favorit", t_projects:"Proyek", t_training:"Induksi & Pelatihan", t_health:"Kesehatan", t_records:"Catatan", t_security:"Keamanan", t_equip:"Peralatan & Operator", t_gonogo:"Go / No-Go", t_reports:"Laporan", t_dev:"Dalam pengembangan",
        n_used:"Alat yang paling sering Anda buka. Daftar ini terisi otomatis.", n_favs:"Alat favorit Anda. Ketuk bintang pada kartu untuk menambah atau menghapus.", usedEmpty:"Belum ada. Alat yang Anda buka akan muncul otomatis.", favsEmpty:"Belum ada favorit. Ketuk bintang pada alat untuk menyematkannya di sini.", star:"Tambah ke favorit", unstar:"Hapus dari favorit",
        n_projects:"Semua alat Anda. Alat yang sudah aktif ada di depan.",
        n_training:"Halaman induksi dan pelatihan. Boleh dibagikan ke kontraktor dan kru.",
        n_health:"Catatan kesehatan kru. Khusus tim.",
        n_records:"Pelacak dan daftar. Khusus tim.",
+       n_security:"Alat keamanan: absensi dan patroli penjaga. Sedang dibangun.",
        n_equip:"Alat berat, kendaraan, dan operatornya: register, lisensi, dan kompetensi. Sedang dibangun.",
        n_gonogo:"Tinjauan Go / No-Go pra-mobilisasi untuk kontraktor. Khusus tim.",
        n_reports:"Pembuat laporan. Isi formulir, tambah foto, dapatkan PDF dan file Word. Segera hadir.",
@@ -344,6 +351,7 @@ const ICONS = {
   truck:svg('<path d="M2 6h11v10H2zM13 9h4l3 3v4h-7"/><circle cx="6.5" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/>'),
   gate:svg('<path d="M4 4h16v16H4z"/><path d="m8 12 3 3 5-6"/>'),
   matrix:svg('<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/>'),
+  pin:svg('<path d="M12 21s-6-5.6-6-10.5a6 6 0 0 1 12 0C18 15.4 12 21 12 21Z"/><circle cx="12" cy="10.5" r="2.2"/>'),
   star:svg('<path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 17l-5.2 2.7 1-5.9-4.3-4.1 5.9-.8L12 3.5Z"/>'),
   shield:svg('<path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/>'),
   doc:svg('<path d="M7 3h7l4 4v14H7V3Z"/><path d="M14 3v4h4M10 12h5M10 16h5"/>'),
