@@ -203,7 +203,7 @@ const B = "https://iggifernandes.github.io/";
 
 /* VERSION of this hub. Same format in every app: "v1.0 · 2026-10-10", always in the footer.
    Small change = bump the second number (1.0 -> 1.1). Big change = bump the first (1.1 -> 2.0). */
-const HUB_VERSION = "1.18", HUB_DATE = "2026-10-21";
+const HUB_VERSION = "1.19", HUB_DATE = "2026-10-21";
 
 /* QUICK ACCESS SHEETS: buttons on the front tab (Projects) that open a Google Sheet directly.
    To rename a button, change its two names. To add one, copy a line. */
@@ -219,6 +219,7 @@ const TAB_LINKS = {
   equip:    { sheet:"", drive:"" },
   gonogo:   { sheet:"", drive:"" },
   security: { sheet:"", drive:"" },
+  inspections: { sheet:"", drive:"" },
   reports:  { sheet:"", drive:"" },
   dev:      { sheet:"", drive:"" }
 };
@@ -277,6 +278,10 @@ const APPS = [
     en:{name:"PPE Database",            desc:"PPE requests, approvals and store issue records."},
     id:{name:"Database APD",            desc:"Permintaan, persetujuan, dan catatan pengeluaran APD dari gudang."} },
 
+  { key:"scaffinv", cat:"inspections", access:"team", icon:"scaffold", sheet:"", drive:"", ver:"", url:"",
+    en:{name:"Scaffolding Inventory",   desc:"Scaffold inspection tag inventory: tag numbers, locations, validity dates and the inspector for each."},
+    id:{name:"Inventaris Scaffolding",  desc:"Inventaris tag inspeksi scaffolding: nomor tag, lokasi, masa berlaku, dan inspektur untuk setiap tag."} },
+
   { key:"mom", cat:"reports", access:"team", icon:"doc", sheet:"https://docs.google.com/spreadsheets/d/1v6IpXM6dqIxb6wj5kOsfGxyjltleThPICIdoxHKuAFo/edit?gid=670338281#gid=670338281", drive:"", ver:"", url:B+"EcoOils-Project-Stand-Down-MOM/",
     en:{name:"Stand-down Meeting MoM",  desc:"Editable one-page minutes, ready to print."},
     id:{name:"Notulen Rapat Stand-down", desc:"Notulen satu halaman yang dapat diedit, siap cetak."} },
@@ -315,7 +320,7 @@ const APPS = [
 ];
 
 /* Tabs, in the order shown. "projects" shows everything. */
-const TABS = ["used","favs","projects","training","health","records","security","equip","gonogo","reports","dev"];
+const TABS = ["used","favs","projects","training","health","records","inspections","security","equip","gonogo","reports","dev"];
 
 /* =====================================================================
    2) Wording in both languages
@@ -325,12 +330,13 @@ const T = {
        heroSub:"Pick a tab, then open the tool you need.",
        search:"Search", arrange:"Arrange tiles", arrDone:"Done", arrReset:"Reset order", mvL:"Move earlier", mvR:"Move later", arrHint:"Drag a tile, or use the arrows, to set your own order. Saved on this device.",
        open:"Open", qsLabel:"Your sheets", tabSheet:"Google Sheet for this tab", tabDrive:"Google Drive folder for this tab", notLinked:"link not added yet", sheet:"Sheet", sheetTip:"Open the Google Sheet", drive:"Drive", driveTip:"Open the Google Drive folder", soon:"Coming soon", tagOpen:"Open", tagTeam:"Team only",
-       t_used:"Most used", t_favs:"Favourites", t_projects:"Projects", t_training:"Induction & Training", t_health:"Health", t_records:"Records", t_security:"Security", t_equip:"Equipment & Operators", t_gonogo:"Go / No-Go", t_reports:"Reports", t_dev:"In development",
+       t_used:"Most used", t_favs:"Favourites", t_projects:"Projects", t_training:"Induction & Training", t_health:"Health", t_records:"Records", t_inspections:"Inspections", t_security:"Security", t_equip:"Equipment & Operators", t_gonogo:"Go / No-Go", t_reports:"Reports", t_dev:"In development",
        n_used:"Your most-opened tools. This list builds itself as you use the hub.", n_favs:"Your pinned tools. Tap the star on any card to add or remove it.", usedEmpty:"Nothing here yet. Tools you open will appear automatically.", favsEmpty:"No favourites yet. Tap the star on a tool to pin it here.", star:"Add to favourites", unstar:"Remove from favourites",
        n_projects:"All your tools. Live tools come first.",
        n_training:"Induction and training pages. These can be shared with contractors and crews.",
        n_health:"Crew health records. Team only.",
        n_records:"Trackers and registers. Team only.",
+       n_inspections:"Inspection registers and tags. Being built.",
        n_security:"Security tools: timesheets and guard patrols. Being built.",
        n_equip:"Heavy equipment, vehicles and their operators: registers, licences and competency. Being built.",
        n_gonogo:"Pre-mobilization Go / No-Go review for contractors. Team only.",
@@ -343,12 +349,13 @@ const T = {
        heroSub:"Pilih tab, lalu buka alat yang Anda perlukan.",
        search:"Cari", arrange:"Atur kartu", arrDone:"Selesai", arrReset:"Atur ulang urutan", mvL:"Geser maju", mvR:"Geser mundur", arrHint:"Seret kartu, atau pakai tanda panah, untuk mengatur urutan sendiri. Tersimpan di perangkat ini.",
        open:"Buka", qsLabel:"Sheet Anda", tabSheet:"Google Sheet untuk tab ini", tabDrive:"Folder Google Drive untuk tab ini", notLinked:"tautan belum ditambahkan", sheet:"Sheet", sheetTip:"Buka Google Sheet", drive:"Drive", driveTip:"Buka folder Google Drive", soon:"Segera hadir", tagOpen:"Terbuka", tagTeam:"Khusus tim",
-       t_used:"Paling sering", t_favs:"Favorit", t_projects:"Proyek", t_training:"Induksi & Pelatihan", t_health:"Kesehatan", t_records:"Catatan", t_security:"Keamanan", t_equip:"Peralatan & Operator", t_gonogo:"Go / No-Go", t_reports:"Laporan", t_dev:"Dalam pengembangan",
+       t_used:"Paling sering", t_favs:"Favorit", t_projects:"Proyek", t_training:"Induksi & Pelatihan", t_health:"Kesehatan", t_records:"Catatan", t_inspections:"Inspeksi", t_security:"Keamanan", t_equip:"Peralatan & Operator", t_gonogo:"Go / No-Go", t_reports:"Laporan", t_dev:"Dalam pengembangan",
        n_used:"Alat yang paling sering Anda buka. Daftar ini terisi otomatis.", n_favs:"Alat favorit Anda. Ketuk bintang pada kartu untuk menambah atau menghapus.", usedEmpty:"Belum ada. Alat yang Anda buka akan muncul otomatis.", favsEmpty:"Belum ada favorit. Ketuk bintang pada alat untuk menyematkannya di sini.", star:"Tambah ke favorit", unstar:"Hapus dari favorit",
        n_projects:"Semua alat Anda. Alat yang sudah aktif ada di depan.",
        n_training:"Halaman induksi dan pelatihan. Boleh dibagikan ke kontraktor dan kru.",
        n_health:"Catatan kesehatan kru. Khusus tim.",
        n_records:"Pelacak dan daftar. Khusus tim.",
+       n_inspections:"Register dan tag inspeksi. Sedang dibangun.",
        n_security:"Alat keamanan: absensi dan patroli penjaga. Sedang dibangun.",
        n_equip:"Alat berat, kendaraan, dan operatornya: register, lisensi, dan kompetensi. Sedang dibangun.",
        n_gonogo:"Tinjauan Go / No-Go pra-mobilisasi untuk kontraktor. Khusus tim.",
@@ -370,6 +377,7 @@ const ICONS = {
   matrix:svg('<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/>'),
   pin:svg('<path d="M12 21s-6-5.6-6-10.5a6 6 0 0 1 12 0C18 15.4 12 21 12 21Z"/><circle cx="12" cy="10.5" r="2.2"/>'),
   hat:svg('<path d="M3 17h18"/><path d="M5 17a7 7 0 0 1 14 0"/><path d="M12 6v5M9 8.5v2.5M15 8.5v2.5"/>'),
+  scaffold:svg('<path d="M5 3v18M19 3v18M5 8h14M5 14h14M5 8l14 6M5 14l14 6"/>'),
   star:svg('<path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 17l-5.2 2.7 1-5.9-4.3-4.1 5.9-.8L12 3.5Z"/>'),
   shield:svg('<path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/>'),
   doc:svg('<path d="M7 3h7l4 4v14H7V3Z"/><path d="M14 3v4h4M10 12h5M10 16h5"/>'),
