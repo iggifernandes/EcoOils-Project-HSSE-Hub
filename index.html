@@ -203,7 +203,7 @@ const B = "https://iggifernandes.github.io/";
 
 /* VERSION of this hub. Same format in every app: "v1.0 · 2026-10-10", always in the footer.
    Small change = bump the second number (1.0 -> 1.1). Big change = bump the first (1.1 -> 2.0). */
-const HUB_VERSION = "1.17", HUB_DATE = "2026-10-21";
+const HUB_VERSION = "1.18", HUB_DATE = "2026-10-21";
 
 /* QUICK ACCESS SHEETS: buttons on the front tab (Projects) that open a Google Sheet directly.
    To rename a button, change its two names. To add one, copy a line. */
@@ -272,6 +272,10 @@ const APPS = [
   { key:"trainmatrix", cat:"training", access:"team", icon:"matrix", sheet:"", drive:"", ver:"", url:"",
     en:{name:"Training Matrix",         desc:"Mandatory trainings by level (Induction, Permit to Work and more), tracked per person after induction."},
     id:{name:"Matriks Pelatihan",       desc:"Pelatihan wajib per level (Induksi, Izin Kerja, dan lainnya), dilacak per orang setelah induksi."} },
+
+  { key:"ppe", cat:"records", access:"team", icon:"hat", sheet:"", drive:"", ver:"", url:B+"EcoOils-Project-PPE-Database/",
+    en:{name:"PPE Database",            desc:"PPE requests, approvals and store issue records."},
+    id:{name:"Database APD",            desc:"Permintaan, persetujuan, dan catatan pengeluaran APD dari gudang."} },
 
   { key:"mom", cat:"reports", access:"team", icon:"doc", sheet:"https://docs.google.com/spreadsheets/d/1v6IpXM6dqIxb6wj5kOsfGxyjltleThPICIdoxHKuAFo/edit?gid=670338281#gid=670338281", drive:"", ver:"", url:B+"EcoOils-Project-Stand-Down-MOM/",
     en:{name:"Stand-down Meeting MoM",  desc:"Editable one-page minutes, ready to print."},
@@ -365,6 +369,7 @@ const ICONS = {
   gate:svg('<path d="M4 4h16v16H4z"/><path d="m8 12 3 3 5-6"/>'),
   matrix:svg('<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/>'),
   pin:svg('<path d="M12 21s-6-5.6-6-10.5a6 6 0 0 1 12 0C18 15.4 12 21 12 21Z"/><circle cx="12" cy="10.5" r="2.2"/>'),
+  hat:svg('<path d="M3 17h18"/><path d="M5 17a7 7 0 0 1 14 0"/><path d="M12 6v5M9 8.5v2.5M15 8.5v2.5"/>'),
   star:svg('<path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 17l-5.2 2.7 1-5.9-4.3-4.1 5.9-.8L12 3.5Z"/>'),
   shield:svg('<path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/>'),
   doc:svg('<path d="M7 3h7l4 4v14H7V3Z"/><path d="M14 3v4h4M10 12h5M10 16h5"/>'),
