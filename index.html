@@ -11,171 +11,145 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="HSSE Hub">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  /* ===== BRAND TOKENS: change the green here and the whole hub follows ===== */
+  /* ===== EcoOils minimal Shell-style interface. Palette: green, yellow, black, white, grey only ===== */
   :root{
-    --green-900:#0b3a22;
-    --green-800:#115231;
-    --green-700:#176b41;
-    --green-500:#2f9a62;
-    --green-100:#e3f1e8;
-    --green-50:#f1f8f3;
-    --sun:#f2b84b;
-    --ink:#10261a;
-    --muted:#4f6657;
-    --line:#d3e3d9;
-    --paper:#fbfdfb;
-    --radius:14px;
+    --green:#44a276; --yellow:#ffc600; --black:#231f20; --white:#ffffff; --grey:#aaaaaa;
+    --title:#6e6b6c; --line:#dcdcdc; --soft:#f4f4f4; --muted:#6e6b6c;
+    --dots:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='%23aaaaaa'%3E%3Ccircle cx='10' cy='10' r='6'/%3E%3Ccircle cx='30' cy='10' r='6'/%3E%3Ccircle cx='50' cy='10' r='6'/%3E%3Ccircle cx='70' cy='10' r='6'/%3E%3Ccircle cx='90' cy='10' r='6'/%3E%3Ccircle cx='10' cy='30' r='6'/%3E%3Ccircle cx='30' cy='30' r='6'/%3E%3Ccircle cx='50' cy='30' r='6'/%3E%3Ccircle cx='70' cy='30' r='6'/%3E%3Ccircle cx='90' cy='30' r='6'/%3E%3Ccircle cx='10' cy='50' r='6'/%3E%3Ccircle cx='30' cy='50' r='6'/%3E%3Ccircle cx='50' cy='50' r='6'/%3E%3Ccircle cx='70' cy='50' r='6'/%3E%3Ccircle cx='90' cy='50' r='6'/%3E%3Ccircle cx='10' cy='70' r='6'/%3E%3Ccircle cx='30' cy='70' r='6'/%3E%3Ccircle cx='50' cy='70' r='6'/%3E%3Ccircle cx='70' cy='70' r='6'/%3E%3Ccircle cx='90' cy='70' r='6'/%3E%3Ccircle cx='10' cy='90' r='6'/%3E%3Ccircle cx='30' cy='90' r='6'/%3E%3Ccircle cx='50' cy='90' r='6'/%3E%3Ccircle cx='70' cy='90' r='6'/%3E%3Ccircle cx='90' cy='90' r='6'/%3E%3C/g%3E%3C/svg%3E");
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
-  h1,h2,h3{font-family:Georgia,"Times New Roman",Times,serif;margin:0;letter-spacing:-.01em}
-  :focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--white);color:var(--black);font-family:Jost,system-ui,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.5;position:relative;min-height:100vh}
+  body::after{content:"";position:fixed;right:-40px;bottom:-40px;width:150px;height:150px;background:var(--dots) center/contain no-repeat;opacity:.3;pointer-events:none;z-index:0}
+  .wrap{position:relative;z-index:1;max-width:780px;margin:0 auto}
+  h1,h2,h3{margin:0;font-family:inherit}
+  :focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
 
-  /* ===== Top bar + logo ===== */
-  .bar{position:absolute;top:0;left:0;right:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:12px clamp(16px,4vw,48px);color:#fff}
-  .brand{display:flex;align-items:center;gap:10px}
-  .brand .logo{display:grid;place-items:center}
-  .brand .logo img{height:28px;width:auto;display:block}
-  .brand .hubname{font-family:Georgia,"Times New Roman",Times,serif;font-weight:700;font-size:1.05rem;letter-spacing:-.01em}
-  .rt{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
-  .vtop{font-size:.72rem;color:rgba(255,255,255,.85);font-variant-numeric:tabular-nums;letter-spacing:.02em}
-  .lang{display:inline-flex;border:1px solid rgba(255,255,255,.45);border-radius:999px;overflow:hidden}
-  .lang button{background:transparent;border:0;color:#fff;font:inherit;font-size:.85rem;font-weight:600;padding:6px 14px;cursor:pointer}
-  .lang button[aria-pressed="true"]{background:#fff;color:var(--green-800)}
+  /* header: logo left; version above language toggle on the right */
+  .bar{display:flex;justify-content:space-between;align-items:flex-start;padding:14px 16px 0}
+  .brand .logo{display:block}
+  .brand .logo img{height:30px;width:auto;display:block}
+  .rt{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+  .vtop{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;letter-spacing:.02em}
+  .lang{display:flex;gap:2px}
+  .lang button{background:transparent;border:0;border-bottom:3px solid transparent;color:var(--black);font:inherit;font-size:15px;font-weight:500;padding:4px 8px;min-height:32px;cursor:pointer}
+  .lang button[aria-pressed="true"]{border-bottom-color:var(--green)}
 
-  /* ===== Hero ===== */
-  .hero{position:relative;background:linear-gradient(180deg,#0b3a22 0%,#115231 55%,#1c7447 100%);color:#fff;padding:68px clamp(16px,4vw,48px) 0;overflow:hidden}
-  .hero-inner{max-width:1120px;margin:0 auto;position:relative;z-index:2;padding-bottom:66px}
-  .hero h1{font-size:clamp(1.6rem,3.6vw,2.4rem);line-height:1.08;max-width:24ch}
-  .hero p{max-width:60ch;margin:8px 0 0;color:#d6ecde;font-size:.92rem}
-  .sun{position:absolute;right:12%;bottom:34px;width:clamp(70px,10vw,120px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 50% 50%,#ffd98a 0%,#f2b84b 55%,rgba(242,184,75,0) 72%);opacity:.95;z-index:1}
-  .skyline{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:56px;z-index:3;display:block}
+  /* page title: the signature of every app */
+  .ptitle{font-weight:300;font-size:22px;letter-spacing:.14em;text-transform:uppercase;color:var(--title);padding:26px 16px 14px}
+  .rule{position:relative;border-top:1px solid var(--black);margin:0 16px}
+  .rule::before{content:"";position:absolute;left:0;top:-4px;width:44px;height:7px;background:var(--green)}
+  .sub{margin:12px 16px 0;color:var(--muted);font-size:16px}
 
-  /* ===== Tabs + search ===== */
-  .toolbar{max-width:1120px;margin:-24px auto 0;padding:0 clamp(16px,4vw,48px);position:relative;z-index:6}
-  .toolbar-in{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px;box-shadow:0 6px 18px rgba(11,58,34,.12)}
-  .tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;min-width:0}
-  .tabs::-webkit-scrollbar{display:none}
-  .tab{border:0;background:transparent;font:inherit;font-size:.84rem;font-weight:600;color:var(--muted);padding:7px 10px;border-radius:999px;cursor:pointer;white-space:nowrap}
-  .tab:hover{background:var(--green-50);color:var(--green-800)}
-  .tab[aria-selected="true"]{background:var(--green-800);color:#fff}
-  .tab .n{opacity:.7;font-weight:500;margin-left:5px;font-size:.78rem}
-  .search{display:flex;align-items:center;gap:8px;padding:0 12px 0 8px;flex:none}
-  .search svg{width:16px;height:16px;flex:none;color:var(--muted)}
-  .search input{border:0;outline:0;font:inherit;font-size:.86rem;width:100px;background:transparent;color:var(--ink)}
+  /* tabs: plain text, green underline, wrap on phones */
+  .toolbar{padding:10px 16px 0}
+  .tabs{display:flex;flex-wrap:wrap;gap:2px 6px}
+  .tab{border:0;border-bottom:3px solid transparent;background:transparent;font:inherit;font-size:15px;font-weight:500;color:var(--black);padding:8px 6px;cursor:pointer}
+  .tab:hover{border-bottom-color:var(--grey)}
+  .tab[aria-selected="true"]{border-bottom-color:var(--green);font-weight:600}
+  .tab .n{color:var(--grey);font-weight:400;margin-left:5px;font-size:13px}
+  .search{display:flex;align-items:center;gap:8px;margin-top:8px;border:1px solid var(--line);border-radius:8px;padding:0 12px;min-height:44px}
+  .search svg{width:18px;height:18px;flex:none;color:var(--grey)}
+  .search input{border:0;outline:0;font:inherit;font-size:16px;width:100%;background:transparent;color:var(--black);min-height:42px}
 
-  /* ===== Panel ===== */
-  main{max-width:1120px;margin:0 auto;padding:18px clamp(16px,4vw,48px) 36px}
-  .note{color:var(--muted);font-size:.82rem;margin:0 0 10px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+  main{padding:18px 16px 96px}
+  .note{color:var(--muted);font-size:15px;margin:0}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+  .panelhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 0 12px;flex-wrap:wrap}
 
-  /* ===== App card ===== */
-  .card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:12px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s,box-shadow .15s}
-  .card:hover{border-color:var(--green-500);box-shadow:0 8px 24px rgba(23,107,65,.12)}
+  /* cards: white, 1px border, 8px radius, no shadow */
+  .card{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:8px}
+  .card:hover{border-color:var(--grey)}
   .card-top{display:flex;justify-content:space-between;align-items:flex-start}
-  .topr{display:flex;align-items:center;gap:4px}
-  .fav{background:transparent;border:0;padding:3px;cursor:pointer;color:#9db0a4;line-height:0;border-radius:6px}
-  .fav svg{width:18px;height:18px}
-  .fav:hover{background:var(--green-50);color:var(--green-700)}
-  .fav[aria-pressed="true"]{color:#e0a100}
+  .topr{display:flex;align-items:center;gap:6px}
+  .icon{width:32px;height:32px;color:var(--green);display:grid;place-items:center}
+  .icon svg{width:26px;height:26px}
+  .fav{background:transparent;border:0;padding:6px;cursor:pointer;color:var(--grey);line-height:0;border-radius:6px;min-width:32px;min-height:32px}
+  .fav svg{width:20px;height:20px}
+  .fav:hover{color:var(--black)}
+  .fav[aria-pressed="true"]{color:var(--yellow)}
   .fav[aria-pressed="true"] svg{fill:currentColor}
-  .icon{width:38px;height:38px;border-radius:10px;background:var(--green-100);color:var(--green-800);display:grid;place-items:center}
-  .icon svg{width:21px;height:21px}
-  .tag{font-size:.68rem;font-weight:600;padding:2px 8px;border-radius:999px;border:1px solid}
-  .tag.team{color:var(--green-800);border-color:var(--green-700);background:var(--green-50)}
-  .tag.open{color:#7a4b00;border-color:var(--sun);background:#fff6df}
-  .tag.soon{color:var(--muted);border-color:var(--line);background:#f4f7f5}
-  .card h3{font-size:.98rem;line-height:1.2}
-  .card p{margin:0;color:var(--muted);font-size:.8rem;line-height:1.4;flex:1}
-  .btn{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:600;font-size:.8rem;color:#fff;background:var(--green-700);padding:5px 11px;margin-top:2px;border-radius:999px;transition:background .15s}
-  .btn:hover{background:var(--green-900)}
-  .btn svg{width:14px;height:14px}
-  .actions{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:2px}
-  .actions .btn{margin-top:0}
-  .btn.alt{background:#fff;color:var(--green-800);border:1px solid var(--green-700)}
-  .btn.alt:hover{background:var(--green-50)}
-  .btn.alt svg{width:15px;height:15px}
-  .btn.icon{padding:5px 6px;background:transparent;border:0;color:var(--green-700)}
-  .btn.icon:hover{background:var(--green-50)}
-  .btn.icon svg{width:20px;height:20px}
-  .btn[aria-disabled="true"]{background:#e8eeea;color:#7b8d82;pointer-events:none}
+  .tag{font-size:13px;font-weight:500;color:var(--black);display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+  .tag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green)}
+  .tag.soon::before{background:var(--yellow)}
+  .card h3{font-size:17px;font-weight:600;line-height:1.25}
+  .card p{margin:0;color:var(--muted);font-size:15px;line-height:1.4;flex:1}
 
-.qs{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 14px}
-  .qs .lbl{font-size:.8rem;font-weight:600;color:var(--green-800);margin-right:2px}
-  .qs a{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-size:.82rem;font-weight:600;color:var(--green-800);background:#fff;border:1px solid var(--green-700);border-radius:999px;padding:5px 12px 5px 9px;transition:background .15s}
-  .qs a:hover{background:var(--green-50)}
-  .qs a svg{width:16px;height:16px}
-  .panelhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 0 10px}
-  .panelhead .note{margin:0}
+  /* buttons: primary green with black bold text; secondary white with border */
+  .btn{align-self:flex-start;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;font-weight:600;font-size:16px;color:var(--black);background:var(--green);padding:0 18px;min-height:44px;border-radius:8px;border:1px solid var(--green);transition:background .15s}
+  .btn:hover{background:#3b8f68}
+  .btn svg{width:16px;height:16px}
+  .actions{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:4px}
+  .btn.alt{background:var(--white);color:var(--black);border:1px solid var(--line)}
+  .btn.alt:hover{border-color:var(--grey);background:var(--soft)}
+  .btn.icon{width:44px;padding:0;background:transparent;border:0;color:var(--black)}
+  .btn.icon:hover{background:var(--soft)}
+  .btn.icon svg{width:22px;height:22px}
+  .btn[aria-disabled="true"]{background:var(--soft);border-color:var(--line);color:var(--grey);pointer-events:none;font-weight:500}
+  .ver{margin-left:auto;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+  .qs{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 14px}
+  .qs .lbl{font-size:15px;font-weight:600;margin-right:2px}
+  .qs a{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-size:15px;font-weight:500;color:var(--black);border:1px solid var(--line);border-radius:8px;padding:0 12px;min-height:44px}
+  .qs a:hover{border-color:var(--grey)}
+  .qs a svg{width:18px;height:18px;color:var(--green)}
   .tools{display:flex;gap:6px;align-items:center;flex:none}
-  .arr{border:1px solid var(--line);background:#fff;color:var(--green-700);border-radius:999px;padding:5px 12px;font:inherit;font-size:.82rem;cursor:pointer}
-  .arr:hover{background:var(--green-50)}
-  .arr.on{background:var(--green-700);color:#fff;border-color:var(--green-700)}
-  .card.arranging{cursor:grab;border-style:dashed;border-color:var(--green-700)}
-  .card.arranging .actions,.card.arranging .fav{pointer-events:none;opacity:.45}
-  .card.dragging{opacity:.4}.card.over{box-shadow:0 0 0 2px var(--green-700)}
-  .mv{display:flex;gap:6px;margin-top:2px}
-  .mv button{flex:1;border:1px solid var(--line);background:#fff;color:var(--green-700);border-radius:8px;padding:5px 0;font-size:1rem;cursor:pointer}
-  .mv button:hover{background:var(--green-50)}
-  .sc{display:flex;gap:6px;flex:none}
-  .sc a,.sc span{width:34px;height:34px;border-radius:6px;border:0;color:var(--green-700);background:transparent;display:grid;place-items:center;text-decoration:none;transition:background .15s}
-  .sc a:hover{background:var(--green-50)}
-  .sc svg{width:18px;height:18px}
-  .sc .off{border:0;color:#b4c3b9;cursor:default}
-  .ver{margin-left:auto;font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums}
-  .vline{margin-top:4px;font-size:.74rem;color:var(--muted);font-variant-numeric:tabular-nums}
-  .dash{margin-top:18px;border:1.5px dashed var(--green-500);border-radius:var(--radius);padding:12px 14px;background:var(--green-50);display:flex;gap:12px;align-items:center}
-  .dash .icon{background:#fff}
-  .dash h3{font-size:.95rem;color:var(--green-800)}
-  .dash p{margin:0;color:var(--muted);font-size:.8rem}
-  .empty{color:var(--muted);padding:24px 0}
+  .arr{border:1px solid var(--line);background:var(--white);color:var(--black);border-radius:8px;padding:0 14px;min-height:44px;font:inherit;font-size:15px;font-weight:500;cursor:pointer}
+  .arr:hover{border-color:var(--grey)}
+  .arr.on{background:var(--green);border-color:var(--green);font-weight:600}
+  .card.arranging{cursor:grab;border-style:dashed;border-color:var(--black)}
+  .card.arranging .actions,.card.arranging .fav{pointer-events:none;opacity:.4}
+  .card.dragging{opacity:.4}.card.over{outline:2px solid var(--green)}
+  .mv{display:flex;gap:6px}
+  .mv button{flex:1;border:1px solid var(--line);background:var(--white);color:var(--black);border-radius:8px;min-height:44px;font-size:16px;cursor:pointer}
+  .mv button:hover{border-color:var(--grey)}
+  .sc{display:flex;gap:2px;flex:none}
+  .sc a,.sc span{width:44px;height:44px;border-radius:8px;border:0;color:var(--black);background:transparent;display:grid;place-items:center;text-decoration:none}
+  .sc a:hover{background:var(--soft)}
+  .sc svg{width:22px;height:22px}
+  .sc .off{color:var(--grey);cursor:default;opacity:.7}
 
-  footer{border-top:1px solid var(--line);padding:12px clamp(16px,4vw,48px);text-align:center;color:var(--muted);font-size:.78rem}
+  .dash{margin-top:20px;border:1px solid var(--line);border-left:7px solid var(--yellow);border-radius:8px;padding:14px 16px;display:flex;gap:12px;align-items:center}
+  .dash h3{font-size:17px;font-weight:600}
+  .dash p{margin:0;color:var(--muted);font-size:15px}
+  .empty{color:var(--grey);padding:36px 0;text-align:center;text-transform:uppercase;letter-spacing:.12em;font-size:14px}
+  .empty::before{content:"";display:block;width:56px;height:56px;margin:0 auto 14px;background:var(--dots) center/contain no-repeat}
 
-  @media (max-width:720px){
-    .toolbar-in{flex-direction:column;align-items:stretch;border-radius:18px;gap:4px}
-    .search{padding:4px 10px}
-    .search input{width:100%}
+  footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:14px 16px;text-align:center;color:var(--muted);font-size:14px}
+  @media (max-width:420px){
+    .ptitle{font-size:18px;letter-spacing:.1em}
+    .lang button,.tab{font-size:14px}
   }
-  @media (prefers-reduced-motion:no-preference){
-    .sun{animation:rise 1.6s ease-out both}
-    @keyframes rise{from{transform:translateY(60px);opacity:0}to{transform:none;opacity:.95}}
-  }
+  @media print{body::after,.bar,.toolbar{display:none}}
 </style>
 </head>
 <body>
 
-<header class="hero">
+<div class="wrap">
+<header>
   <div class="bar">
     <div class="brand">
       <!-- LOGO: embedded below. To swap it, replace the src of the img with your own logo file, e.g. src="logo.png" -->
       <div class="logo"><img alt="EcoOils" src="data:image/png;base64,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"></div>
-      <span class="hubname">HSSE Hub</span>
     </div>
     <div class="rt"><div class="vtop" id="vtop" title="Version"></div>
     <div class="lang" role="group" aria-label="Language">
       <button type="button" data-lang="en" aria-pressed="true">EN</button>
       <button type="button" data-lang="id" aria-pressed="false">ID</button>
+      <button type="button" data-lang="ms" aria-pressed="false">MS</button>
     </div></div>
   </div>
-
-  <div class="sun" aria-hidden="true"></div>
-
-  <div class="hero-inner">
-    <h1 data-i18n="heroTitle">Every HSSE tool, in one place.</h1>
-    <p data-i18n="heroSub">Pick a tab, then open the tool you need.</p>
-  </div>
-
-  <svg class="skyline" viewBox="0 0 1440 170" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-    <path d="M0 170V118h60v-20h50v20h40V92h14V60h8v32h14v26h70V84h36v34h44V70h6V40h10v30h6v48h60v-30h90v30h40V96h52v22h60V76h12V46h8v30h12v42h80v-22h70v22h40v-34h14v-26h8v26h14v34h70v-18h90v18h46V90h40v28h60V82h10V54h8v28h10v36h70v-26h60v26h50v-16h80v16h60V98h50v20h60v52Z" fill="#0b3a22"/>
-    <path d="M0 170v-30h80v-12h60v12h110v-18h70v18h120v-24h8v-20h6v20h8v24h130v-14h90v14h120v-22h60v22h110v-16h80v16h140v-26h70v26h110v-12h90v12h134v30Z" fill="#072a18"/>
-    <path d="M420 40q-6-16 0-26 2 12 6 18 4-8 2-14 10 12 0 22z" fill="#f2b84b"/>
-  </svg>
+  <h1 class="ptitle">HSSE HUB</h1>
+  <div class="rule"></div>
+  <p class="sub" data-i18n="heroSub">Pick a tab, then open the tool you need.</p>
 </header>
 
 <div class="toolbar">
-  <div class="toolbar-in">
+  <div>
     <div class="tabs" id="tabs" role="tablist" aria-label="Sections"></div>
     <label class="search">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
@@ -187,6 +161,7 @@
 <main id="main" role="tabpanel"></main>
 
 <footer><div data-i18n="footer">EcoOils HSSE Hub. Team tools are for the HSSE team only. Do not share their links.</div></footer>
+</div>
 
 <script>
 /* =====================================================================
@@ -203,7 +178,7 @@ const B = "https://iggifernandes.github.io/";
 
 /* VERSION of this hub. Same format in every app: "v1.0 · 2026-10-10", always in the footer.
    Small change = bump the second number (1.0 -> 1.1). Big change = bump the first (1.1 -> 2.0). */
-const HUB_VERSION = "1.19", HUB_DATE = "2026-10-21";
+const HUB_VERSION = "1.20", HUB_DATE = "2026-10-22";
 
 /* QUICK ACCESS SHEETS: buttons on the front tab (Projects) that open a Google Sheet directly.
    To rename a button, change its two names. To add one, copy a line. */
@@ -227,96 +202,121 @@ const APPS = [
   { key:"induction", cat:"training", access:"open", icon:"shield", sheet:"https://docs.google.com/spreadsheets/d/1491t3_AvjvW_gT3mSfqkvFicKxFA8WhlD0ABtbahi7w/edit?gid=1628419838#gid=1628419838", drive:"https://drive.google.com/drive/folders/109SSy467ZeYdW0rWfe6Q5h2QR1-N3NXi?usp=drive_link", ver:"",
     url:B+"EcoOils-Project-Site-Induction-Sei-Mangkei/",
     en:{name:"Site Induction",         desc:"Induction and final assessment for everyone entering site."},
-    id:{name:"Induksi Tapak",          desc:"Induksi dan penilaian akhir untuk semua yang masuk ke lokasi."} },
+    id:{name:"Induksi Tapak",          desc:"Induksi dan penilaian akhir untuk semua yang masuk ke lokasi."},
+    ms:{name:"Induksi Tapak", desc:"Induksi dan penilaian akhir untuk semua yang memasuki tapak."} },
   { key:"tracker",   cat:"records",  access:"team", icon:"track", sheet:"", drive:"", ver:"",
     url:B+"EcoOils-Project-HSSE-tracker/",
     en:{name:"HSSE Tracker",           desc:"Track HSSE items and actions across the project."},
-    id:{name:"Pelacak HSSE",           desc:"Lacak item dan tindakan HSSE di seluruh proyek."} },
+    id:{name:"Pelacak HSSE",           desc:"Lacak item dan tindakan HSSE di seluruh proyek."},
+    ms:{name:"Penjejak HSSE", desc:"Jejaki item dan tindakan HSSE di seluruh projek."} },
   { key:"ims",       cat:"records",  access:"team", icon:"ims", sheet:"", drive:"", ver:"",
     url:B+"EcoOils-Project-IMS/",
     en:{name:"IMS",                    desc:"Project IMS, including incident records, trends and learning."},
-    id:{name:"IMS",                    desc:"IMS proyek, termasuk catatan insiden, tren, dan pembelajaran."} },
+    id:{name:"IMS",                    desc:"IMS proyek, termasuk catatan insiden, tren, dan pembelajaran."},
+    ms:{name:"IMS", desc:"IMS projek, termasuk rekod insiden, trend dan pembelajaran."} },
   { key:"health",    cat:"health",   access:"team", icon:"heart", sheet:"https://docs.google.com/spreadsheets/d/1MPyWIu52ji8LwFi5bSNZ28q63GfrsL-Cx-ZYJuSIzms/edit", drive:"", ver:"1.1",
     url:B+"EcoOils-Project-Health-Monitoring/",
     en:{name:"Health Monitoring",      desc:"Both health tools and the admin trends dashboard, from one page."},
-    id:{name:"Pemantauan Kesehatan",   desc:"Kedua alat kesehatan dan dasbor tren admin, dalam satu halaman."} },
+    id:{name:"Pemantauan Kesehatan",   desc:"Kedua alat kesehatan dan dasbor tren admin, dalam satu halaman."},
+    ms:{name:"Pemantauan Kesihatan", desc:"Kedua-dua alat kesihatan dan papan pemuka trend admin, dari satu halaman."} },
   { key:"bp",        cat:"health",   access:"team", icon:"pulse", sheet:"https://docs.google.com/spreadsheets/d/1MPyWIu52ji8LwFi5bSNZ28q63GfrsL-Cx-ZYJuSIzms/edit?gid=483046206#gid=483046206", drive:"", ver:"",
     url:B+"EcoOils-Project-blood-pressure-monitoring/",
     en:{name:"Blood Pressure Monitoring", desc:"Blood pressure readings and follow-up for the crew."},
-    id:{name:"Pemantauan Tekanan Darah",  desc:"Hasil tekanan darah dan tindak lanjut untuk kru."} },
+    id:{name:"Pemantauan Tekanan Darah",  desc:"Hasil tekanan darah dan tindak lanjut untuk kru."},
+    ms:{name:"Pemantauan Tekanan Darah", desc:"Bacaan tekanan darah dan susulan untuk krew."} },
   { key:"alcohol",   cat:"health",   access:"team", icon:"drop", sheet:"https://docs.google.com/spreadsheets/d/1MPyWIu52ji8LwFi5bSNZ28q63GfrsL-Cx-ZYJuSIzms/edit?gid=2055461571#gid=2055461571", drive:"", ver:"",
     url:B+"EcoOils-Project-drug---alcohol-test-record/",
     en:{name:"Drug & Alcohol Test Record", desc:"Daily drug and alcohol test entries for the crew."},
-    id:{name:"Catatan Tes Narkoba & Alkohol", desc:"Entri tes narkoba dan alkohol harian untuk kru."} },
+    id:{name:"Catatan Tes Narkoba & Alkohol", desc:"Entri tes narkoba dan alkohol harian untuk kru."},
+    ms:{name:"Rekod Ujian Dadah & Alkohol", desc:"Catatan ujian dadah dan alkohol harian untuk krew."} },
   { key:"database",  cat:"records",  access:"team", icon:"db", sheet:"https://docs.google.com/spreadsheets/d/1m9maZz_ouW-kPOjSPy9OLQmG8K0hVU71XvDOLwH2AU8/edit?gid=2105590538#gid=2105590538", drive:"https://drive.google.com/drive/folders/1pV-VWBdl7v00QF7IgcGQ_JKUpRoAXiS5?usp=drive_link", ver:"",
     url:B+"EcoOils-project-hsse-database/",
     en:{name:"HSSE Database",          desc:"Register of safety officers and managers, with profiles and CVs."},
-    id:{name:"Database HSSE",          desc:"Daftar petugas dan manajer keselamatan, lengkap dengan profil dan CV."} },
+    id:{name:"Database HSSE",          desc:"Daftar petugas dan manajer keselamatan, lengkap dengan profil dan CV."},
+    ms:{name:"Pangkalan Data HSSE", desc:"Daftar pegawai dan pengurus keselamatan, lengkap dengan profil dan CV."} },
 
   { key:"training",  cat:"training", access:"open", icon:"book", sheet:"", drive:"", ver:"", url:"",
     en:{name:"Training Hub",           desc:"Training modules for contractors and crews."},
-    id:{name:"Pusat Pelatihan",        desc:"Modul pelatihan untuk kontraktor dan kru."} },
+    id:{name:"Pusat Pelatihan",        desc:"Modul pelatihan untuk kontraktor dan kru."},
+    ms:{name:"Pusat Latihan", desc:"Modul latihan untuk kontraktor dan krew."} },
 
 
   { key:"gonogo", cat:"gonogo", access:"team", icon:"gate", sheet:"", drive:"", ver:"1.1", url:B+"EcoOils-Project-HSSE-Hub/gonogo/",
     en:{name:"Contractor Go / No-Go",   desc:"Pre-mobilization readiness review: three gates, sign-offs, evidence links, PDF and CSV."},
-    id:{name:"Go / No-Go Kontraktor",   desc:"Tinjauan kesiapan pra-mobilisasi: tiga gerbang, persetujuan, tautan bukti, PDF dan CSV."} },
+    id:{name:"Go / No-Go Kontraktor",   desc:"Tinjauan kesiapan pra-mobilisasi: tiga gerbang, persetujuan, tautan bukti, PDF dan CSV."},
+    ms:{name:"Go / No-Go Kontraktor", desc:"Semakan kesediaan pra-mobilisasi: tiga pintu, kelulusan, pautan bukti, PDF dan CSV."} },
 
   { key:"equipreg", cat:"equip", access:"team", icon:"truck", sheet:"", drive:"", ver:"", url:"",
     en:{name:"Equipment & Vehicle Register", desc:"Every heavy equipment and vehicle on site: ownership, inspection, certificates and expiry dates."},
-    id:{name:"Register Peralatan & Kendaraan", desc:"Semua alat berat dan kendaraan di lokasi: kepemilikan, inspeksi, sertifikat, dan tanggal kedaluwarsa."} },
+    id:{name:"Register Peralatan & Kendaraan", desc:"Semua alat berat dan kendaraan di lokasi: kepemilikan, inspeksi, sertifikat, dan tanggal kedaluwarsa."},
+    ms:{name:"Daftar Peralatan & Kenderaan", desc:"Semua peralatan berat dan kenderaan di tapak: pemilikan, pemeriksaan, sijil dan tarikh tamat."} },
 
   { key:"operators", cat:"equip", access:"team", icon:"medal", sheet:"", drive:"", ver:"", url:"",
     en:{name:"Operator Competency",     desc:"Operators and drivers: licences, certificates and which equipment each is cleared to run. Built from induction data."},
-    id:{name:"Kompetensi Operator",     desc:"Operator dan pengemudi: lisensi, sertifikat, dan alat yang boleh dioperasikan. Dibangun dari data induksi."} },
+    id:{name:"Kompetensi Operator",     desc:"Operator dan pengemudi: lisensi, sertifikat, dan alat yang boleh dioperasikan. Dibangun dari data induksi."},
+    ms:{name:"Kecekapan Operator", desc:"Operator dan pemandu: lesen, sijil dan peralatan yang dibenarkan untuk dikendalikan. Dibina daripada data induksi."} },
 
   { key:"trainmatrix", cat:"training", access:"team", icon:"matrix", sheet:"", drive:"", ver:"", url:"",
     en:{name:"Training Matrix",         desc:"Mandatory trainings by level (Induction, Permit to Work and more), tracked per person after induction."},
-    id:{name:"Matriks Pelatihan",       desc:"Pelatihan wajib per level (Induksi, Izin Kerja, dan lainnya), dilacak per orang setelah induksi."} },
+    id:{name:"Matriks Pelatihan",       desc:"Pelatihan wajib per level (Induksi, Izin Kerja, dan lainnya), dilacak per orang setelah induksi."},
+    ms:{name:"Matriks Latihan", desc:"Latihan wajib mengikut tahap (Induksi, Permit Kerja dan lain-lain), dijejaki bagi setiap orang selepas induksi."} },
 
   { key:"ppe", cat:"records", access:"team", icon:"hat", sheet:"", drive:"", ver:"", url:B+"EcoOils-Project-PPE-Database/",
     en:{name:"PPE Database",            desc:"PPE requests, approvals and store issue records."},
-    id:{name:"Database APD",            desc:"Permintaan, persetujuan, dan catatan pengeluaran APD dari gudang."} },
+    id:{name:"Database APD",            desc:"Permintaan, persetujuan, dan catatan pengeluaran APD dari gudang."},
+    ms:{name:"Pangkalan Data PPE", desc:"Permohonan PPE, kelulusan dan rekod pengeluaran stor."} },
 
   { key:"scaffinv", cat:"inspections", access:"team", icon:"scaffold", sheet:"", drive:"", ver:"", url:"",
     en:{name:"Scaffolding Inventory",   desc:"Scaffold inspection tag inventory: tag numbers, locations, validity dates and the inspector for each."},
-    id:{name:"Inventaris Scaffolding",  desc:"Inventaris tag inspeksi scaffolding: nomor tag, lokasi, masa berlaku, dan inspektur untuk setiap tag."} },
+    id:{name:"Inventaris Scaffolding",  desc:"Inventaris tag inspeksi scaffolding: nomor tag, lokasi, masa berlaku, dan inspektur untuk setiap tag."},
+    ms:{name:"Inventori Perancah", desc:"Inventori tag pemeriksaan perancah: nombor tag, lokasi, tarikh sah laku dan pemeriksa bagi setiap satu."} },
 
   { key:"mom", cat:"reports", access:"team", icon:"doc", sheet:"https://docs.google.com/spreadsheets/d/1v6IpXM6dqIxb6wj5kOsfGxyjltleThPICIdoxHKuAFo/edit?gid=670338281#gid=670338281", drive:"", ver:"", url:B+"EcoOils-Project-Stand-Down-MOM/",
     en:{name:"Stand-down Meeting MoM",  desc:"Editable one-page minutes, ready to print."},
-    id:{name:"Notulen Rapat Stand-down", desc:"Notulen satu halaman yang dapat diedit, siap cetak."} },
+    id:{name:"Notulen Rapat Stand-down", desc:"Notulen satu halaman yang dapat diedit, siap cetak."},
+    ms:{name:"Minit Mesyuarat Stand-down", desc:"Minit satu halaman yang boleh diedit, sedia dicetak."} },
   { key:"rpt-tbt", cat:"reports", access:"team", icon:"doc", sheet:"", drive:"", ver:"", url:"",
     en:{name:"Toolbox Talk Record",     desc:"Topic, attendees and photos in one printable record."},
-    id:{name:"Catatan Toolbox Talk",    desc:"Topik, peserta, dan foto dalam satu catatan siap cetak."} },
+    id:{name:"Catatan Toolbox Talk",    desc:"Topik, peserta, dan foto dalam satu catatan siap cetak."},
+    ms:{name:"Rekod Toolbox Talk", desc:"Topik, peserta dan foto dalam satu rekod yang boleh dicetak."} },
   { key:"rpt-insp", cat:"reports", access:"team", icon:"doc", sheet:"", drive:"", ver:"", url:"",
     en:{name:"Site Inspection Report",  desc:"Findings with photos and actions, exported as PDF and Word."},
-    id:{name:"Laporan Inspeksi Lokasi", desc:"Temuan dengan foto dan tindakan, ekspor PDF dan Word."} },
+    id:{name:"Laporan Inspeksi Lokasi", desc:"Temuan dengan foto dan tindakan, ekspor PDF dan Word."},
+    ms:{name:"Laporan Pemeriksaan Tapak", desc:"Penemuan dengan foto dan tindakan, dieksport sebagai PDF dan Word."} },
   { key:"rpt-week", cat:"reports", access:"team", icon:"doc", sheet:"", drive:"", ver:"", url:"",
     en:{name:"Weekly HSSE Report",      desc:"Weekly summary built from your data. More formats to follow."},
-    id:{name:"Laporan HSSE Mingguan",   desc:"Ringkasan mingguan dari data Anda. Format lain menyusul."} },
+    id:{name:"Laporan HSSE Mingguan",   desc:"Ringkasan mingguan dari data Anda. Format lain menyusul."},
+    ms:{name:"Laporan HSSE Mingguan", desc:"Ringkasan mingguan dibina daripada data anda. Lebih banyak format akan menyusul."} },
 
   { key:"ptw",       cat:"dev", access:"team", icon:"permit", sheet:"", drive:"", ver:"1.1", url:"",
     en:{name:"PTW Registry",           desc:"Track every Permit to Work and revalidation by contractor."},
-    id:{name:"Register PTW",           desc:"Lacak setiap Izin Kerja dan revalidasi per kontraktor."} },
+    id:{name:"Register PTW",           desc:"Lacak setiap Izin Kerja dan revalidasi per kontraktor."},
+    ms:{name:"Daftar PTW", desc:"Jejaki setiap Permit Kerja dan pengesahan semula mengikut kontraktor."} },
   { key:"ptwtrain",  cat:"dev", access:"open", icon:"book", sheet:"", drive:"", ver:"", url:"",
     en:{name:"PTW Training",           desc:"Permit to Work training package, like the induction."},
-    id:{name:"Pelatihan PTW",          desc:"Paket pelatihan Izin Kerja, seperti induksi."} },
+    id:{name:"Pelatihan PTW",          desc:"Paket pelatihan Izin Kerja, seperti induksi."},
+    ms:{name:"Latihan PTW", desc:"Pakej latihan Permit Kerja, seperti induksi."} },
   { key:"uauc",      cat:"records", access:"team", icon:"chart", sheet:"", drive:"", ver:"", url:B+"EcoOils-Project-UAUC-Report/",
     en:{name:"UAUC Reporting",         desc:"Report unsafe acts and conditions and follow the trends."},
-    id:{name:"Pelaporan UAUC",         desc:"Laporkan tindakan dan kondisi tidak aman, dan pantau tren."} },
+    id:{name:"Pelaporan UAUC",         desc:"Laporkan tindakan dan kondisi tidak aman, dan pantau tren."},
+    ms:{name:"Pelaporan UAUC", desc:"Laporkan tindakan dan keadaan tidak selamat dan ikuti trend."} },
   { key:"recognition", cat:"dev", access:"team", icon:"medal", sheet:"", drive:"", ver:"", url:"",
     en:{name:"Crew Recognition",       desc:"Great Job nominations and appreciation certificates."},
-    id:{name:"Penghargaan Kru",        desc:"Nominasi Great Job dan sertifikat apresiasi."} },
+    id:{name:"Penghargaan Kru",        desc:"Nominasi Great Job dan sertifikat apresiasi."},
+    ms:{name:"Pengiktirafan Krew", desc:"Pencalonan Great Job dan sijil penghargaan."} },
   { key:"bulletin",  cat:"dev", access:"team", icon:"news", sheet:"", drive:"", ver:"", url:"",
     en:{name:"Quarterly HSSE Bulletin",desc:"Current and past editions of the HSSE bulletin."},
-    id:{name:"Buletin HSSE Triwulan",  desc:"Edisi terbaru dan sebelumnya dari buletin HSSE."} },
+    id:{name:"Buletin HSSE Triwulan",  desc:"Edisi terbaru dan sebelumnya dari buletin HSSE."},
+    ms:{name:"Buletin HSSE Suku Tahunan", desc:"Edisi semasa dan lepas buletin HSSE."} },
   { key:"security",  cat:"security", access:"team", icon:"clock", sheet:"", drive:"", ver:"", url:"",
     en:{name:"Security Timesheets",    desc:"Daily timesheet upload and print for security personnel."},
-    id:{name:"Absensi Keamanan",       desc:"Unggah dan cetak absensi harian personel keamanan."} },
+    id:{name:"Absensi Keamanan",       desc:"Unggah dan cetak absensi harian personel keamanan."},
+    ms:{name:"Lembaran Waktu Keselamatan", desc:"Muat naik dan cetak lembaran waktu harian untuk anggota keselamatan."} },
 
   { key:"patrol",    cat:"security", access:"team", icon:"pin", sheet:"https://docs.google.com/spreadsheets/d/1UTEZx5QHnXY_5iAxi5C_mVh6Xaunf-JrpL1AGPFe_iY/edit?gid=1773958783#gid=1773958783", drive:"https://drive.google.com/drive/folders/1XI5PnfQUuNCGdeDF5Q4G2OtoKE6CCiIZ?usp=drive_link", ver:"", url:B+"EcoOils-Project-Security-Patrol/",
     en:{name:"Security Patrol",        desc:"Guards scan QR checkpoints on their phones; every round is logged with time and place."},
-    id:{name:"Patroli Keamanan",       desc:"Penjaga memindai QR di titik pemeriksaan lewat ponsel; setiap ronde dicatat lengkap dengan waktu dan lokasi."} }
+    id:{name:"Patroli Keamanan",       desc:"Penjaga memindai QR di titik pemeriksaan lewat ponsel; setiap ronde dicatat lengkap dengan waktu dan lokasi."},
+    ms:{name:"Rondaan Keselamatan", desc:"Pengawal mengimbas pusat semakan QR pada telefon; setiap pusingan direkodkan dengan masa dan tempat."} }
 ];
 
 /* Tabs, in the order shown. "projects" shows everything. */
@@ -345,6 +345,25 @@ const T = {
        results:"Search results", none:"No tool matches your search.",
        dashTitle:"Live HSSE dashboard", dashDesc:"All your data in one view. Coming next.",
        footer:"EcoOils HSSE Hub. Team tools are for the HSSE team only. Do not share their links." },
+  ms:{ heroTitle:"Semua alat HSSE, di satu tempat.",
+       heroSub:"Pilih tab, kemudian buka alat yang anda perlukan.",
+       search:"Cari", arrange:"Susun kad", arrDone:"Selesai", arrReset:"Set semula susunan", mvL:"Alih ke depan", mvR:"Alih ke belakang", arrHint:"Seret kad, atau guna anak panah, untuk menetapkan susunan anda sendiri. Disimpan pada peranti ini.",
+       open:"Buka", qsLabel:"Sheet anda", tabSheet:"Google Sheet untuk tab ini", tabDrive:"Folder Google Drive untuk tab ini", notLinked:"pautan belum ditambah", sheet:"Sheet", sheetTip:"Buka Google Sheet", drive:"Drive", driveTip:"Buka folder Google Drive", soon:"Akan datang", tagOpen:"Terbuka", tagTeam:"Pasukan sahaja",
+       t_used:"Paling kerap", t_favs:"Kegemaran", t_projects:"Projek", t_training:"Induksi & Latihan", t_health:"Kesihatan", t_records:"Rekod", t_inspections:"Pemeriksaan", t_security:"Keselamatan", t_equip:"Peralatan & Operator", t_gonogo:"Go / No-Go", t_reports:"Laporan", t_dev:"Dalam pembangunan",
+       n_used:"Alat yang paling kerap anda buka. Senarai ini terbina sendiri apabila anda menggunakan hab.", n_favs:"Alat yang anda semat. Ketik bintang pada mana-mana kad untuk menambah atau mengalih keluar.", usedEmpty:"Belum ada apa-apa di sini. Alat yang anda buka akan muncul secara automatik.", favsEmpty:"Belum ada kegemaran. Ketik bintang pada alat untuk menyematnya di sini.", star:"Tambah ke kegemaran", unstar:"Alih keluar daripada kegemaran",
+       n_projects:"Semua alat anda. Alat yang aktif dahulu.",
+       n_training:"Halaman induksi dan latihan. Ini boleh dikongsi dengan kontraktor dan krew.",
+       n_health:"Rekod kesihatan krew. Pasukan sahaja.",
+       n_records:"Penjejak dan daftar. Pasukan sahaja.",
+       n_inspections:"Daftar dan tag pemeriksaan. Sedang dibina.",
+       n_security:"Alat keselamatan: lembaran waktu dan rondaan pengawal. Sedang dibina.",
+       n_equip:"Peralatan berat, kenderaan dan operatornya: daftar, lesen dan kecekapan. Sedang dibina.",
+       n_gonogo:"Semakan Go / No-Go pra-mobilisasi untuk kontraktor. Pasukan sahaja.",
+       n_reports:"Penjana laporan. Isi borang, tambah foto, dapatkan fail PDF dan Word. Akan datang.",
+       n_dev:"Sedang dibina. Setiap kad aktif apabila pautannya ditambah.",
+       results:"Hasil carian", none:"Tiada alat sepadan dengan carian anda.",
+       dashTitle:"Papan pemuka HSSE langsung", dashDesc:"Semua data anda dalam satu paparan. Seterusnya.",
+       footer:"EcoOils HSSE Hub. Alat pasukan adalah untuk pasukan HSSE sahaja. Jangan kongsi pautannya." },
   id:{ heroTitle:"Semua alat HSSE, dalam satu tempat.",
        heroSub:"Pilih tab, lalu buka alat yang Anda perlukan.",
        search:"Cari", arrange:"Atur kartu", arrDone:"Selesai", arrReset:"Atur ulang urutan", mvL:"Geser maju", mvR:"Geser mundur", arrHint:"Seret kartu, atau pakai tanda panah, untuk mengatur urutan sendiri. Tersimpan di perangkat ini.",
@@ -405,6 +424,7 @@ const ICONS = {
    ===================================================================== */
 let lang = "en", tab = "projects";
 try { lang = localStorage.getItem("hubLang") || "en"; } catch(e){}
+if (!T[lang]) lang = "en";
 const h = location.hash.replace("#","");
 if (TABS.includes(h)) tab = h;
 else { try { const s = localStorage.getItem("hubTab"); if (TABS.includes(s)) tab = s; } catch(e){} }
@@ -423,7 +443,7 @@ const inTab = (a, t) => t === "used" ? usedList().includes(a) : t === "favs" ? f
 
 function card(a){
   const t = T[lang], c = a[lang], live = !!a.url;
-  const tag = live ? `<span class="tag ${a.access}">${a.access==="open" ? t.tagOpen : t.tagTeam}</span>` : `<span class="tag soon">${t.soon}</span>`;
+  const tag = live ? `<span class="tag live">${a.access==="open" ? t.tagOpen : t.tagTeam}</span>` : `<span class="tag soon">${t.soon}</span>`;
   const sheetBtn = a.sheet ? `<a class="btn alt icon" href="${a.sheet}" target="_blank" rel="noopener noreferrer" title="${t.sheetTip}" aria-label="${t.sheetTip}: ${c.name}">${ICONS.sheet}</a>` : "";
   const driveBtn = a.drive ? `<a class="btn alt icon" href="${a.drive}" target="_blank" rel="noopener noreferrer" title="${t.driveTip}" aria-label="${t.driveTip}: ${c.name}">${ICONS.folder}</a>` : "";
   const verTag = a.ver ? `<span class="ver" title="Version">v${a.ver}</span>` : "";
