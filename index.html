@@ -120,6 +120,21 @@
   .empty::before{content:"";display:block;width:56px;height:56px;margin:0 auto 14px;background:var(--dots) center/contain no-repeat}
 
   footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:14px 16px;text-align:center;color:var(--muted);font-size:14px}
+  /* laptops and desktops: use the whole landscape screen */
+  @media (min-width:900px){
+    .wrap{max-width:none;padding:0 clamp(24px,3vw,56px)}
+    .bar{padding:16px 0 0}
+    .ptitle{padding:18px 0 12px}
+    .rule,.sub{margin-left:0;margin-right:0}
+    .sub{margin-top:10px}
+    .toolbar{padding:8px 0 0;display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .toolbar>div{display:contents}
+    .tabs{flex:1;min-width:0}
+    .search{margin-top:0;flex:none;width:min(280px,24vw)}
+    main{padding:16px 0 80px}
+    .grid{grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+    footer{padding-left:clamp(24px,3vw,56px);padding-right:clamp(24px,3vw,56px)}
+  }
   @media (max-width:420px){
     .ptitle{font-size:18px;letter-spacing:.1em}
     .lang button,.tab{font-size:14px}
@@ -178,7 +193,7 @@ const B = "https://iggifernandes.github.io/";
 
 /* VERSION of this hub. Same format in every app: "v1.0 · 2026-10-10", always in the footer.
    Small change = bump the second number (1.0 -> 1.1). Big change = bump the first (1.1 -> 2.0). */
-const HUB_VERSION = "1.20", HUB_DATE = "2026-10-22";
+const HUB_VERSION = "1.21", HUB_DATE = "2026-10-22";
 
 /* QUICK ACCESS SHEETS: buttons on the front tab (Projects) that open a Google Sheet directly.
    To rename a button, change its two names. To add one, copy a line. */
