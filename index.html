@@ -193,7 +193,7 @@ const B = "https://iggifernandes.github.io/";
 
 /* VERSION of this hub. Same format in every app: "v1.0 · 2026-10-10", always in the footer.
    Small change = bump the second number (1.0 -> 1.1). Big change = bump the first (1.1 -> 2.0). */
-const HUB_VERSION = "1.22", HUB_DATE = "2026-10-22";
+const HUB_VERSION = "1.23", HUB_DATE = "2026-10-24";
 
 /* QUICK ACCESS SHEETS: buttons on the front tab (Projects) that open a Google Sheet directly.
    To rename a button, change its two names. To add one, copy a line. */
@@ -281,10 +281,10 @@ const APPS = [
     id:{name:"Database APD",            desc:"Permintaan, persetujuan, dan catatan pengeluaran APD dari gudang."},
     ms:{name:"Pangkalan Data PPE", desc:"Permohonan PPE, kelulusan dan rekod pengeluaran stor."} },
 
-  { key:"scaffinv", cat:"inspections", access:"team", icon:"scaffold", sheet:"", drive:"", ver:"", url:"",
-    en:{name:"Scaffolding Inventory",   desc:"Scaffold inspection tag inventory: tag numbers, locations, validity dates and the inspector for each."},
-    id:{name:"Inventaris Scaffolding",  desc:"Inventaris tag inspeksi scaffolding: nomor tag, lokasi, masa berlaku, dan inspektur untuk setiap tag."},
-    ms:{name:"Inventori Perancah", desc:"Inventori tag pemeriksaan perancah: nombor tag, lokasi, tarikh sah laku dan pemeriksa bagi setiap satu."} },
+  { key:"scaffinv", cat:"inspections", access:"team", icon:"scaffold", sheet:"", drive:"", ver:"", url:B+"EcoOils-Project-Scaffold-Database/",
+    en:{name:"Scaffold Registry",   desc:"Scaffolders and their certifications, harness registry, and the scaffold inspection tag registry."},
+    id:{name:"Registri Scaffolding",  desc:"Para scaffolder dan sertifikasinya, registri harness, serta registri tag inspeksi scaffolding."},
+    ms:{name:"Daftar Perancah", desc:"Pemasang perancah dan sijil mereka, daftar harness, serta daftar tag pemeriksaan perancah."} },
 
   { key:"mom", cat:"reports", access:"team", icon:"doc", sheet:"https://docs.google.com/spreadsheets/d/1v6IpXM6dqIxb6wj5kOsfGxyjltleThPICIdoxHKuAFo/edit?gid=670338281#gid=670338281", drive:"", ver:"", url:B+"EcoOils-Project-Stand-Down-MOM/",
     en:{name:"Stand-down Meeting MoM",  desc:"Editable one-page minutes, ready to print."},
