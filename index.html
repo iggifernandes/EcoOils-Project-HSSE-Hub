@@ -193,7 +193,7 @@ const B = "https://iggifernandes.github.io/";
 
 /* VERSION of this hub. Same format in every app: "v1.0 · 2026-10-10", always in the footer.
    Small change = bump the second number (1.0 -> 1.1). Big change = bump the first (1.1 -> 2.0). */
-const HUB_VERSION = "1.24", HUB_DATE = "2026-10-24";
+const HUB_VERSION = "1.25", HUB_DATE = "2026-10-26";
 
 /* QUICK ACCESS SHEETS: buttons on the front tab (Projects) that open a Google Sheet directly.
    To rename a button, change its two names. To add one, copy a line. */
@@ -280,6 +280,11 @@ const APPS = [
     en:{name:"PPE Database",            desc:"PPE requests, approvals and store issue records."},
     id:{name:"Database APD",            desc:"Permintaan, persetujuan, dan catatan pengeluaran APD dari gudang."},
     ms:{name:"Pangkalan Data PPE", desc:"Permohonan PPE, kelulusan dan rekod pengeluaran stor."} },
+
+  { key:"discipline", cat:"records", access:"team", icon:"doc", sheet:"", drive:"", ver:"", url:B+"EcoOils-Project-Disciplinary-Record/",
+    en:{name:"Disciplinary Record",   desc:"Site safety warning record: SP1, SP2 and SP3 warnings."},
+    id:{name:"Catatan Disipliner",  desc:"Catatan peringatan keselamatan di lokasi: SP1, SP2, dan SP3."},
+    ms:{name:"Rekod Disiplin", desc:"Rekod amaran keselamatan tapak: amaran SP1, SP2 dan SP3."} },
 
   { key:"scaffinv", cat:"inspections", access:"team", icon:"scaffold", sheet:"", drive:"", ver:"", url:B+"EcoOils-Project-Scaffold-Database/",
     en:{name:"Scaffold Compliance Hub",   desc:"Scaffold inventory and inspections, scaffolders and their certifications, and the harness registry."},
