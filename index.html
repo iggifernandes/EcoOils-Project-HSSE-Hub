@@ -193,7 +193,7 @@ const B = "https://iggifernandes.github.io/";
 
 /* VERSION of this hub. Same format in every app: "v1.0 · 2026-10-10", always in the footer.
    Small change = bump the second number (1.0 -> 1.1). Big change = bump the first (1.1 -> 2.0). */
-const HUB_VERSION = "1.25", HUB_DATE = "2026-10-26";
+const HUB_VERSION = "1.26", HUB_DATE = "2026-10-26";
 
 /* QUICK ACCESS SHEETS: buttons on the front tab (Projects) that open a Google Sheet directly.
    To rename a button, change its two names. To add one, copy a line. */
@@ -328,10 +328,10 @@ const APPS = [
     en:{name:"Quarterly HSSE Bulletin",desc:"Current and past editions of the HSSE bulletin."},
     id:{name:"Buletin HSSE Triwulan",  desc:"Edisi terbaru dan sebelumnya dari buletin HSSE."},
     ms:{name:"Buletin HSSE Suku Tahunan", desc:"Edisi semasa dan lepas buletin HSSE."} },
-  { key:"security",  cat:"security", access:"team", icon:"clock", sheet:"", drive:"", ver:"", url:"",
-    en:{name:"Security Timesheets",    desc:"Daily timesheet upload and print for security personnel."},
-    id:{name:"Absensi Keamanan",       desc:"Unggah dan cetak absensi harian personel keamanan."},
-    ms:{name:"Lembaran Waktu Keselamatan", desc:"Muat naik dan cetak lembaran waktu harian untuk anggota keselamatan."} },
+  { key:"security",  cat:"security", access:"team", icon:"clock", sheet:"", drive:"", ver:"", url:B+"EcoOils-Project-Security/",
+    en:{name:"Security Database",    desc:"Security personnel records and daily timesheets, uploaded and printed."},
+    id:{name:"Database Keamanan",       desc:"Data personel keamanan dan absensi harian, unggah dan cetak."},
+    ms:{name:"Pangkalan Data Keselamatan", desc:"Rekod anggota keselamatan dan lembaran waktu harian, muat naik dan cetak."} },
 
   { key:"patrol",    cat:"security", access:"team", icon:"pin", sheet:"https://docs.google.com/spreadsheets/d/1UTEZx5QHnXY_5iAxi5C_mVh6Xaunf-JrpL1AGPFe_iY/edit?gid=1773958783#gid=1773958783", drive:"https://drive.google.com/drive/folders/1XI5PnfQUuNCGdeDF5Q4G2OtoKE6CCiIZ?usp=drive_link", ver:"", url:B+"EcoOils-Project-Security-Patrol/",
     en:{name:"Security Patrol",        desc:"Guards scan QR checkpoints on their phones; every round is logged with time and place."},
