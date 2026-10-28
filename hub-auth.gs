@@ -4,6 +4,7 @@
  * - A 6-digit code is emailed to the account that owns this script.
  * - The PIN is kept only as a salted hash in Script Properties.
  * - 5 wrong PINs lock logins for 15 minutes.
+ * - Also stores which tools ICs can see (the 'Share with ICs' switches in the hub).
  * Deploy: Extensions > Apps Script > paste this > Deploy > New deployment > Web app
  *         Execute as: Me   |   Who has access: Anyone   > copy the Web app URL into AUTH_API in the hub.
  */
@@ -23,9 +24,23 @@ function handle_(r) {
   if (r.a === 'login') {
     if (!P.getProperty('pinHash')) return { ok: false, notset: true };
     if (Number(C.get('fails') || 0) >= 5) return { ok: false, locked: true };
-    if (hash_(String(r.pin || ''), P.getProperty('salt')) === P.getProperty('pinHash')) { C.remove('fails'); return { ok: true }; }
+    if (hash_(String(r.pin || ''), P.getProperty('salt')) === P.getProperty('pinHash')) {
+      C.remove('fails');
+      var tok = Utilities.getUuid(); C.put('tok_' + tok, '1', 21600);   // session token, valid 6 hours
+      return { ok: true, tok: tok };
+    }
     C.put('fails', String(Number(C.get('fails') || 0) + 1), 900);
     return { ok: false };
+  }
+  if (r.a === 'shared') {                                 // public: which tools ICs can see
+    var k = P.getProperty('shared');
+    return k ? { ok: true, keys: JSON.parse(k) } : { ok: true, keys: null };
+  }
+  if (r.a === 'setshared') {                               // team only: needs a valid login token
+    if (!r.tok || !C.get('tok_' + r.tok) || !Array.isArray(r.keys)) return { ok: false };
+    var clean = r.keys.filter(function (x) { return /^[a-z0-9_]{1,30}$/.test(x); }).slice(0, 100);
+    P.setProperty('shared', JSON.stringify(clean));
+    return { ok: true };
   }
   if (r.a === 'forgot') {
     if (C.get('codeSent')) return { ok: true };            // one email per minute

@@ -145,6 +145,8 @@
   .acc:hover{border-color:#44a276}
   .icbar{margin:8px 16px 0;font-size:13px;color:#6e6b6c}
   .icbar .arr{font:inherit;font-size:13px;background:none;border:1px solid #dcdcdc;border-radius:8px;padding:6px 12px;min-height:36px;cursor:pointer;color:#231f20}
+  .shr{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13px;color:#6e6b6c;cursor:pointer}
+  .shr input{width:18px;height:18px;accent-color:#44a276}
   .pinbg{position:fixed;inset:0;background:rgba(35,31,32,.55);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}
   .pinbg[hidden]{display:none}
   .pinbox{background:#fff;border:1px solid #dcdcdc;border-radius:8px;padding:22px;width:100%;max-width:360px}
@@ -214,7 +216,7 @@ const B = "https://iggifernandes.github.io/";
 
 /* VERSION of this hub. Same format in every app: "v1.0 · 2026-10-10", always in the footer.
    Small change = bump the second number (1.0 -> 1.1). Big change = bump the first (1.1 -> 2.0). */
-const HUB_VERSION = "1.31", HUB_DATE = "2026-10-28";
+const HUB_VERSION = "1.32", HUB_DATE = "2026-10-28";
 
 /* QUICK ACCESS SHEETS: buttons on the front tab (Projects) that open a Google Sheet directly.
    To rename a button, change its two names. To add one, copy a line. */
@@ -378,8 +380,11 @@ const ALL_APPS = [
 const AUTH_API = "https://script.google.com/macros/s/AKfycby_I1h0Vbeg4C7zPH_dYk8T0ybFIucq_SJH6zDSXW8L3BO5DKrBE9OIEC_XIj94JK8c1w/exec";   // paste the hub-auth Web app URL here after deploying hub-auth.gs
 let team = false;
 try { const x = JSON.parse(localStorage.getItem("hubTeam")); if (x && x.exp > Date.now()) team = true; } catch(e){}
+let sharedKeys = null;   // list of tool keys ICs can see; null = use the access:"open" defaults
+try { const x = JSON.parse(localStorage.getItem("hubShared")); if (Array.isArray(x)) sharedKeys = x; } catch(e){}
+const isShared = a => sharedKeys ? sharedKeys.includes(a.key) : a.access === "open";
 let APPS = [];
-function applyAccess(){ APPS = ALL_APPS.filter(a => team || a.access === "open").map(a => team ? a : Object.assign({}, a, {sheet:"", drive:""})); }
+function applyAccess(){ APPS = ALL_APPS.filter(a => team || isShared(a)).map(a => team ? a : Object.assign({}, a, {sheet:"", drive:""})); }
 applyAccess();
 
 /* Tabs, in the order shown. "projects" shows everything. */
@@ -391,7 +396,7 @@ const TABS = ["used","favs","projects","training","health","records","inspection
 const T = {
   en:{ heroTitle:"Every HSSE tool, in one place.",
        heroSub:"Pick a tab, then open the tool you need.",
-       search:"Search", login:"Team login", logout:"Lock", icNote:"You are seeing the tools shared with ICs.", copyIC:"Copy IC link", copied:"Link copied",
+       search:"Search", shareIC:"ICs can see this", shareErr:"Could not save. Lock and log in again.", login:"Team login", logout:"Lock", icNote:"You are seeing the tools shared with ICs.", copyIC:"Copy IC link", copied:"Link copied",
        pinTitle:"Team PIN", pinMsg:"Enter your PIN to see all tools.", pinGo:"Unlock", forgot:"Forgot PIN / set PIN", cancel:"Cancel",
        sendCode:"Send code", codeMsg:"A 6-digit code was sent to the owner email. Enter it, then choose a new PIN (4 to 8 digits).", codePh:"6-digit code", newPh:"New PIN",
        setBtn:"Save PIN", wrong:"Wrong PIN.", locked:"Too many tries. Wait 15 minutes.", notSet:"Team login is not set up yet.", netErr:"Could not reach the login service.", badCode:"Wrong or expired code.", pinSaved:"PIN saved. Enter it to unlock.", pinFmt:"PIN must be 4 to 8 digits.", arrange:"Arrange tiles", arrDone:"Done", arrReset:"Reset order", mvL:"Move earlier", mvR:"Move later", arrHint:"Drag a tile, or use the arrows, to set your own order. Saved on this device.",
@@ -413,7 +418,7 @@ const T = {
        footer:"EcoOils HSSE Hub. Team tools are for the HSSE team only. Do not share their links." },
   ms:{ heroTitle:"Semua alat HSSE, di satu tempat.",
        heroSub:"Pilih tab, kemudian buka alat yang anda perlukan.",
-       search:"Cari", arrange:"Susun kad", login:"Log masuk pasukan", logout:"Kunci", icNote:"Anda melihat alat yang dikongsi dengan IC.", copyIC:"Salin pautan IC", copied:"Pautan disalin",
+       search:"Cari", arrange:"Susun kad", shareIC:"IC boleh lihat ini", shareErr:"Tidak dapat menyimpan. Kunci dan log masuk semula.", login:"Log masuk pasukan", logout:"Kunci", icNote:"Anda melihat alat yang dikongsi dengan IC.", copyIC:"Salin pautan IC", copied:"Pautan disalin",
        pinTitle:"PIN pasukan", pinMsg:"Masukkan PIN untuk melihat semua alat.", pinGo:"Buka", forgot:"Lupa PIN / tetapkan PIN", cancel:"Batal",
        sendCode:"Hantar kod", codeMsg:"Kod 6 digit telah dihantar ke e-mel pemilik. Masukkan kod, kemudian pilih PIN baharu (4 hingga 8 digit).", codePh:"Kod 6 digit", newPh:"PIN baharu",
        setBtn:"Simpan PIN", wrong:"PIN salah.", locked:"Terlalu banyak cubaan. Tunggu 15 minit.", notSet:"Log masuk pasukan belum disediakan.", netErr:"Tidak dapat menghubungi perkhidmatan log masuk.", badCode:"Kod salah atau tamat tempoh.", pinSaved:"PIN disimpan. Masukkan untuk membuka.", pinFmt:"PIN mesti 4 hingga 8 digit.", arrDone:"Selesai", arrReset:"Set semula susunan", mvL:"Alih ke depan", mvR:"Alih ke belakang", arrHint:"Seret kad, atau guna anak panah, untuk menetapkan susunan anda sendiri. Disimpan pada peranti ini.",
@@ -435,7 +440,7 @@ const T = {
        footer:"EcoOils HSSE Hub. Alat pasukan adalah untuk pasukan HSSE sahaja. Jangan kongsi pautannya." },
   id:{ heroTitle:"Semua alat HSSE, dalam satu tempat.",
        heroSub:"Pilih tab, lalu buka alat yang Anda perlukan.",
-       search:"Cari", arrange:"Atur kartu", login:"Login tim", logout:"Kunci", icNote:"Anda melihat alat yang dibagikan untuk IC.", copyIC:"Salin tautan IC", copied:"Tautan disalin",
+       search:"Cari", arrange:"Atur kartu", shareIC:"IC dapat melihat ini", shareErr:"Gagal menyimpan. Kunci dan login ulang.", login:"Login tim", logout:"Kunci", icNote:"Anda melihat alat yang dibagikan untuk IC.", copyIC:"Salin tautan IC", copied:"Tautan disalin",
        pinTitle:"PIN tim", pinMsg:"Masukkan PIN untuk melihat semua alat.", pinGo:"Buka", forgot:"Lupa PIN / atur PIN", cancel:"Batal",
        sendCode:"Kirim kode", codeMsg:"Kode 6 digit dikirim ke email pemilik. Masukkan kode, lalu pilih PIN baru (4 sampai 8 digit).", codePh:"Kode 6 digit", newPh:"PIN baru",
        setBtn:"Simpan PIN", wrong:"PIN salah.", locked:"Terlalu banyak percobaan. Tunggu 15 menit.", notSet:"Login tim belum disiapkan.", netErr:"Tidak dapat menghubungi layanan login.", badCode:"Kode salah atau kedaluwarsa.", pinSaved:"PIN disimpan. Masukkan untuk membuka.", pinFmt:"PIN harus 4 sampai 8 digit.", arrDone:"Selesai", arrReset:"Atur ulang urutan", mvL:"Geser maju", mvR:"Geser mundur", arrHint:"Seret kartu, atau pakai tanda panah, untuk mengatur urutan sendiri. Tersimpan di perangkat ini.",
@@ -516,7 +521,7 @@ const inTab = (a, t) => t === "used" ? usedList().includes(a) : t === "favs" ? f
 
 function card(a){
   const t = T[lang], c = a[lang], live = !!a.url;
-  const tag = live ? `<span class="tag live">${a.access==="open" ? t.tagOpen : t.tagTeam}</span>` : `<span class="tag soon">${t.soon}</span>`;
+  const tag = live ? `<span class="tag live">${isShared(a) ? t.tagOpen : t.tagTeam}</span>` : `<span class="tag soon">${t.soon}</span>`;
   const sheetBtn = a.sheet ? `<a class="btn alt icon" href="${a.sheet}" target="_blank" rel="noopener noreferrer" title="${t.sheetTip}" aria-label="${t.sheetTip}: ${c.name}">${ICONS.sheet}</a>` : "";
   const driveBtn = a.drive ? `<a class="btn alt icon" href="${a.drive}" target="_blank" rel="noopener noreferrer" title="${t.driveTip}" aria-label="${t.driveTip}: ${c.name}">${ICONS.folder}</a>` : "";
   const verTag = a.ver ? `<span class="ver" title="Version">v${a.ver}</span>` : "";
@@ -526,7 +531,8 @@ function card(a){
   const on = favs.includes(a.key);
   const star = `<button type="button" class="fav" data-fav="${a.key}" aria-pressed="${on}" title="${on ? t.unstar : t.star}" aria-label="${on ? t.unstar : t.star}: ${c.name}">${ICONS.star}</button>`;
   const mv = arrange ? `<div class="mv"><button type="button" data-mv="-1" data-key="${a.key}" title="${t.mvL}" aria-label="${t.mvL}: ${c.name}">&#9664;</button><button type="button" data-mv="1" data-key="${a.key}" title="${t.mvR}" aria-label="${t.mvR}: ${c.name}">&#9654;</button></div>` : "";
-  return `<article class="card${arrange?" arranging":""}" data-key="${a.key}"${arrange?' draggable="true"':""}><div class="card-top"><div class="icon">${ICONS[a.icon]}</div><div class="topr">${tag}${star}</div></div><h3>${c.name}</h3><p>${c.desc}</p>${btn}${mv}</article>`;
+  const shr = team ? `<label class="shr"><input type="checkbox" data-share="${a.key}"${isShared(a)?" checked":""}> ${t.shareIC}</label>` : "";
+  return `<article class="card${arrange?" arranging":""}" data-key="${a.key}"${arrange?' draggable="true"':""}><div class="card-top"><div class="icon">${ICONS[a.icon]}</div><div class="topr">${tag}${star}</div></div><h3>${c.name}</h3><p>${c.desc}</p>${btn}${shr}${mv}</article>`;
 }
 
 function quick(){
@@ -644,7 +650,7 @@ async function pinSubmit(){
   try{
     if(pstep==="login"){
       const r=await authCall({a:"login",pin:pin1.value});
-      if(r.ok){ team=true; try{localStorage.setItem("hubTeam",JSON.stringify({exp:Date.now()+12*3600*1000}));}catch(e){} pinbg.hidden=true; applyAccess(); render(); }
+      if(r.ok){ team=true; try{localStorage.setItem("hubTeam",JSON.stringify({exp:Date.now()+12*3600*1000,tok:r.tok||""}));}catch(e){} pinbg.hidden=true; applyAccess(); render(); }
       else if(r.locked) pmsg.textContent=t.locked; else if(r.notset) pshow("forgot"); else { pmsg.textContent=t.wrong; pin1.value=""; }
     } else if(pstep==="forgot"){
       const r=await authCall({a:"forgot"}); if(r.ok) pinShow("reset"); else pmsg.textContent=t.netErr;
@@ -671,6 +677,23 @@ document.getElementById("icbar").addEventListener("click", e=>{
   const done=()=>{ b.textContent=T[lang].copied; };
   if(navigator.clipboard) navigator.clipboard.writeText(u).then(done,()=>prompt("",u)); else prompt("",u);
 });
+
+/* ---------- Share with ICs (saved in the hub-auth script, so it applies to everyone) ---------- */
+const teamTok = () => { try { return (JSON.parse(localStorage.getItem("hubTeam"))||{}).tok || ""; } catch(e){ return ""; } };
+main.addEventListener("change", async e => {
+  const cb = e.target.closest && e.target.closest("[data-share]"); if (!cb) return;
+  const base = sharedKeys ? sharedKeys.slice() : ALL_APPS.filter(a => a.access==="open").map(a => a.key);
+  const next = cb.checked ? Array.from(new Set(base.concat(cb.dataset.share))) : base.filter(k => k !== cb.dataset.share);
+  try {
+    const r = await authCall({a:"setshared", tok:teamTok(), keys:next});
+    if (!r.ok) throw 0;
+    sharedKeys = next; try { localStorage.setItem("hubShared", JSON.stringify(next)); } catch(x){}
+    render();
+  } catch(x){ cb.checked = !cb.checked; alert(T[lang].shareErr); }
+});
+if (AUTH_API) authCall({a:"shared"}).then(r => {
+  if (r && Array.isArray(r.keys)) { sharedKeys = r.keys; try { localStorage.setItem("hubShared", JSON.stringify(r.keys)); } catch(e){} applyAccess(); render(); }
+}).catch(()=>{});
 q.addEventListener("input", render);
 render();
 </script>
