@@ -262,7 +262,7 @@ const B = "https://iggifernandes.github.io/";
 
 /* VERSION of this hub. Same format in every app: "v1.0 · 2026-10-10", always in the footer.
    Small change = bump the second number (1.0 -> 1.1). Big change = bump the first (1.1 -> 2.0). */
-const HUB_VERSION = "1.36", HUB_DATE = "2026-10-28";
+const HUB_VERSION = "1.37", HUB_DATE = "2026-10-28";
 
 /* QUICK ACCESS SHEETS: buttons on the front tab (Projects) that open a Google Sheet directly.
    To rename a button, change its two names. To add one, copy a line. */
@@ -424,8 +424,9 @@ const ALL_APPS = [
    Google Apps Script (hub-auth.gs). Nothing secret is stored in this file.
    ===================================================================== */
 const AUTH_API = "https://script.google.com/macros/s/AKfycby_I1h0Vbeg4C7zPH_dYk8T0ybFIucq_SJH6zDSXW8L3BO5DKrBE9OIEC_XIj94JK8c1w/exec";   // paste the hub-auth Web app URL here after deploying hub-auth.gs
-let team = false;
-try { const x = JSON.parse(localStorage.getItem("hubTeam")); if (x && x.exp > Date.now()) team = true; } catch(e){}
+let team = false, manage = false, mtok = "", pmode = "login";
+const forceIC = /[?&]view=ic\b/.test(location.search);   // the IC link: always the IC view, even on your own device
+try { const x = JSON.parse(localStorage.getItem("hubTeam")); if (x && x.exp > Date.now() && !forceIC) team = true; } catch(e){}
 let sharedKeys = null;   // list of tool keys ICs can see; null = use the access:"open" defaults
 try { const x = JSON.parse(localStorage.getItem("hubShared")); if (Array.isArray(x)) sharedKeys = x; } catch(e){}
 let draft = null;
@@ -444,7 +445,7 @@ const TABS = ["projects","favs","training","health","records","inspections","sec
 const T = {
   en:{ heroTitle:"Every HSSE tool, in one place.",
        heroSub:"Pick a tab, then open the tool you need.",
-       search:"Search", layout:"Layout", lay_comfy:"Large", lay_compact:"Compact", lay_list:"List", pending:"{n} change(s) not saved yet", saveBtn:"Save", discard:"Discard", saved:"Saved.", shareIC:"ICs can see this", shareErr:"Could not save. Lock and log in again.", login:"Team login", logout:"Lock", icNote:"You are seeing the tools shared with ICs.", copyIC:"Copy IC link", copied:"Link copied",
+       search:"Search", manageIC:"Manage IC access", exitManage:"Done managing", manageMsg:"Enter your PIN to change what ICs can see.", layout:"Layout", lay_comfy:"Large", lay_compact:"Compact", lay_list:"List", pending:"{n} change(s) not saved yet", saveBtn:"Save", discard:"Discard", saved:"Saved.", shareIC:"ICs can see this", shareErr:"Could not save. Lock and log in again.", login:"Team login", logout:"Lock", icNote:"You are seeing the tools shared with ICs.", copyIC:"Copy IC link", copied:"Link copied",
        pinTitle:"Team PIN", pinMsg:"Enter your PIN to see all tools.", pinGo:"Unlock", forgot:"Forgot PIN / set PIN", cancel:"Cancel",
        sendCode:"Send code", codeMsg:"A 6-digit code was sent to the owner email. Enter it, then choose a new PIN (4 to 8 digits).", codePh:"6-digit code", newPh:"New PIN",
        setBtn:"Save PIN", wrong:"Wrong PIN.", locked:"Too many tries. Wait 15 minutes.", notSet:"Team login is not set up yet.", netErr:"Could not reach the login service.", badCode:"Wrong or expired code.", pinSaved:"PIN saved. Enter it to unlock.", pinFmt:"PIN must be 4 to 8 digits.", arrange:"Arrange tiles", arrDone:"Done", arrReset:"Reset order", mvL:"Move earlier", mvR:"Move later", arrHint:"Drag a tile, or use the arrows, to set your own order. Saved on this device.",
@@ -466,7 +467,7 @@ const T = {
        footer:"EcoOils HSSE Hub. Team tools are for the HSSE team only. Do not share their links." },
   ms:{ heroTitle:"Semua alat HSSE, di satu tempat.",
        heroSub:"Pilih tab, kemudian buka alat yang anda perlukan.",
-       search:"Cari", arrange:"Susun kad", layout:"Susun atur", lay_comfy:"Besar", lay_compact:"Padat", lay_list:"Senarai", pending:"{n} perubahan belum disimpan", saveBtn:"Simpan", discard:"Buang", saved:"Disimpan.", shareIC:"IC boleh lihat ini", shareErr:"Tidak dapat menyimpan. Kunci dan log masuk semula.", login:"Log masuk pasukan", logout:"Kunci", icNote:"Anda melihat alat yang dikongsi dengan IC.", copyIC:"Salin pautan IC", copied:"Pautan disalin",
+       search:"Cari", arrange:"Susun kad", manageIC:"Urus akses IC", exitManage:"Selesai urus", manageMsg:"Masukkan PIN untuk mengubah apa yang IC boleh lihat.", layout:"Susun atur", lay_comfy:"Besar", lay_compact:"Padat", lay_list:"Senarai", pending:"{n} perubahan belum disimpan", saveBtn:"Simpan", discard:"Buang", saved:"Disimpan.", shareIC:"IC boleh lihat ini", shareErr:"Tidak dapat menyimpan. Kunci dan log masuk semula.", login:"Log masuk pasukan", logout:"Kunci", icNote:"Anda melihat alat yang dikongsi dengan IC.", copyIC:"Salin pautan IC", copied:"Pautan disalin",
        pinTitle:"PIN pasukan", pinMsg:"Masukkan PIN untuk melihat semua alat.", pinGo:"Buka", forgot:"Lupa PIN / tetapkan PIN", cancel:"Batal",
        sendCode:"Hantar kod", codeMsg:"Kod 6 digit telah dihantar ke e-mel pemilik. Masukkan kod, kemudian pilih PIN baharu (4 hingga 8 digit).", codePh:"Kod 6 digit", newPh:"PIN baharu",
        setBtn:"Simpan PIN", wrong:"PIN salah.", locked:"Terlalu banyak cubaan. Tunggu 15 minit.", notSet:"Log masuk pasukan belum disediakan.", netErr:"Tidak dapat menghubungi perkhidmatan log masuk.", badCode:"Kod salah atau tamat tempoh.", pinSaved:"PIN disimpan. Masukkan untuk membuka.", pinFmt:"PIN mesti 4 hingga 8 digit.", arrDone:"Selesai", arrReset:"Set semula susunan", mvL:"Alih ke depan", mvR:"Alih ke belakang", arrHint:"Seret kad, atau guna anak panah, untuk menetapkan susunan anda sendiri. Disimpan pada peranti ini.",
@@ -488,7 +489,7 @@ const T = {
        footer:"EcoOils HSSE Hub. Alat pasukan adalah untuk pasukan HSSE sahaja. Jangan kongsi pautannya." },
   id:{ heroTitle:"Semua alat HSSE, dalam satu tempat.",
        heroSub:"Pilih tab, lalu buka alat yang Anda perlukan.",
-       search:"Cari", arrange:"Atur kartu", layout:"Tata letak", lay_comfy:"Besar", lay_compact:"Ringkas", lay_list:"Daftar", pending:"{n} perubahan belum disimpan", saveBtn:"Simpan", discard:"Buang", saved:"Tersimpan.", shareIC:"IC dapat melihat ini", shareErr:"Gagal menyimpan. Kunci dan login ulang.", login:"Login tim", logout:"Kunci", icNote:"Anda melihat alat yang dibagikan untuk IC.", copyIC:"Salin tautan IC", copied:"Tautan disalin",
+       search:"Cari", arrange:"Atur kartu", manageIC:"Kelola akses IC", exitManage:"Selesai kelola", manageMsg:"Masukkan PIN untuk mengubah apa yang dapat dilihat IC.", layout:"Tata letak", lay_comfy:"Besar", lay_compact:"Ringkas", lay_list:"Daftar", pending:"{n} perubahan belum disimpan", saveBtn:"Simpan", discard:"Buang", saved:"Tersimpan.", shareIC:"IC dapat melihat ini", shareErr:"Gagal menyimpan. Kunci dan login ulang.", login:"Login tim", logout:"Kunci", icNote:"Anda melihat alat yang dibagikan untuk IC.", copyIC:"Salin tautan IC", copied:"Tautan disalin",
        pinTitle:"PIN tim", pinMsg:"Masukkan PIN untuk melihat semua alat.", pinGo:"Buka", forgot:"Lupa PIN / atur PIN", cancel:"Batal",
        sendCode:"Kirim kode", codeMsg:"Kode 6 digit dikirim ke email pemilik. Masukkan kode, lalu pilih PIN baru (4 sampai 8 digit).", codePh:"Kode 6 digit", newPh:"PIN baru",
        setBtn:"Simpan PIN", wrong:"PIN salah.", locked:"Terlalu banyak percobaan. Tunggu 15 menit.", notSet:"Login tim belum disiapkan.", netErr:"Tidak dapat menghubungi layanan login.", badCode:"Kode salah atau kedaluwarsa.", pinSaved:"PIN disimpan. Masukkan untuk membuka.", pinFmt:"PIN harus 4 sampai 8 digit.", arrDone:"Selesai", arrReset:"Atur ulang urutan", mvL:"Geser maju", mvR:"Geser mundur", arrHint:"Seret kartu, atau pakai tanda panah, untuk mengatur urutan sendiri. Tersimpan di perangkat ini.",
@@ -580,7 +581,7 @@ function card(a){
   const on = favs.includes(a.key);
   const star = `<button type="button" class="fav" data-fav="${a.key}" aria-pressed="${on}" title="${on ? t.unstar : t.star}" aria-label="${on ? t.unstar : t.star}: ${c.name}">${ICONS.star}</button>`;
   const mv = arrange ? `<div class="mv"><button type="button" data-mv="-1" data-key="${a.key}" title="${t.mvL}" aria-label="${t.mvL}: ${c.name}">&#9664;</button><button type="button" data-mv="1" data-key="${a.key}" title="${t.mvR}" aria-label="${t.mvR}: ${c.name}">&#9654;</button></div>` : "";
-  const shr = team ? `<label class="shr"><input type="checkbox" data-share="${a.key}"${curList().includes(a.key)?" checked":""}> ${t.shareIC}</label>` : "";
+  const shr = (team && manage) ? `<label class="shr"><input type="checkbox" data-share="${a.key}"${curList().includes(a.key)?" checked":""}> ${t.shareIC}</label>` : "";
   return `<article class="card${arrange?" arranging":""}" data-key="${a.key}"${arrange?' draggable="true"':""}><div class="card-top"><div class="icon">${ICONS[a.icon]}</div><div class="topr">${tag}${star}</div></div><h3>${c.name}</h3><p>${c.desc}</p>${btn}${shr}${mv}</article>`;
 }
 
@@ -628,7 +629,8 @@ function render(){
   const at = document.getElementById("tab-" + tab); if (at && at.scrollIntoView) at.scrollIntoView({block:"nearest", inline:"nearest"});
 
   const ab = document.getElementById("acc"); ab.textContent = team ? t.logout : t.login; ab.dataset.mode = team ? "out" : "in";
-  document.getElementById("icbar").innerHTML = team ? `<button type="button" class="arr" id="copyic">${t.copyIC}</button>` : `<span>${t.icNote}</span>`;
+  document.getElementById("icbar").innerHTML = team ? `<button type="button" class="arr" id="copyic">${t.copyIC}</button> <button type="button" class="arr" id="mng">${manage ? t.exitManage : t.manageIC}</button>` : `<span>${t.icNote}</span>`;
+  if (forceIC) { ab.hidden = true; }
   document.getElementById("saveok").textContent = t.saveBtn; document.getElementById("savecancel").textContent = t.discard; updateBar();
   document.getElementById("ver").textContent = "v" + HUB_VERSION;
   document.getElementById("verdate").setAttribute("data-date", HUB_DATE);
@@ -686,10 +688,10 @@ document.querySelectorAll(".lang button").forEach(b => b.addEventListener("click
 /* ---------- Team PIN ---------- */
 const pinbg=document.getElementById("pinbg"), pin1=document.getElementById("pinin"), pin2=document.getElementById("pinin2"), pmsg=document.getElementById("pinmsg"), pgo=document.getElementById("pingo"), pfg=document.getElementById("pinforgot"), pxx=document.getElementById("pinx");
 let pstep="login";
-function pinShow(step, note){
-  const t=T[lang]; pstep=step; pin1.value=""; pin2.value=""; pin2.hidden = step!=="reset"; pin1.type = step==="reset" ? "text" : "password";
+function pinShow(step, note, mode){
+  const t=T[lang]; pstep=step; pmode = mode || "login"; pin1.value=""; pin2.value=""; pin2.hidden = step!=="reset"; pin1.type = step==="reset" ? "text" : "password";
   document.getElementById("pinttl").textContent=t.pinTitle;
-  pmsg.textContent = note || (step==="login" ? t.pinMsg : step==="forgot" ? t.forgot : t.codeMsg);
+  pmsg.textContent = note || (step==="login" ? (pmode==="manage" ? t.manageMsg : t.pinMsg) : step==="forgot" ? t.forgot : t.codeMsg);
   pin1.hidden = step==="forgot"; pin1.placeholder = step==="reset" ? t.codePh : "";
   pin2.placeholder=t.newPh;
   pgo.textContent = step==="login" ? t.pinGo : step==="forgot" ? t.sendCode : t.setBtn;
@@ -705,7 +707,7 @@ async function pinSubmit(){
   try{
     if(pstep==="login"){
       const r=await authCall({a:"login",pin:pin1.value});
-      if(r.ok){ team=true; try{localStorage.setItem("hubTeam",JSON.stringify({exp:Date.now()+12*3600*1000,tok:r.tok||""}));}catch(e){} pinbg.hidden=true; applyAccess(); render(); }
+      if(r.ok){ if(pmode==="manage"){ manage=true; mtok=r.tok||""; } else { team=true; try{localStorage.setItem("hubTeam",JSON.stringify({exp:Date.now()+90*24*3600*1000}));}catch(e){} } pinbg.hidden=true; applyAccess(); render(); }
       else if(r.locked) pmsg.textContent=t.locked; else if(r.notset) pshow("forgot"); else { pmsg.textContent=t.wrong; pin1.value=""; }
     } else if(pstep==="forgot"){
       const r=await authCall({a:"forgot"}); if(r.ok) pinShow("reset"); else pmsg.textContent=t.netErr;
@@ -727,14 +729,15 @@ document.getElementById("acc").addEventListener("click", e=>{
   else pinShow("login");
 });
 document.getElementById("icbar").addEventListener("click", e=>{
+  if(e.target.closest("#mng")){ if(manage){ manage=false; mtok=""; draft=null; render(); } else pinShow("login","","manage"); return; }
   if(!e.target.closest("#copyic")) return;
-  const u=location.origin+location.pathname, b=e.target.closest("#copyic");
+  const u=location.origin+location.pathname+"?view=ic", b=e.target.closest("#copyic");
   const done=()=>{ b.textContent=T[lang].copied; };
   if(navigator.clipboard) navigator.clipboard.writeText(u).then(done,()=>prompt("",u)); else prompt("",u);
 });
 
 /* ---------- Share with ICs (saved in the hub-auth script, so it applies to everyone) ---------- */
-const teamTok = () => { try { return (JSON.parse(localStorage.getItem("hubTeam"))||{}).tok || ""; } catch(e){ return ""; } };
+const teamTok = () => mtok;
 function updateBar(){
   const bar = document.getElementById("savebar"); if (!bar) return;
   if (!team || !draft) { bar.hidden = true; return; }
@@ -756,12 +759,12 @@ document.getElementById("saveok").addEventListener("click", async () => {
   try {
     const r = await authCall({a:"setshared", tok:teamTok(), keys:next});
     if (!r.ok) throw 0;
-    sharedKeys = next; draft = null; try { localStorage.setItem("hubShared", JSON.stringify(next)); } catch(x){}
+    sharedKeys = next; draft = null; manage = false; mtok = ""; try { localStorage.setItem("hubShared", JSON.stringify(next)); } catch(x){}
     document.getElementById("savetxt").textContent = T[lang].saved; setTimeout(render, 900);
   } catch(x){ alert(T[lang].shareErr); }
   btn.disabled = false;
 });
-document.getElementById("savecancel").addEventListener("click", () => { draft = null; render(); });
+document.getElementById("savecancel").addEventListener("click", () => { draft = null; manage = false; mtok = ""; render(); });
 if (AUTH_API) authCall({a:"shared"}).then(r => {
   if (r && Array.isArray(r.keys)) { sharedKeys = r.keys; try { localStorage.setItem("hubShared", JSON.stringify(r.keys)); } catch(e){} applyAccess(); render(); }
 }).catch(()=>{});
