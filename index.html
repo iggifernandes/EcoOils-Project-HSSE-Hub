@@ -214,7 +214,7 @@ const B = "https://iggifernandes.github.io/";
 
 /* VERSION of this hub. Same format in every app: "v1.0 · 2026-10-10", always in the footer.
    Small change = bump the second number (1.0 -> 1.1). Big change = bump the first (1.1 -> 2.0). */
-const HUB_VERSION = "1.30", HUB_DATE = "2026-10-28";
+const HUB_VERSION = "1.31", HUB_DATE = "2026-10-28";
 
 /* QUICK ACCESS SHEETS: buttons on the front tab (Projects) that open a Google Sheet directly.
    To rename a button, change its two names. To add one, copy a line. */
@@ -375,7 +375,7 @@ const ALL_APPS = [
    (the IC view). The team PIN unlocks everything. PIN is checked by your own
    Google Apps Script (hub-auth.gs). Nothing secret is stored in this file.
    ===================================================================== */
-const AUTH_API = "";   // paste the hub-auth Web app URL here after deploying hub-auth.gs
+const AUTH_API = "https://script.google.com/macros/s/AKfycby_I1h0Vbeg4C7zPH_dYk8T0ybFIucq_SJH6zDSXW8L3BO5DKrBE9OIEC_XIj94JK8c1w/exec";   // paste the hub-auth Web app URL here after deploying hub-auth.gs
 let team = false;
 try { const x = JSON.parse(localStorage.getItem("hubTeam")); if (x && x.exp > Date.now()) team = true; } catch(e){}
 let APPS = [];
