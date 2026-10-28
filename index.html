@@ -147,6 +147,8 @@
   .icbar .arr{font:inherit;font-size:13px;background:none;border:1px solid #dcdcdc;border-radius:8px;padding:6px 12px;min-height:36px;cursor:pointer;color:#231f20}
   .shr{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13px;color:#6e6b6c;cursor:pointer}
   .shr input{width:18px;height:18px;accent-color:#44a276}
+  .savebar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;border-top:3px solid #44a276;padding:10px 16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;font-size:14px}
+  .savebar[hidden]{display:none}
   .pinbg{position:fixed;inset:0;background:rgba(35,31,32,.55);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}
   .pinbg[hidden]{display:none}
   .pinbox{background:#fff;border:1px solid #dcdcdc;border-radius:8px;padding:22px;width:100%;max-width:360px}
@@ -196,6 +198,7 @@
   <input id="pinin2" type="password" inputmode="numeric" autocomplete="off" maxlength="12" hidden>
   <div class="pinact"><button type="button" class="pbtn" id="pingo"></button><button type="button" class="plink" id="pinforgot"></button><button type="button" class="plink" id="pinx"></button></div>
 </div></div>
+<div class="savebar" id="savebar" hidden><span id="savetxt"></span><button type="button" class="pbtn" id="saveok"></button><button type="button" class="plink" id="savecancel"></button></div>
 <main id="main" role="tabpanel"></main>
 
 <footer><div data-i18n="footer">EcoOils HSSE Hub. Team tools are for the HSSE team only. Do not share their links.</div></footer>
@@ -216,7 +219,7 @@ const B = "https://iggifernandes.github.io/";
 
 /* VERSION of this hub. Same format in every app: "v1.0 · 2026-10-10", always in the footer.
    Small change = bump the second number (1.0 -> 1.1). Big change = bump the first (1.1 -> 2.0). */
-const HUB_VERSION = "1.32", HUB_DATE = "2026-10-28";
+const HUB_VERSION = "1.33", HUB_DATE = "2026-10-28";
 
 /* QUICK ACCESS SHEETS: buttons on the front tab (Projects) that open a Google Sheet directly.
    To rename a button, change its two names. To add one, copy a line. */
@@ -382,13 +385,15 @@ let team = false;
 try { const x = JSON.parse(localStorage.getItem("hubTeam")); if (x && x.exp > Date.now()) team = true; } catch(e){}
 let sharedKeys = null;   // list of tool keys ICs can see; null = use the access:"open" defaults
 try { const x = JSON.parse(localStorage.getItem("hubShared")); if (Array.isArray(x)) sharedKeys = x; } catch(e){}
+let draft = null;
+const curList = () => draft || (sharedKeys ? sharedKeys : ALL_APPS.filter(a => a.access==="open").map(a => a.key));
 const isShared = a => sharedKeys ? sharedKeys.includes(a.key) : a.access === "open";
 let APPS = [];
 function applyAccess(){ APPS = ALL_APPS.filter(a => team || isShared(a)).map(a => team ? a : Object.assign({}, a, {sheet:"", drive:""})); }
 applyAccess();
 
 /* Tabs, in the order shown. "projects" shows everything. */
-const TABS = ["used","favs","projects","training","health","records","inspections","security","equip","gonogo","reports","dev"];
+const TABS = ["projects","used","favs","training","health","records","inspections","security","equip","gonogo","reports","dev"];
 
 /* =====================================================================
    2) Wording in both languages
@@ -396,12 +401,12 @@ const TABS = ["used","favs","projects","training","health","records","inspection
 const T = {
   en:{ heroTitle:"Every HSSE tool, in one place.",
        heroSub:"Pick a tab, then open the tool you need.",
-       search:"Search", shareIC:"ICs can see this", shareErr:"Could not save. Lock and log in again.", login:"Team login", logout:"Lock", icNote:"You are seeing the tools shared with ICs.", copyIC:"Copy IC link", copied:"Link copied",
+       search:"Search", pending:"{n} change(s) not saved yet", saveBtn:"Save", discard:"Discard", saved:"Saved.", shareIC:"ICs can see this", shareErr:"Could not save. Lock and log in again.", login:"Team login", logout:"Lock", icNote:"You are seeing the tools shared with ICs.", copyIC:"Copy IC link", copied:"Link copied",
        pinTitle:"Team PIN", pinMsg:"Enter your PIN to see all tools.", pinGo:"Unlock", forgot:"Forgot PIN / set PIN", cancel:"Cancel",
        sendCode:"Send code", codeMsg:"A 6-digit code was sent to the owner email. Enter it, then choose a new PIN (4 to 8 digits).", codePh:"6-digit code", newPh:"New PIN",
        setBtn:"Save PIN", wrong:"Wrong PIN.", locked:"Too many tries. Wait 15 minutes.", notSet:"Team login is not set up yet.", netErr:"Could not reach the login service.", badCode:"Wrong or expired code.", pinSaved:"PIN saved. Enter it to unlock.", pinFmt:"PIN must be 4 to 8 digits.", arrange:"Arrange tiles", arrDone:"Done", arrReset:"Reset order", mvL:"Move earlier", mvR:"Move later", arrHint:"Drag a tile, or use the arrows, to set your own order. Saved on this device.",
        open:"Open", qsLabel:"Your sheets", tabSheet:"Google Sheet for this tab", tabDrive:"Google Drive folder for this tab", notLinked:"link not added yet", sheet:"Sheet", sheetTip:"Open the Google Sheet", drive:"Drive", driveTip:"Open the Google Drive folder", soon:"Coming soon", tagOpen:"Open", tagTeam:"Team only",
-       t_used:"Most used", t_favs:"Favourites", t_projects:"Projects", t_training:"Induction & Training", t_health:"Health", t_records:"Records", t_inspections:"Inspections", t_security:"Security", t_equip:"Equipment & Operators", t_gonogo:"Go / No-Go", t_reports:"Reports", t_dev:"In development",
+       t_used:"Most used", t_favs:"Favourites", t_projects:"All tabs", t_training:"Induction & Training", t_health:"Health", t_records:"Records", t_inspections:"Inspections", t_security:"Security", t_equip:"Equipment & Operators", t_gonogo:"Go / No-Go", t_reports:"Reports", t_dev:"In development",
        n_used:"Your most-opened tools. This list builds itself as you use the hub.", n_favs:"Your pinned tools. Tap the star on any card to add or remove it.", usedEmpty:"Nothing here yet. Tools you open will appear automatically.", favsEmpty:"No favourites yet. Tap the star on a tool to pin it here.", star:"Add to favourites", unstar:"Remove from favourites",
        n_projects:"All your tools. Live tools come first.",
        n_training:"Induction and training pages. These can be shared with contractors and crews.",
@@ -418,12 +423,12 @@ const T = {
        footer:"EcoOils HSSE Hub. Team tools are for the HSSE team only. Do not share their links." },
   ms:{ heroTitle:"Semua alat HSSE, di satu tempat.",
        heroSub:"Pilih tab, kemudian buka alat yang anda perlukan.",
-       search:"Cari", arrange:"Susun kad", shareIC:"IC boleh lihat ini", shareErr:"Tidak dapat menyimpan. Kunci dan log masuk semula.", login:"Log masuk pasukan", logout:"Kunci", icNote:"Anda melihat alat yang dikongsi dengan IC.", copyIC:"Salin pautan IC", copied:"Pautan disalin",
+       search:"Cari", arrange:"Susun kad", pending:"{n} perubahan belum disimpan", saveBtn:"Simpan", discard:"Buang", saved:"Disimpan.", shareIC:"IC boleh lihat ini", shareErr:"Tidak dapat menyimpan. Kunci dan log masuk semula.", login:"Log masuk pasukan", logout:"Kunci", icNote:"Anda melihat alat yang dikongsi dengan IC.", copyIC:"Salin pautan IC", copied:"Pautan disalin",
        pinTitle:"PIN pasukan", pinMsg:"Masukkan PIN untuk melihat semua alat.", pinGo:"Buka", forgot:"Lupa PIN / tetapkan PIN", cancel:"Batal",
        sendCode:"Hantar kod", codeMsg:"Kod 6 digit telah dihantar ke e-mel pemilik. Masukkan kod, kemudian pilih PIN baharu (4 hingga 8 digit).", codePh:"Kod 6 digit", newPh:"PIN baharu",
        setBtn:"Simpan PIN", wrong:"PIN salah.", locked:"Terlalu banyak cubaan. Tunggu 15 minit.", notSet:"Log masuk pasukan belum disediakan.", netErr:"Tidak dapat menghubungi perkhidmatan log masuk.", badCode:"Kod salah atau tamat tempoh.", pinSaved:"PIN disimpan. Masukkan untuk membuka.", pinFmt:"PIN mesti 4 hingga 8 digit.", arrDone:"Selesai", arrReset:"Set semula susunan", mvL:"Alih ke depan", mvR:"Alih ke belakang", arrHint:"Seret kad, atau guna anak panah, untuk menetapkan susunan anda sendiri. Disimpan pada peranti ini.",
        open:"Buka", qsLabel:"Sheet anda", tabSheet:"Google Sheet untuk tab ini", tabDrive:"Folder Google Drive untuk tab ini", notLinked:"pautan belum ditambah", sheet:"Sheet", sheetTip:"Buka Google Sheet", drive:"Drive", driveTip:"Buka folder Google Drive", soon:"Akan datang", tagOpen:"Terbuka", tagTeam:"Pasukan sahaja",
-       t_used:"Paling kerap", t_favs:"Kegemaran", t_projects:"Projek", t_training:"Induksi & Latihan", t_health:"Kesihatan", t_records:"Rekod", t_inspections:"Pemeriksaan", t_security:"Keselamatan", t_equip:"Peralatan & Operator", t_gonogo:"Go / No-Go", t_reports:"Laporan", t_dev:"Dalam pembangunan",
+       t_used:"Paling kerap", t_favs:"Kegemaran", t_projects:"Semua tab", t_training:"Induksi & Latihan", t_health:"Kesihatan", t_records:"Rekod", t_inspections:"Pemeriksaan", t_security:"Keselamatan", t_equip:"Peralatan & Operator", t_gonogo:"Go / No-Go", t_reports:"Laporan", t_dev:"Dalam pembangunan",
        n_used:"Alat yang paling kerap anda buka. Senarai ini terbina sendiri apabila anda menggunakan hab.", n_favs:"Alat yang anda semat. Ketik bintang pada mana-mana kad untuk menambah atau mengalih keluar.", usedEmpty:"Belum ada apa-apa di sini. Alat yang anda buka akan muncul secara automatik.", favsEmpty:"Belum ada kegemaran. Ketik bintang pada alat untuk menyematnya di sini.", star:"Tambah ke kegemaran", unstar:"Alih keluar daripada kegemaran",
        n_projects:"Semua alat anda. Alat yang aktif dahulu.",
        n_training:"Halaman induksi dan latihan. Ini boleh dikongsi dengan kontraktor dan krew.",
@@ -440,12 +445,12 @@ const T = {
        footer:"EcoOils HSSE Hub. Alat pasukan adalah untuk pasukan HSSE sahaja. Jangan kongsi pautannya." },
   id:{ heroTitle:"Semua alat HSSE, dalam satu tempat.",
        heroSub:"Pilih tab, lalu buka alat yang Anda perlukan.",
-       search:"Cari", arrange:"Atur kartu", shareIC:"IC dapat melihat ini", shareErr:"Gagal menyimpan. Kunci dan login ulang.", login:"Login tim", logout:"Kunci", icNote:"Anda melihat alat yang dibagikan untuk IC.", copyIC:"Salin tautan IC", copied:"Tautan disalin",
+       search:"Cari", arrange:"Atur kartu", pending:"{n} perubahan belum disimpan", saveBtn:"Simpan", discard:"Buang", saved:"Tersimpan.", shareIC:"IC dapat melihat ini", shareErr:"Gagal menyimpan. Kunci dan login ulang.", login:"Login tim", logout:"Kunci", icNote:"Anda melihat alat yang dibagikan untuk IC.", copyIC:"Salin tautan IC", copied:"Tautan disalin",
        pinTitle:"PIN tim", pinMsg:"Masukkan PIN untuk melihat semua alat.", pinGo:"Buka", forgot:"Lupa PIN / atur PIN", cancel:"Batal",
        sendCode:"Kirim kode", codeMsg:"Kode 6 digit dikirim ke email pemilik. Masukkan kode, lalu pilih PIN baru (4 sampai 8 digit).", codePh:"Kode 6 digit", newPh:"PIN baru",
        setBtn:"Simpan PIN", wrong:"PIN salah.", locked:"Terlalu banyak percobaan. Tunggu 15 menit.", notSet:"Login tim belum disiapkan.", netErr:"Tidak dapat menghubungi layanan login.", badCode:"Kode salah atau kedaluwarsa.", pinSaved:"PIN disimpan. Masukkan untuk membuka.", pinFmt:"PIN harus 4 sampai 8 digit.", arrDone:"Selesai", arrReset:"Atur ulang urutan", mvL:"Geser maju", mvR:"Geser mundur", arrHint:"Seret kartu, atau pakai tanda panah, untuk mengatur urutan sendiri. Tersimpan di perangkat ini.",
        open:"Buka", qsLabel:"Sheet Anda", tabSheet:"Google Sheet untuk tab ini", tabDrive:"Folder Google Drive untuk tab ini", notLinked:"tautan belum ditambahkan", sheet:"Sheet", sheetTip:"Buka Google Sheet", drive:"Drive", driveTip:"Buka folder Google Drive", soon:"Segera hadir", tagOpen:"Terbuka", tagTeam:"Khusus tim",
-       t_used:"Paling sering", t_favs:"Favorit", t_projects:"Proyek", t_training:"Induksi & Pelatihan", t_health:"Kesehatan", t_records:"Catatan", t_inspections:"Inspeksi", t_security:"Keamanan", t_equip:"Peralatan & Operator", t_gonogo:"Go / No-Go", t_reports:"Laporan", t_dev:"Dalam pengembangan",
+       t_used:"Paling sering", t_favs:"Favorit", t_projects:"Semua tab", t_training:"Induksi & Pelatihan", t_health:"Kesehatan", t_records:"Catatan", t_inspections:"Inspeksi", t_security:"Keamanan", t_equip:"Peralatan & Operator", t_gonogo:"Go / No-Go", t_reports:"Laporan", t_dev:"Dalam pengembangan",
        n_used:"Alat yang paling sering Anda buka. Daftar ini terisi otomatis.", n_favs:"Alat favorit Anda. Ketuk bintang pada kartu untuk menambah atau menghapus.", usedEmpty:"Belum ada. Alat yang Anda buka akan muncul otomatis.", favsEmpty:"Belum ada favorit. Ketuk bintang pada alat untuk menyematkannya di sini.", star:"Tambah ke favorit", unstar:"Hapus dari favorit",
        n_projects:"Semua alat Anda. Alat yang sudah aktif ada di depan.",
        n_training:"Halaman induksi dan pelatihan. Boleh dibagikan ke kontraktor dan kru.",
@@ -531,7 +536,7 @@ function card(a){
   const on = favs.includes(a.key);
   const star = `<button type="button" class="fav" data-fav="${a.key}" aria-pressed="${on}" title="${on ? t.unstar : t.star}" aria-label="${on ? t.unstar : t.star}: ${c.name}">${ICONS.star}</button>`;
   const mv = arrange ? `<div class="mv"><button type="button" data-mv="-1" data-key="${a.key}" title="${t.mvL}" aria-label="${t.mvL}: ${c.name}">&#9664;</button><button type="button" data-mv="1" data-key="${a.key}" title="${t.mvR}" aria-label="${t.mvR}: ${c.name}">&#9654;</button></div>` : "";
-  const shr = team ? `<label class="shr"><input type="checkbox" data-share="${a.key}"${isShared(a)?" checked":""}> ${t.shareIC}</label>` : "";
+  const shr = team ? `<label class="shr"><input type="checkbox" data-share="${a.key}"${curList().includes(a.key)?" checked":""}> ${t.shareIC}</label>` : "";
   return `<article class="card${arrange?" arranging":""}" data-key="${a.key}"${arrange?' draggable="true"':""}><div class="card-top"><div class="icon">${ICONS[a.icon]}</div><div class="topr">${tag}${star}</div></div><h3>${c.name}</h3><p>${c.desc}</p>${btn}${shr}${mv}</article>`;
 }
 
@@ -578,6 +583,7 @@ function render(){
 
   const ab = document.getElementById("acc"); ab.textContent = team ? t.logout : t.login; ab.dataset.mode = team ? "out" : "in";
   document.getElementById("icbar").innerHTML = team ? `<button type="button" class="arr" id="copyic">${t.copyIC}</button>` : `<span>${t.icNote}</span>`;
+  document.getElementById("saveok").textContent = t.saveBtn; document.getElementById("savecancel").textContent = t.discard; updateBar();
   document.getElementById("vtop").textContent = "v" + HUB_VERSION + " · " + HUB_DATE;
   document.documentElement.lang = lang;
   document.querySelectorAll("[data-i18n]").forEach(el => el.textContent = t[el.dataset.i18n]);
@@ -680,17 +686,33 @@ document.getElementById("icbar").addEventListener("click", e=>{
 
 /* ---------- Share with ICs (saved in the hub-auth script, so it applies to everyone) ---------- */
 const teamTok = () => { try { return (JSON.parse(localStorage.getItem("hubTeam"))||{}).tok || ""; } catch(e){ return ""; } };
-main.addEventListener("change", async e => {
+function updateBar(){
+  const bar = document.getElementById("savebar"); if (!bar) return;
+  if (!team || !draft) { bar.hidden = true; return; }
+  const t = T[lang], cur = sharedKeys ? sharedKeys : ALL_APPS.filter(a => a.access==="open").map(a => a.key);
+  const n = draft.filter(k => !cur.includes(k)).length + cur.filter(k => !draft.includes(k)).length;
+  document.getElementById("savetxt").textContent = t.pending.replace("{n}", n);
+  bar.hidden = false;
+}
+main.addEventListener("change", e => {
   const cb = e.target.closest && e.target.closest("[data-share]"); if (!cb) return;
-  const base = sharedKeys ? sharedKeys.slice() : ALL_APPS.filter(a => a.access==="open").map(a => a.key);
-  const next = cb.checked ? Array.from(new Set(base.concat(cb.dataset.share))) : base.filter(k => k !== cb.dataset.share);
+  const base = curList(), k = cb.dataset.share;
+  draft = cb.checked ? Array.from(new Set(base.concat(k))) : base.filter(x => x !== k);
+  const cur = sharedKeys ? sharedKeys : ALL_APPS.filter(a => a.access==="open").map(a => a.key);
+  if (draft.length === cur.length && draft.every(x => cur.includes(x))) draft = null;
+  updateBar();
+});
+document.getElementById("saveok").addEventListener("click", async () => {
+  if (!draft) return; const next = draft.slice(), btn = document.getElementById("saveok"); btn.disabled = true;
   try {
     const r = await authCall({a:"setshared", tok:teamTok(), keys:next});
     if (!r.ok) throw 0;
-    sharedKeys = next; try { localStorage.setItem("hubShared", JSON.stringify(next)); } catch(x){}
-    render();
-  } catch(x){ cb.checked = !cb.checked; alert(T[lang].shareErr); }
+    sharedKeys = next; draft = null; try { localStorage.setItem("hubShared", JSON.stringify(next)); } catch(x){}
+    document.getElementById("savetxt").textContent = T[lang].saved; setTimeout(render, 900);
+  } catch(x){ alert(T[lang].shareErr); }
+  btn.disabled = false;
 });
+document.getElementById("savecancel").addEventListener("click", () => { draft = null; render(); });
 if (AUTH_API) authCall({a:"shared"}).then(r => {
   if (r && Array.isArray(r.keys)) { sharedKeys = r.keys; try { localStorage.setItem("hubShared", JSON.stringify(r.keys)); } catch(e){} applyAccess(); render(); }
 }).catch(()=>{});
