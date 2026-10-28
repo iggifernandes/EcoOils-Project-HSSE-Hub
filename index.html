@@ -219,7 +219,7 @@ const B = "https://iggifernandes.github.io/";
 
 /* VERSION of this hub. Same format in every app: "v1.0 · 2026-10-10", always in the footer.
    Small change = bump the second number (1.0 -> 1.1). Big change = bump the first (1.1 -> 2.0). */
-const HUB_VERSION = "1.33", HUB_DATE = "2026-10-28";
+const HUB_VERSION = "1.34", HUB_DATE = "2026-10-28";
 
 /* QUICK ACCESS SHEETS: buttons on the front tab (Projects) that open a Google Sheet directly.
    To rename a button, change its two names. To add one, copy a line. */
@@ -393,7 +393,7 @@ function applyAccess(){ APPS = ALL_APPS.filter(a => team || isShared(a)).map(a =
 applyAccess();
 
 /* Tabs, in the order shown. "projects" shows everything. */
-const TABS = ["projects","used","favs","training","health","records","inspections","security","equip","gonogo","reports","dev"];
+const TABS = ["projects","favs","training","health","records","inspections","security","equip","gonogo","reports","dev"];
 
 /* =====================================================================
    2) Wording in both languages
