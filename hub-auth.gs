@@ -5,9 +5,14 @@
  * - The PIN is kept only as a salted hash in Script Properties.
  * - 5 wrong PINs lock logins for 15 minutes.
  * - Also stores which tools ICs can see (the 'Share with ICs' switches in the hub).
+ * - Holds the tool links (L_<key> properties). The public hub page contains NO app addresses:
+ *   ICs get only the links of tools you shared, team members get all links after PIN login.
+ *   Links are loaded once with seedLinks() from a private file (not kept in GitHub).
  * Deploy: Extensions > Apps Script > paste this > Deploy > New deployment > Web app
  *         Execute as: Me   |   Who has access: Anyone   > copy the Web app URL into AUTH_API in the hub.
  */
+var DEFAULT_SHARED = ['induction', 'training', 'ptwtrain'];   // shown to ICs until you save your own choices
+
 function doPost(e) {
   var out;
   try { out = handle_(JSON.parse(e.postData.contents)); } catch (err) { out = { ok: false, error: 'bad request' }; }
@@ -32,9 +37,18 @@ function handle_(r) {
     C.put('fails', String(Number(C.get('fails') || 0) + 1), 900);
     return { ok: false };
   }
-  if (r.a === 'shared') {                                 // public: which tools ICs can see
+  if (r.a === 'shared') {                                 // public: which tools ICs can see, and ONLY their open links
     var k = P.getProperty('shared');
-    return k ? { ok: true, keys: JSON.parse(k) } : { ok: true, keys: null };
+    var keys = k ? JSON.parse(k) : DEFAULT_SHARED;
+    var links = {};
+    keys.forEach(function (key) { var l = P.getProperty('L_' + key); if (l) { links[key] = { url: JSON.parse(l).url }; } });
+    return { ok: true, keys: keys, links: links };
+  }
+  if (r.a === 'links') {                                   // team only: every link, needs a valid login token
+    if (!r.tok || !C.get('tok_' + r.tok)) return { ok: false };
+    var all = {}, props = P.getProperties();
+    Object.keys(props).forEach(function (n) { if (n.indexOf('L_') === 0) all[n.slice(2)] = JSON.parse(props[n]); });
+    return { ok: true, links: all };
   }
   if (r.a === 'setshared') {                               // team only: needs a valid login token
     if (!r.tok || !C.get('tok_' + r.tok) || !Array.isArray(r.keys)) return { ok: false };

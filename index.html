@@ -262,7 +262,7 @@ const B = "https://iggifernandes.github.io/";
 
 /* VERSION of this hub. Same format in every app: "v1.0 · 2026-10-10", always in the footer.
    Small change = bump the second number (1.0 -> 1.1). Big change = bump the first (1.1 -> 2.0). */
-const HUB_VERSION = "1.37", HUB_DATE = "2026-10-28";
+const HUB_VERSION = "1.38", HUB_DATE = "2026-10-28";
 
 /* QUICK ACCESS SHEETS: buttons on the front tab (Projects) that open a Google Sheet directly.
    To rename a button, change its two names. To add one, copy a line. */
@@ -283,38 +283,38 @@ const TAB_LINKS = {
   dev:      { sheet:"", drive:"" }
 };
 const ALL_APPS = [
-  { key:"induction", cat:"training", access:"open", icon:"shield", sheet:"https://docs.google.com/spreadsheets/d/1491t3_AvjvW_gT3mSfqkvFicKxFA8WhlD0ABtbahi7w/edit?gid=1628419838#gid=1628419838", drive:"https://drive.google.com/drive/folders/109SSy467ZeYdW0rWfe6Q5h2QR1-N3NXi?usp=drive_link", ver:"",
-    url:B+"EcoOils-Project-Site-Induction-Sei-Mangkei/",
+  { key:"induction", cat:"training", access:"open", icon:"shield", sheet:"@", drive:"@", ver:"",
+    url:"@",
     en:{name:"Site Induction",         desc:"Induction and final assessment for everyone entering site."},
     id:{name:"Induksi Tapak",          desc:"Induksi dan penilaian akhir untuk semua yang masuk ke lokasi."},
     ms:{name:"Induksi Tapak", desc:"Induksi dan penilaian akhir untuk semua yang memasuki tapak."} },
   { key:"tracker",   cat:"records",  access:"team", icon:"track", sheet:"", drive:"", ver:"",
-    url:B+"EcoOils-Project-HSSE-tracker/",
+    url:"@",
     en:{name:"HSSE Tracker",           desc:"Track HSSE items and actions across the project."},
     id:{name:"Pelacak HSSE",           desc:"Lacak item dan tindakan HSSE di seluruh proyek."},
     ms:{name:"Penjejak HSSE", desc:"Jejaki item dan tindakan HSSE di seluruh projek."} },
   { key:"ims",       cat:"records",  access:"team", icon:"ims", sheet:"", drive:"", ver:"",
-    url:B+"EcoOils-Project-IMS/",
+    url:"@",
     en:{name:"IMS",                    desc:"Project IMS, including incident records, trends and learning."},
     id:{name:"IMS",                    desc:"IMS proyek, termasuk catatan insiden, tren, dan pembelajaran."},
     ms:{name:"IMS", desc:"IMS projek, termasuk rekod insiden, trend dan pembelajaran."} },
-  { key:"health",    cat:"health",   access:"team", icon:"heart", sheet:"https://docs.google.com/spreadsheets/d/1MPyWIu52ji8LwFi5bSNZ28q63GfrsL-Cx-ZYJuSIzms/edit", drive:"", ver:"1.1",
-    url:B+"EcoOils-Project-Health-Monitoring/",
+  { key:"health",    cat:"health",   access:"team", icon:"heart", sheet:"@", drive:"", ver:"1.1",
+    url:"@",
     en:{name:"Health Monitoring",      desc:"Both health tools and the admin trends dashboard, from one page."},
     id:{name:"Pemantauan Kesehatan",   desc:"Kedua alat kesehatan dan dasbor tren admin, dalam satu halaman."},
     ms:{name:"Pemantauan Kesihatan", desc:"Kedua-dua alat kesihatan dan papan pemuka trend admin, dari satu halaman."} },
-  { key:"bp",        cat:"health",   access:"team", icon:"pulse", sheet:"https://docs.google.com/spreadsheets/d/1MPyWIu52ji8LwFi5bSNZ28q63GfrsL-Cx-ZYJuSIzms/edit?gid=483046206#gid=483046206", drive:"", ver:"",
-    url:B+"EcoOils-Project-blood-pressure-monitoring/",
+  { key:"bp",        cat:"health",   access:"team", icon:"pulse", sheet:"@", drive:"", ver:"",
+    url:"@",
     en:{name:"Blood Pressure Monitoring", desc:"Blood pressure readings and follow-up for the crew."},
     id:{name:"Pemantauan Tekanan Darah",  desc:"Hasil tekanan darah dan tindak lanjut untuk kru."},
     ms:{name:"Pemantauan Tekanan Darah", desc:"Bacaan tekanan darah dan susulan untuk krew."} },
-  { key:"alcohol",   cat:"health",   access:"team", icon:"drop", sheet:"https://docs.google.com/spreadsheets/d/1MPyWIu52ji8LwFi5bSNZ28q63GfrsL-Cx-ZYJuSIzms/edit?gid=2055461571#gid=2055461571", drive:"", ver:"",
-    url:B+"EcoOils-Project-drug---alcohol-test-record/",
+  { key:"alcohol",   cat:"health",   access:"team", icon:"drop", sheet:"@", drive:"", ver:"",
+    url:"@",
     en:{name:"Drug & Alcohol Test Record", desc:"Daily drug and alcohol test entries for the crew."},
     id:{name:"Catatan Tes Narkoba & Alkohol", desc:"Entri tes narkoba dan alkohol harian untuk kru."},
     ms:{name:"Rekod Ujian Dadah & Alkohol", desc:"Catatan ujian dadah dan alkohol harian untuk krew."} },
-  { key:"database",  cat:"records",  access:"team", icon:"db", sheet:"https://docs.google.com/spreadsheets/d/1m9maZz_ouW-kPOjSPy9OLQmG8K0hVU71XvDOLwH2AU8/edit?gid=2105590538#gid=2105590538", drive:"https://drive.google.com/drive/folders/1pV-VWBdl7v00QF7IgcGQ_JKUpRoAXiS5?usp=drive_link", ver:"",
-    url:B+"EcoOils-project-hsse-database/",
+  { key:"database",  cat:"records",  access:"team", icon:"db", sheet:"@", drive:"@", ver:"",
+    url:"@",
     en:{name:"HSSE Database",          desc:"Register of safety officers and managers, with profiles and CVs."},
     id:{name:"Database HSSE",          desc:"Daftar petugas dan manajer keselamatan, lengkap dengan profil dan CV."},
     ms:{name:"Pangkalan Data HSSE", desc:"Daftar pegawai dan pengurus keselamatan, lengkap dengan profil dan CV."} },
@@ -325,7 +325,7 @@ const ALL_APPS = [
     ms:{name:"Pusat Latihan", desc:"Modul latihan untuk kontraktor dan krew."} },
 
 
-  { key:"gonogo", cat:"gonogo", access:"team", icon:"gate", sheet:"", drive:"", ver:"1.1", url:B+"EcoOils-Project-HSSE-Hub/gonogo/",
+  { key:"gonogo", cat:"gonogo", access:"team", icon:"gate", sheet:"", drive:"", ver:"1.1", url:"@",
     en:{name:"Contractor Go / No-Go",   desc:"Pre-mobilization readiness review: three gates, sign-offs, evidence links, PDF and CSV."},
     id:{name:"Go / No-Go Kontraktor",   desc:"Tinjauan kesiapan pra-mobilisasi: tiga gerbang, persetujuan, tautan bukti, PDF dan CSV."},
     ms:{name:"Go / No-Go Kontraktor", desc:"Semakan kesediaan pra-mobilisasi: tiga pintu, kelulusan, pautan bukti, PDF dan CSV."} },
@@ -345,27 +345,27 @@ const ALL_APPS = [
     id:{name:"Matriks Pelatihan",       desc:"Pelatihan wajib per level (Induksi, Izin Kerja, dan lainnya), dilacak per orang setelah induksi."},
     ms:{name:"Matriks Latihan", desc:"Latihan wajib mengikut tahap (Induksi, Permit Kerja dan lain-lain), dijejaki bagi setiap orang selepas induksi."} },
 
-  { key:"ppe", cat:"records", access:"team", icon:"hat", sheet:"", drive:"", ver:"", url:B+"EcoOils-Project-PPE-Database/",
+  { key:"ppe", cat:"records", access:"team", icon:"hat", sheet:"", drive:"", ver:"", url:"@",
     en:{name:"PPE Database",            desc:"PPE requests, approvals and store issue records."},
     id:{name:"Database APD",            desc:"Permintaan, persetujuan, dan catatan pengeluaran APD dari gudang."},
     ms:{name:"Pangkalan Data PPE", desc:"Permohonan PPE, kelulusan dan rekod pengeluaran stor."} },
 
-  { key:"discipline", cat:"records", access:"team", icon:"doc", sheet:"", drive:"", ver:"", url:B+"EcoOils-Project-Disciplinary-Record/",
+  { key:"discipline", cat:"records", access:"team", icon:"doc", sheet:"", drive:"", ver:"", url:"@",
     en:{name:"Disciplinary Record",   desc:"Site safety warning record: SP1, SP2 and SP3 warnings."},
     id:{name:"Catatan Disipliner",  desc:"Catatan peringatan keselamatan di lokasi: SP1, SP2, dan SP3."},
     ms:{name:"Rekod Disiplin", desc:"Rekod amaran keselamatan tapak: amaran SP1, SP2 dan SP3."} },
 
-  { key:"officecare", cat:"records", access:"team", icon:"star", sheet:"", drive:"", ver:"", url:"https://iggifernandes.github.io/Ecooils-SM-Housekeeping-portal/",
+  { key:"officecare", cat:"records", access:"team", icon:"star", sheet:"", drive:"", ver:"", url:"@",
     en:{name:"Office Care",   desc:"Housekeeping portal for the housekeeping team and office cleanliness concerns."},
     id:{name:"Office Care",  desc:"Portal housekeeping untuk tim kebersihan dan laporan kebersihan kantor."},
     ms:{name:"Office Care", desc:"Portal kebersihan untuk pasukan housekeeping dan isu kebersihan pejabat."} },
 
-  { key:"scaffinv", cat:"inspections", access:"team", icon:"scaffold", sheet:"", drive:"", ver:"", url:B+"EcoOils-Project-Scaffold-Database/",
+  { key:"scaffinv", cat:"inspections", access:"team", icon:"scaffold", sheet:"", drive:"", ver:"", url:"@",
     en:{name:"Scaffold Compliance Hub",   desc:"Scaffold inventory and inspections, scaffolders and their certifications, and the harness registry."},
     id:{name:"Hub Kepatuhan Perancah",  desc:"Inventaris dan inspeksi perancah, para scaffolder dan sertifikasinya, serta registri harness."},
     ms:{name:"Hab Pematuhan Perancah", desc:"Inventori dan pemeriksaan perancah, pemasang perancah dan sijil mereka, serta daftar harness."} },
 
-  { key:"mom", cat:"reports", access:"team", icon:"doc", sheet:"https://docs.google.com/spreadsheets/d/1v6IpXM6dqIxb6wj5kOsfGxyjltleThPICIdoxHKuAFo/edit?gid=670338281#gid=670338281", drive:"", ver:"", url:B+"EcoOils-Project-Stand-Down-MOM/",
+  { key:"mom", cat:"reports", access:"team", icon:"doc", sheet:"@", drive:"", ver:"", url:"@",
     en:{name:"Stand-down Meeting MoM",  desc:"Editable one-page minutes, ready to print."},
     id:{name:"Notulen Rapat Stand-down", desc:"Notulen satu halaman yang dapat diedit, siap cetak."},
     ms:{name:"Minit Mesyuarat Stand-down", desc:"Minit satu halaman yang boleh diedit, sedia dicetak."} },
@@ -382,7 +382,7 @@ const ALL_APPS = [
     id:{name:"Laporan HSSE Mingguan",   desc:"Ringkasan mingguan dari data Anda. Format lain menyusul."},
     ms:{name:"Laporan HSSE Mingguan", desc:"Ringkasan mingguan dibina daripada data anda. Lebih banyak format akan menyusul."} },
 
-  { key:"ptw",       cat:"records", access:"team", icon:"permit", sheet:"", drive:"", ver:"1.1", url:B+"EcoOils-Project-PTW-Registry/",
+  { key:"ptw",       cat:"records", access:"team", icon:"permit", sheet:"", drive:"", ver:"1.1", url:"@",
     en:{name:"PTW Registry",           desc:"Track every Permit to Work and revalidation by contractor."},
     id:{name:"Register PTW",           desc:"Lacak setiap Izin Kerja dan revalidasi per kontraktor."},
     ms:{name:"Daftar PTW", desc:"Jejaki setiap Permit Kerja dan pengesahan semula mengikut kontraktor."} },
@@ -390,7 +390,7 @@ const ALL_APPS = [
     en:{name:"PTW Training",           desc:"Permit to Work training package, like the induction."},
     id:{name:"Pelatihan PTW",          desc:"Paket pelatihan Izin Kerja, seperti induksi."},
     ms:{name:"Latihan PTW", desc:"Pakej latihan Permit Kerja, seperti induksi."} },
-  { key:"uauc",      cat:"records", access:"team", icon:"chart", sheet:"", drive:"", ver:"", url:B+"EcoOils-Project-UAUC-Report/",
+  { key:"uauc",      cat:"records", access:"team", icon:"chart", sheet:"", drive:"", ver:"", url:"@",
     en:{name:"UAUC Reporting",         desc:"Report unsafe acts and conditions and follow the trends."},
     id:{name:"Pelaporan UAUC",         desc:"Laporkan tindakan dan kondisi tidak aman, dan pantau tren."},
     ms:{name:"Pelaporan UAUC", desc:"Laporkan tindakan dan keadaan tidak selamat dan ikuti trend."} },
@@ -402,17 +402,17 @@ const ALL_APPS = [
     en:{name:"Quarterly HSSE Bulletin",desc:"Current and past editions of the HSSE bulletin."},
     id:{name:"Buletin HSSE Triwulan",  desc:"Edisi terbaru dan sebelumnya dari buletin HSSE."},
     ms:{name:"Buletin HSSE Suku Tahunan", desc:"Edisi semasa dan lepas buletin HSSE."} },
-  { key:"security",  cat:"security", access:"team", icon:"clock", sheet:"", drive:"", ver:"", url:B+"EcoOils-Project-Security/",
+  { key:"security",  cat:"security", access:"team", icon:"clock", sheet:"", drive:"", ver:"", url:"@",
     en:{name:"Security Database",    desc:"Security personnel records and daily timesheets, uploaded and printed."},
     id:{name:"Database Keamanan",       desc:"Data personel keamanan dan absensi harian, unggah dan cetak."},
     ms:{name:"Pangkalan Data Keselamatan", desc:"Rekod anggota keselamatan dan lembaran waktu harian, muat naik dan cetak."} },
 
-  { key:"patrol",    cat:"security", access:"team", icon:"pin", sheet:"https://docs.google.com/spreadsheets/d/1UTEZx5QHnXY_5iAxi5C_mVh6Xaunf-JrpL1AGPFe_iY/edit?gid=1773958783#gid=1773958783", drive:"https://drive.google.com/drive/folders/1XI5PnfQUuNCGdeDF5Q4G2OtoKE6CCiIZ?usp=drive_link", ver:"", url:B+"EcoOils-Project-Security-Patrol/",
+  { key:"patrol",    cat:"security", access:"team", icon:"pin", sheet:"@", drive:"@", ver:"", url:"@",
     en:{name:"Security Patrol",        desc:"Guards scan QR checkpoints on their phones; every round is logged with time and place."},
     id:{name:"Patroli Keamanan",       desc:"Penjaga memindai QR di titik pemeriksaan lewat ponsel; setiap ronde dicatat lengkap dengan waktu dan lokasi."},
     ms:{name:"Rondaan Keselamatan", desc:"Pengawal mengimbas pusat semakan QR pada telefon; setiap pusingan direkodkan dengan masa dan tempat."} },
 
-  { key:"gatepass",  cat:"security", access:"team", icon:"truck", sheet:"", drive:"", ver:"", url:B+"EcoOils-Project-Material-Gate-Pass/",
+  { key:"gatepass",  cat:"security", access:"team", icon:"truck", sheet:"", drive:"", ver:"", url:"@",
     en:{name:"Material Gate Pass",     desc:"Contractors raise the pass and photos; after signing, security releases the vehicle through the Patrol app."},
     id:{name:"Surat Jalan Material",   desc:"Kontraktor membuat surat dan foto; setelah ditandatangani, security melepas kendaraan lewat aplikasi Patroli."},
     ms:{name:"Pas Pintu Bahan",        desc:"Kontraktor mencipta pas dan foto; selepas ditandatangani, keselamatan melepaskan kenderaan melalui aplikasi Rondaan."} }
@@ -432,9 +432,21 @@ try { const x = JSON.parse(localStorage.getItem("hubShared")); if (Array.isArray
 let draft = null;
 const curList = () => draft || (sharedKeys ? sharedKeys : ALL_APPS.filter(a => a.access==="open").map(a => a.key));
 const isShared = a => sharedKeys ? sharedKeys.includes(a.key) : a.access === "open";
+let ready = false;
+function applyLinks(map){
+  if (!map) return;
+  ALL_APPS.forEach(a => { const l = map[a.key]; if (!l) return; ["url","sheet","drive"].forEach(f => { if (a[f]==="@" && l[f]) a[f] = l[f]; }); });
+  applyAccess(); if (ready) render();
+}
+const readLinks = k => { try { return JSON.parse(localStorage.getItem(k)); } catch(e){ return null; } };
 let APPS = [];
 function applyAccess(){ APPS = ALL_APPS.filter(a => team || isShared(a)).map(a => team ? a : Object.assign({}, a, {sheet:"", drive:""})); }
 applyAccess();
+{ // link addresses are NOT in this file: they come from the hub-auth script (public ones for shared tools, all of them after PIN login)
+  const pub = readLinks("hubLinksPub"); if (pub) applyLinks(pub);
+  if (team) { const all = readLinks("hubLinksAll"); if (all) applyLinks(all); else team = false; }   // old unlock without saved links: log in again
+  applyAccess();
+}
 
 /* Tabs, in the order shown. "projects" shows everything. */
 const TABS = ["projects","favs","training","health","records","inspections","security","equip","gonogo","reports","dev"];
@@ -572,11 +584,11 @@ const inTab = (a, t) => t === "used" ? usedList().includes(a) : t === "favs" ? f
 function card(a){
   const t = T[lang], c = a[lang], live = !!a.url;
   const tag = live ? `<span class="tag live">${isShared(a) ? t.tagOpen : t.tagTeam}</span>` : `<span class="tag soon">${t.soon}</span>`;
-  const sheetBtn = a.sheet ? `<a class="btn alt icon" href="${a.sheet}" target="_blank" rel="noopener noreferrer" title="${t.sheetTip}" aria-label="${t.sheetTip}: ${c.name}">${ICONS.sheet}</a>` : "";
-  const driveBtn = a.drive ? `<a class="btn alt icon" href="${a.drive}" target="_blank" rel="noopener noreferrer" title="${t.driveTip}" aria-label="${t.driveTip}: ${c.name}">${ICONS.folder}</a>` : "";
+  const sheetBtn = (a.sheet && a.sheet!=="@") ? `<a class="btn alt icon" href="${a.sheet}" target="_blank" rel="noopener noreferrer" title="${t.sheetTip}" aria-label="${t.sheetTip}: ${c.name}">${ICONS.sheet}</a>` : "";
+  const driveBtn = (a.drive && a.drive!=="@") ? `<a class="btn alt icon" href="${a.drive}" target="_blank" rel="noopener noreferrer" title="${t.driveTip}" aria-label="${t.driveTip}: ${c.name}">${ICONS.folder}</a>` : "";
   const verTag = a.ver ? `<span class="ver" title="Version">v${a.ver}</span>` : "";
   const btn = live
-    ? `<div class="actions"><a class="btn" data-app="${a.key}" href="${a.url}" target="_blank" rel="noopener noreferrer">${t.open}${ICONS.go}</a>${sheetBtn}${driveBtn}${verTag}</div>`
+    ? `<div class="actions"><a class="btn" data-app="${a.key}" href="${a.url==="@"?"#":a.url}"${a.url==="@"?' aria-disabled="true"':""} target="_blank" rel="noopener noreferrer">${t.open}${ICONS.go}</a>${sheetBtn}${driveBtn}${verTag}</div>`
     : `<div class="actions"><a class="btn" aria-disabled="true" tabindex="-1">${t.soon}</a>${sheetBtn}${driveBtn}${verTag}</div>`;
   const on = favs.includes(a.key);
   const star = `<button type="button" class="fav" data-fav="${a.key}" aria-pressed="${on}" title="${on ? t.unstar : t.star}" aria-label="${on ? t.unstar : t.star}: ${c.name}">${ICONS.star}</button>`;
@@ -707,7 +719,8 @@ async function pinSubmit(){
   try{
     if(pstep==="login"){
       const r=await authCall({a:"login",pin:pin1.value});
-      if(r.ok){ if(pmode==="manage"){ manage=true; mtok=r.tok||""; } else { team=true; try{localStorage.setItem("hubTeam",JSON.stringify({exp:Date.now()+90*24*3600*1000}));}catch(e){} } pinbg.hidden=true; applyAccess(); render(); }
+      if(r.ok){ if(pmode==="manage"){ manage=true; mtok=r.tok||""; } else { team=true; try{localStorage.setItem("hubTeam",JSON.stringify({exp:Date.now()+90*24*3600*1000}));}catch(e){} } pinbg.hidden=true; applyAccess(); render();
+        try{ const L=await authCall({a:"links",tok:r.tok}); if(L&&L.links){ try{localStorage.setItem("hubLinksAll",JSON.stringify(L.links));}catch(e){} applyLinks(L.links); } }catch(e){} }
       else if(r.locked) pmsg.textContent=t.locked; else if(r.notset) pshow("forgot"); else { pmsg.textContent=t.wrong; pin1.value=""; }
     } else if(pstep==="forgot"){
       const r=await authCall({a:"forgot"}); if(r.ok) pinShow("reset"); else pmsg.textContent=t.netErr;
@@ -725,7 +738,7 @@ pfg.addEventListener("click", ()=>pinShow("forgot"));
 pxx.addEventListener("click", ()=>{ pinbg.hidden=true; });
 pinbg.addEventListener("click", e=>{ if(e.target===pinbg) pinbg.hidden=true; });
 document.getElementById("acc").addEventListener("click", e=>{
-  if(e.currentTarget.dataset.mode==="out"){ team=false; try{localStorage.removeItem("hubTeam");}catch(x){} applyAccess(); render(); }
+  if(e.currentTarget.dataset.mode==="out"){ team=false; try{localStorage.removeItem("hubTeam");localStorage.removeItem("hubLinksAll");}catch(x){} applyAccess(); render(); }
   else pinShow("login");
 });
 document.getElementById("icbar").addEventListener("click", e=>{
@@ -766,9 +779,10 @@ document.getElementById("saveok").addEventListener("click", async () => {
 });
 document.getElementById("savecancel").addEventListener("click", () => { draft = null; manage = false; mtok = ""; render(); });
 if (AUTH_API) authCall({a:"shared"}).then(r => {
-  if (r && Array.isArray(r.keys)) { sharedKeys = r.keys; try { localStorage.setItem("hubShared", JSON.stringify(r.keys)); } catch(e){} applyAccess(); render(); }
+  if (r && Array.isArray(r.keys)) { sharedKeys = r.keys; try { localStorage.setItem("hubShared", JSON.stringify(r.keys)); if (r.links) localStorage.setItem("hubLinksPub", JSON.stringify(r.links)); } catch(e){} applyAccess(); if (r.links) applyLinks(r.links); else render(); }
 }).catch(()=>{});
 q.addEventListener("input", render);
+ready = true;
 render();
 </script>
 <script>/* eco-std-header */(function(){var v=document.getElementById('ver'),d=document.getElementById('verdate');if(!v||!d)return;function n(){var m=(v.textContent||'').match(/\d+(?:\.\d+)+|\d+/);return m?'v'+m[0]:''}function s(){var x=n();if(x&&v.textContent!==x)v.textContent=x;d.textContent=x?x+' \u00b7 '+d.getAttribute('data-date'):''}s();new MutationObserver(s).observe(v,{childList:true,characterData:true,subtree:true})})();</script>
