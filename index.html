@@ -274,7 +274,7 @@ const B = "https://iggifernandes.github.io/";
 
 /* VERSION of this hub. Same format in every app: "v1.0 · 2026-10-10", always in the footer.
    Small change = bump the second number (1.0 -> 1.1). Big change = bump the first (1.1 -> 2.0). */
-const HUB_VERSION = "1.38", HUB_DATE = "2026-10-28";
+const HUB_VERSION = "1.39", HUB_DATE = "2026-10-28";
 
 /* QUICK ACCESS SHEETS: buttons on the front tab (Projects) that open a Google Sheet directly.
    To rename a button, change its two names. To add one, copy a line. */
@@ -284,6 +284,8 @@ const QUICK_SHEETS = [];
    Leave "" and the icon shows faded (link not added yet). */
 const TAB_LINKS = {
   projects: { sheet:"", drive:"" },
+  safety:   { sheet:"", drive:"" },
+  environment: { sheet:"", drive:"" },
   training: { sheet:"", drive:"" },
   health:   { sheet:"", drive:"" },
   records:  { sheet:"", drive:"" },
@@ -295,17 +297,17 @@ const TAB_LINKS = {
   dev:      { sheet:"", drive:"" }
 };
 const ALL_APPS = [
-  { key:"induction", cat:"training", access:"open", icon:"shield", sheet:"https://docs.google.com/spreadsheets/d/1491t3_AvjvW_gT3mSfqkvFicKxFA8WhlD0ABtbahi7w/edit?gid=1628419838#gid=1628419838", drive:"https://drive.google.com/drive/folders/109SSy467ZeYdW0rWfe6Q5h2QR1-N3NXi?usp=drive_link", ver:"",
+  { key:"induction", cat:"safety", access:"open", icon:"shield", sheet:"https://docs.google.com/spreadsheets/d/1491t3_AvjvW_gT3mSfqkvFicKxFA8WhlD0ABtbahi7w/edit?gid=1628419838#gid=1628419838", drive:"https://drive.google.com/drive/folders/109SSy467ZeYdW0rWfe6Q5h2QR1-N3NXi?usp=drive_link", ver:"",
     url:B+"EcoOils-Project-Site-Induction-Sei-Mangkei/",
     en:{name:"Site Induction",         desc:"Induction and final assessment for everyone entering site."},
     id:{name:"Induksi Tapak",          desc:"Induksi dan penilaian akhir untuk semua yang masuk ke lokasi."},
     ms:{name:"Induksi Tapak", desc:"Induksi dan penilaian akhir untuk semua yang memasuki tapak."} },
-  { key:"tracker",   cat:"records",  access:"team", icon:"track", sheet:"", drive:"", ver:"",
+  { key:"tracker",   cat:"safety",  access:"team", icon:"track", sheet:"", drive:"", ver:"",
     url:B+"EcoOils-Project-HSSE-tracker/",
     en:{name:"HSSE Tracker",           desc:"Track HSSE items and actions across the project."},
     id:{name:"Pelacak HSSE",           desc:"Lacak item dan tindakan HSSE di seluruh proyek."},
     ms:{name:"Penjejak HSSE", desc:"Jejaki item dan tindakan HSSE di seluruh projek."} },
-  { key:"ims",       cat:"records",  access:"team", icon:"ims", sheet:"", drive:"", ver:"",
+  { key:"ims",       cat:"safety",  access:"team", icon:"ims", sheet:"", drive:"", ver:"",
     url:B+"EcoOils-Project-IMS/",
     en:{name:"IMS",                    desc:"Project IMS, including incident records, trends and learning."},
     id:{name:"IMS",                    desc:"IMS proyek, termasuk catatan insiden, tren, dan pembelajaran."},
@@ -325,59 +327,59 @@ const ALL_APPS = [
     en:{name:"Drug & Alcohol Test Record", desc:"Daily drug and alcohol test entries for the crew."},
     id:{name:"Catatan Tes Narkoba & Alkohol", desc:"Entri tes narkoba dan alkohol harian untuk kru."},
     ms:{name:"Rekod Ujian Dadah & Alkohol", desc:"Catatan ujian dadah dan alkohol harian untuk krew."} },
-  { key:"database",  cat:"records",  access:"team", icon:"db", sheet:"https://docs.google.com/spreadsheets/d/1m9maZz_ouW-kPOjSPy9OLQmG8K0hVU71XvDOLwH2AU8/edit?gid=2105590538#gid=2105590538", drive:"https://drive.google.com/drive/folders/1pV-VWBdl7v00QF7IgcGQ_JKUpRoAXiS5?usp=drive_link", ver:"",
+  { key:"database",  cat:"safety",  access:"team", icon:"db", sheet:"https://docs.google.com/spreadsheets/d/1m9maZz_ouW-kPOjSPy9OLQmG8K0hVU71XvDOLwH2AU8/edit?gid=2105590538#gid=2105590538", drive:"https://drive.google.com/drive/folders/1pV-VWBdl7v00QF7IgcGQ_JKUpRoAXiS5?usp=drive_link", ver:"",
     url:B+"EcoOils-project-hsse-database/",
     en:{name:"HSSE Database",          desc:"Register of safety officers and managers, with profiles and CVs."},
     id:{name:"Database HSSE",          desc:"Daftar petugas dan manajer keselamatan, lengkap dengan profil dan CV."},
     ms:{name:"Pangkalan Data HSSE", desc:"Daftar pegawai dan pengurus keselamatan, lengkap dengan profil dan CV."} },
 
-  { key:"training",  cat:"training", access:"open", icon:"book", sheet:"", drive:"", ver:"", url:"",
+  { key:"training",  cat:"safety", access:"open", icon:"book", sheet:"", drive:"", ver:"", url:"",
     en:{name:"Training Hub",           desc:"Training modules for contractors and crews."},
     id:{name:"Pusat Pelatihan",        desc:"Modul pelatihan untuk kontraktor dan kru."},
     ms:{name:"Pusat Latihan", desc:"Modul latihan untuk kontraktor dan krew."} },
 
 
-  { key:"gonogo", cat:"gonogo", access:"team", icon:"gate", sheet:"", drive:"", ver:"1.1", url:B+"EcoOils-Project-HSSE-Hub/gonogo/",
+  { key:"gonogo", cat:"safety", access:"team", icon:"gate", sheet:"", drive:"", ver:"1.1", url:B+"EcoOils-Project-HSSE-Hub/gonogo/",
     en:{name:"Contractor Go / No-Go",   desc:"Pre-mobilization readiness review: three gates, sign-offs, evidence links, PDF and CSV."},
     id:{name:"Go / No-Go Kontraktor",   desc:"Tinjauan kesiapan pra-mobilisasi: tiga gerbang, persetujuan, tautan bukti, PDF dan CSV."},
     ms:{name:"Go / No-Go Kontraktor", desc:"Semakan kesediaan pra-mobilisasi: tiga pintu, kelulusan, pautan bukti, PDF dan CSV."} },
 
-  { key:"equipreg", cat:"equip", access:"team", icon:"truck", sheet:"", drive:"", ver:"", url:"",
+  { key:"equipreg", cat:"safety", access:"team", icon:"truck", sheet:"", drive:"", ver:"", url:"",
     en:{name:"Equipment & Vehicle Register", desc:"Every heavy equipment and vehicle on site: ownership, inspection, certificates and expiry dates."},
     id:{name:"Register Peralatan & Kendaraan", desc:"Semua alat berat dan kendaraan di lokasi: kepemilikan, inspeksi, sertifikat, dan tanggal kedaluwarsa."},
     ms:{name:"Daftar Peralatan & Kenderaan", desc:"Semua peralatan berat dan kenderaan di tapak: pemilikan, pemeriksaan, sijil dan tarikh tamat."} },
 
-  { key:"operators", cat:"equip", access:"team", icon:"medal", sheet:"", drive:"", ver:"", url:"",
+  { key:"operators", cat:"safety", access:"team", icon:"medal", sheet:"", drive:"", ver:"", url:"",
     en:{name:"Operator Competency",     desc:"Operators and drivers: licences, certificates and which equipment each is cleared to run. Built from induction data."},
     id:{name:"Kompetensi Operator",     desc:"Operator dan pengemudi: lisensi, sertifikat, dan alat yang boleh dioperasikan. Dibangun dari data induksi."},
     ms:{name:"Kecekapan Operator", desc:"Operator dan pemandu: lesen, sijil dan peralatan yang dibenarkan untuk dikendalikan. Dibina daripada data induksi."} },
 
-  { key:"trainmatrix", cat:"training", access:"team", icon:"matrix", sheet:"", drive:"", ver:"", url:"",
+  { key:"trainmatrix", cat:"safety", access:"team", icon:"matrix", sheet:"", drive:"", ver:"", url:"",
     en:{name:"Training Matrix",         desc:"Mandatory trainings by level (Induction, Permit to Work and more), tracked per person after induction."},
     id:{name:"Matriks Pelatihan",       desc:"Pelatihan wajib per level (Induksi, Izin Kerja, dan lainnya), dilacak per orang setelah induksi."},
     ms:{name:"Matriks Latihan", desc:"Latihan wajib mengikut tahap (Induksi, Permit Kerja dan lain-lain), dijejaki bagi setiap orang selepas induksi."} },
 
-  { key:"ppe", cat:"records", access:"team", icon:"hat", sheet:"", drive:"", ver:"", url:B+"EcoOils-Project-PPE-Database/",
+  { key:"ppe", cat:"safety", access:"team", icon:"hat", sheet:"", drive:"", ver:"", url:B+"EcoOils-Project-PPE-Database/",
     en:{name:"PPE Database",            desc:"PPE requests, approvals and store issue records."},
     id:{name:"Database APD",            desc:"Permintaan, persetujuan, dan catatan pengeluaran APD dari gudang."},
     ms:{name:"Pangkalan Data PPE", desc:"Permohonan PPE, kelulusan dan rekod pengeluaran stor."} },
 
-  { key:"discipline", cat:"records", access:"team", icon:"doc", sheet:"", drive:"", ver:"", url:B+"EcoOils-Project-Disciplinary-Record/",
+  { key:"discipline", cat:"safety", access:"team", icon:"doc", sheet:"", drive:"", ver:"", url:B+"EcoOils-Project-Disciplinary-Record/",
     en:{name:"Disciplinary Record",   desc:"Site safety warning record: SP1, SP2 and SP3 warnings."},
     id:{name:"Catatan Disipliner",  desc:"Catatan peringatan keselamatan di lokasi: SP1, SP2, dan SP3."},
     ms:{name:"Rekod Disiplin", desc:"Rekod amaran keselamatan tapak: amaran SP1, SP2 dan SP3."} },
 
-  { key:"officecare", cat:"records", access:"team", icon:"star", sheet:"", drive:"", ver:"", url:"https://iggifernandes.github.io/Ecooils-SM-Housekeeping-portal/",
+  { key:"officecare", cat:"environment", access:"team", icon:"star", sheet:"", drive:"", ver:"", url:"https://iggifernandes.github.io/Ecooils-SM-Housekeeping-portal/",
     en:{name:"Office Care",   desc:"Housekeeping portal for the housekeeping team and office cleanliness concerns."},
     id:{name:"Office Care",  desc:"Portal housekeeping untuk tim kebersihan dan laporan kebersihan kantor."},
     ms:{name:"Office Care", desc:"Portal kebersihan untuk pasukan housekeeping dan isu kebersihan pejabat."} },
 
-  { key:"scaffinv", cat:"inspections", access:"team", icon:"scaffold", sheet:"", drive:"", ver:"", url:B+"EcoOils-Project-Scaffold-Database/",
+  { key:"scaffinv", cat:"safety", access:"team", icon:"scaffold", sheet:"", drive:"", ver:"", url:B+"EcoOils-Project-Scaffold-Database/",
     en:{name:"Scaffold Compliance Hub",   desc:"Scaffold inventory and inspections, scaffolders and their certifications, and the harness registry."},
     id:{name:"Hub Kepatuhan Perancah",  desc:"Inventaris dan inspeksi perancah, para scaffolder dan sertifikasinya, serta registri harness."},
     ms:{name:"Hab Pematuhan Perancah", desc:"Inventori dan pemeriksaan perancah, pemasang perancah dan sijil mereka, serta daftar harness."} },
 
-  { key:"mom", cat:"reports", access:"team", icon:"doc", sheet:"https://docs.google.com/spreadsheets/d/1v6IpXM6dqIxb6wj5kOsfGxyjltleThPICIdoxHKuAFo/edit?gid=670338281#gid=670338281", drive:"", ver:"", url:B+"EcoOils-Project-Stand-Down-MOM/",
+  { key:"mom", cat:"safety", access:"team", icon:"doc", sheet:"https://docs.google.com/spreadsheets/d/1v6IpXM6dqIxb6wj5kOsfGxyjltleThPICIdoxHKuAFo/edit?gid=670338281#gid=670338281", drive:"", ver:"", url:B+"EcoOils-Project-Stand-Down-MOM/",
     en:{name:"Stand-down Meeting MoM",  desc:"Editable one-page minutes, ready to print."},
     id:{name:"Notulen Rapat Stand-down", desc:"Notulen satu halaman yang dapat diedit, siap cetak."},
     ms:{name:"Minit Mesyuarat Stand-down", desc:"Minit satu halaman yang boleh diedit, sedia dicetak."} },
@@ -394,23 +396,23 @@ const ALL_APPS = [
     id:{name:"Laporan HSSE Mingguan",   desc:"Ringkasan mingguan dari data Anda. Format lain menyusul."},
     ms:{name:"Laporan HSSE Mingguan", desc:"Ringkasan mingguan dibina daripada data anda. Lebih banyak format akan menyusul."} },
 
-  { key:"ptw",       cat:"records", access:"team", icon:"permit", sheet:"", drive:"", ver:"1.1", url:B+"EcoOils-Project-PTW-Registry/",
+  { key:"ptw",       cat:"safety", access:"team", icon:"permit", sheet:"", drive:"", ver:"1.1", url:B+"EcoOils-Project-PTW-Registry/",
     en:{name:"PTW Registry",           desc:"Track every Permit to Work and revalidation by contractor."},
     id:{name:"Register PTW",           desc:"Lacak setiap Izin Kerja dan revalidasi per kontraktor."},
     ms:{name:"Daftar PTW", desc:"Jejaki setiap Permit Kerja dan pengesahan semula mengikut kontraktor."} },
-  { key:"ptwtrain",  cat:"dev", access:"open", icon:"book", sheet:"", drive:"", ver:"", url:"",
+  { key:"ptwtrain",  cat:"safety", access:"open", icon:"book", sheet:"", drive:"", ver:"", url:"",
     en:{name:"PTW Training",           desc:"Permit to Work training package, like the induction."},
     id:{name:"Pelatihan PTW",          desc:"Paket pelatihan Izin Kerja, seperti induksi."},
     ms:{name:"Latihan PTW", desc:"Pakej latihan Permit Kerja, seperti induksi."} },
-  { key:"uauc",      cat:"records", access:"team", icon:"chart", sheet:"", drive:"", ver:"", url:B+"EcoOils-Project-UAUC-Report/",
+  { key:"uauc",      cat:"safety", access:"team", icon:"chart", sheet:"", drive:"", ver:"", url:B+"EcoOils-Project-UAUC-Report/",
     en:{name:"UAUC Reporting",         desc:"Report unsafe acts and conditions and follow the trends."},
     id:{name:"Pelaporan UAUC",         desc:"Laporkan tindakan dan kondisi tidak aman, dan pantau tren."},
     ms:{name:"Pelaporan UAUC", desc:"Laporkan tindakan dan keadaan tidak selamat dan ikuti trend."} },
-  { key:"recognition", cat:"dev", access:"team", icon:"medal", sheet:"", drive:"", ver:"", url:"",
+  { key:"recognition", cat:"safety", access:"team", icon:"medal", sheet:"", drive:"", ver:"", url:"",
     en:{name:"Crew Recognition",       desc:"Great Job nominations and appreciation certificates."},
     id:{name:"Penghargaan Kru",        desc:"Nominasi Great Job dan sertifikat apresiasi."},
     ms:{name:"Pengiktirafan Krew", desc:"Pencalonan Great Job dan sijil penghargaan."} },
-  { key:"bulletin",  cat:"dev", access:"team", icon:"news", sheet:"", drive:"", ver:"", url:"",
+  { key:"bulletin",  cat:"safety", access:"team", icon:"news", sheet:"", drive:"", ver:"", url:"",
     en:{name:"Quarterly HSSE Bulletin",desc:"Current and past editions of the HSSE bulletin."},
     id:{name:"Buletin HSSE Triwulan",  desc:"Edisi terbaru dan sebelumnya dari buletin HSSE."},
     ms:{name:"Buletin HSSE Suku Tahunan", desc:"Edisi semasa dan lepas buletin HSSE."} },
@@ -449,7 +451,7 @@ function applyAccess(){ APPS = ALL_APPS.filter(a => team || isShared(a)).map(a =
 applyAccess();
 
 /* Tabs, in the order shown. "projects" shows everything. */
-const TABS = ["projects","favs","training","health","records","inspections","security","equip","gonogo","reports","dev"];
+const TABS = ["projects","favs","health","safety","security","environment"];
 
 /* =====================================================================
    2) Wording in both languages
@@ -462,17 +464,18 @@ const T = {
        sendCode:"Send code", codeMsg:"A 6-digit code was sent to the owner email. Enter it, then choose a new PIN (4 to 8 digits).", codePh:"6-digit code", newPh:"New PIN",
        setBtn:"Save PIN", wrong:"Wrong PIN.", locked:"Too many tries. Wait 15 minutes.", notSet:"Team login is not set up yet.", netErr:"Could not reach the login service.", badCode:"Wrong or expired code.", pinSaved:"PIN saved. Enter it to unlock.", pinFmt:"PIN must be 4 to 8 digits.", arrange:"Arrange tiles", arrDone:"Done", arrReset:"Reset order", mvL:"Move earlier", mvR:"Move later", arrHint:"Drag a tile, or use the arrows, to set your own order. Saved on this device.",
        open:"Open", qsLabel:"Your sheets", tabSheet:"Google Sheet for this tab", tabDrive:"Google Drive folder for this tab", notLinked:"link not added yet", sheet:"Sheet", sheetTip:"Open the Google Sheet", drive:"Drive", driveTip:"Open the Google Drive folder", soon:"Coming soon", tagOpen:"Open", tagTeam:"Team only",
-       t_used:"Most used", t_favs:"Favourites", t_projects:"All tabs", t_training:"Induction & Training", t_health:"Health", t_records:"Records", t_inspections:"Inspections", t_security:"Security", t_equip:"Equipment & Operators", t_gonogo:"Go / No-Go", t_reports:"Reports", t_dev:"In development",
+       t_used:"Most used", t_favs:"Favourites", t_projects:"All tabs", t_safety:"Safety", t_environment:"Environment", t_training:"Induction & Training", t_health:"Health", t_records:"Records", t_inspections:"Inspections", t_security:"Security", t_equip:"Equipment & Operators", t_gonogo:"Go / No-Go", t_reports:"Reports", t_dev:"In development",
        n_used:"Your most-opened tools. This list builds itself as you use the hub.", n_favs:"Your pinned tools. Tap the star on any card to add or remove it.", usedEmpty:"Nothing here yet. Tools you open will appear automatically.", favsEmpty:"No favourites yet. Tap the star on a tool to pin it here.", star:"Add to favourites", unstar:"Remove from favourites",
        n_projects:"All your tools. Live tools come first.",
        n_training:"Induction and training pages. These can be shared with contractors and crews.",
-       n_health:"Crew health records. Team only.",
+       n_health:"Crew health monitoring: blood pressure, drug and alcohol tests.",
        n_records:"Trackers and registers. Team only.",
        n_inspections:"Inspection registers and tags. Being built.",
-       n_security:"Security tools: timesheets and guard patrols. Being built.",
+       n_security:"Security tools: guard timesheets, patrols and material gate passes.",
        n_equip:"Heavy equipment, vehicles and their operators: registers, licences and competency. Being built.",
        n_gonogo:"Pre-mobilization Go / No-Go review for contractors. Team only.",
        n_reports:"Report generator. Fill in a form, add photos, get a PDF and a Word file. Coming soon.",
+       n_safety:"Safety tools: induction, training, incidents, permits, equipment, records and reports.", n_environment:"Environment and workplace care. More tools to come.",
        n_dev:"Being built. Each card goes live when its link is added.",
        results:"Search results", none:"No tool matches your search.",
        dashTitle:"Live HSSE dashboard", dashDesc:"All your data in one view. Coming next.",
@@ -484,7 +487,7 @@ const T = {
        sendCode:"Hantar kod", codeMsg:"Kod 6 digit telah dihantar ke e-mel pemilik. Masukkan kod, kemudian pilih PIN baharu (4 hingga 8 digit).", codePh:"Kod 6 digit", newPh:"PIN baharu",
        setBtn:"Simpan PIN", wrong:"PIN salah.", locked:"Terlalu banyak cubaan. Tunggu 15 minit.", notSet:"Log masuk pasukan belum disediakan.", netErr:"Tidak dapat menghubungi perkhidmatan log masuk.", badCode:"Kod salah atau tamat tempoh.", pinSaved:"PIN disimpan. Masukkan untuk membuka.", pinFmt:"PIN mesti 4 hingga 8 digit.", arrDone:"Selesai", arrReset:"Set semula susunan", mvL:"Alih ke depan", mvR:"Alih ke belakang", arrHint:"Seret kad, atau guna anak panah, untuk menetapkan susunan anda sendiri. Disimpan pada peranti ini.",
        open:"Buka", qsLabel:"Sheet anda", tabSheet:"Google Sheet untuk tab ini", tabDrive:"Folder Google Drive untuk tab ini", notLinked:"pautan belum ditambah", sheet:"Sheet", sheetTip:"Buka Google Sheet", drive:"Drive", driveTip:"Buka folder Google Drive", soon:"Akan datang", tagOpen:"Terbuka", tagTeam:"Pasukan sahaja",
-       t_used:"Paling kerap", t_favs:"Kegemaran", t_projects:"Semua tab", t_training:"Induksi & Latihan", t_health:"Kesihatan", t_records:"Rekod", t_inspections:"Pemeriksaan", t_security:"Keselamatan", t_equip:"Peralatan & Operator", t_gonogo:"Go / No-Go", t_reports:"Laporan", t_dev:"Dalam pembangunan",
+       t_used:"Paling kerap", t_favs:"Kegemaran", t_projects:"Semua tab", t_safety:"Keselamatan", t_environment:"Alam Sekitar", t_training:"Induksi & Latihan", t_health:"Kesihatan", t_records:"Rekod", t_inspections:"Pemeriksaan", t_security:"Sekuriti", t_equip:"Peralatan & Operator", t_gonogo:"Go / No-Go", t_reports:"Laporan", t_dev:"Dalam pembangunan",
        n_used:"Alat yang paling kerap anda buka. Senarai ini terbina sendiri apabila anda menggunakan hab.", n_favs:"Alat yang anda semat. Ketik bintang pada mana-mana kad untuk menambah atau mengalih keluar.", usedEmpty:"Belum ada apa-apa di sini. Alat yang anda buka akan muncul secara automatik.", favsEmpty:"Belum ada kegemaran. Ketik bintang pada alat untuk menyematnya di sini.", star:"Tambah ke kegemaran", unstar:"Alih keluar daripada kegemaran",
        n_projects:"Semua alat anda. Alat yang aktif dahulu.",
        n_training:"Halaman induksi dan latihan. Ini boleh dikongsi dengan kontraktor dan krew.",
@@ -495,6 +498,7 @@ const T = {
        n_equip:"Peralatan berat, kenderaan dan operatornya: daftar, lesen dan kecekapan. Sedang dibina.",
        n_gonogo:"Semakan Go / No-Go pra-mobilisasi untuk kontraktor. Pasukan sahaja.",
        n_reports:"Penjana laporan. Isi borang, tambah foto, dapatkan fail PDF dan Word. Akan datang.",
+       n_safety:"Alat keselamatan: induksi, latihan, insiden, permit, peralatan, rekod dan laporan.", n_environment:"Alam sekitar dan penjagaan tempat kerja. Lebih banyak alat akan datang.",
        n_dev:"Sedang dibina. Setiap kad aktif apabila pautannya ditambah.",
        results:"Hasil carian", none:"Tiada alat sepadan dengan carian anda.",
        dashTitle:"Papan pemuka HSSE langsung", dashDesc:"Semua data anda dalam satu paparan. Seterusnya.",
@@ -506,7 +510,7 @@ const T = {
        sendCode:"Kirim kode", codeMsg:"Kode 6 digit dikirim ke email pemilik. Masukkan kode, lalu pilih PIN baru (4 sampai 8 digit).", codePh:"Kode 6 digit", newPh:"PIN baru",
        setBtn:"Simpan PIN", wrong:"PIN salah.", locked:"Terlalu banyak percobaan. Tunggu 15 menit.", notSet:"Login tim belum disiapkan.", netErr:"Tidak dapat menghubungi layanan login.", badCode:"Kode salah atau kedaluwarsa.", pinSaved:"PIN disimpan. Masukkan untuk membuka.", pinFmt:"PIN harus 4 sampai 8 digit.", arrDone:"Selesai", arrReset:"Atur ulang urutan", mvL:"Geser maju", mvR:"Geser mundur", arrHint:"Seret kartu, atau pakai tanda panah, untuk mengatur urutan sendiri. Tersimpan di perangkat ini.",
        open:"Buka", qsLabel:"Sheet Anda", tabSheet:"Google Sheet untuk tab ini", tabDrive:"Folder Google Drive untuk tab ini", notLinked:"tautan belum ditambahkan", sheet:"Sheet", sheetTip:"Buka Google Sheet", drive:"Drive", driveTip:"Buka folder Google Drive", soon:"Segera hadir", tagOpen:"Terbuka", tagTeam:"Khusus tim",
-       t_used:"Paling sering", t_favs:"Favorit", t_projects:"Semua tab", t_training:"Induksi & Pelatihan", t_health:"Kesehatan", t_records:"Catatan", t_inspections:"Inspeksi", t_security:"Keamanan", t_equip:"Peralatan & Operator", t_gonogo:"Go / No-Go", t_reports:"Laporan", t_dev:"Dalam pengembangan",
+       t_used:"Paling sering", t_favs:"Favorit", t_projects:"Semua tab", t_safety:"Keselamatan Kerja", t_environment:"Lingkungan", t_training:"Induksi & Pelatihan", t_health:"Kesehatan", t_records:"Catatan", t_inspections:"Inspeksi", t_security:"Keamanan", t_equip:"Peralatan & Operator", t_gonogo:"Go / No-Go", t_reports:"Laporan", t_dev:"Dalam pengembangan",
        n_used:"Alat yang paling sering Anda buka. Daftar ini terisi otomatis.", n_favs:"Alat favorit Anda. Ketuk bintang pada kartu untuk menambah atau menghapus.", usedEmpty:"Belum ada. Alat yang Anda buka akan muncul otomatis.", favsEmpty:"Belum ada favorit. Ketuk bintang pada alat untuk menyematkannya di sini.", star:"Tambah ke favorit", unstar:"Hapus dari favorit",
        n_projects:"Semua alat Anda. Alat yang sudah aktif ada di depan.",
        n_training:"Halaman induksi dan pelatihan. Boleh dibagikan ke kontraktor dan kru.",
@@ -517,6 +521,7 @@ const T = {
        n_equip:"Alat berat, kendaraan, dan operatornya: register, lisensi, dan kompetensi. Sedang dibangun.",
        n_gonogo:"Tinjauan Go / No-Go pra-mobilisasi untuk kontraktor. Khusus tim.",
        n_reports:"Pembuat laporan. Isi formulir, tambah foto, dapatkan PDF dan file Word. Segera hadir.",
+       n_safety:"Alat keselamatan kerja: induksi, pelatihan, insiden, izin kerja, peralatan, catatan, dan laporan.", n_environment:"Lingkungan dan perawatan tempat kerja. Alat lainnya segera hadir.",
        n_dev:"Sedang dibangun. Setiap kartu aktif saat tautannya ditambahkan.",
        results:"Hasil pencarian", none:"Tidak ada alat yang cocok.",
        dashTitle:"Dasbor HSSE langsung", dashDesc:"Semua data Anda dalam satu tampilan. Segera menyusul.",
