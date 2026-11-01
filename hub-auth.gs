@@ -1,3 +1,4 @@
+// VERSION: 2.1.0
 /**
  * EcoOils HSSE Hub - Team PIN service (free, runs in your own Google account).
  * - No PIN is stored in this code. The PIN is set only through the "Forgot PIN / set PIN" email flow.
@@ -5,6 +6,7 @@
  * - The PIN is kept only as a salted hash in Script Properties.
  * - 5 wrong PINs lock logins for 15 minutes.
  * - Also stores which tools ICs can see (the 'Share with ICs' switches in the hub).
+ * - v2.1.0: 'feedback' action. Star rating + comment + optional name saved to a Google Sheet 'EcoOils Hub Feedback' in your Drive; email to you on 1-2 stars.
  * Deploy: Extensions > Apps Script > paste this > Deploy > New deployment > Web app
  *         Execute as: Me   |   Who has access: Anyone   > copy the Web app URL into AUTH_API in the hub.
  */
@@ -40,6 +42,30 @@ function handle_(r) {
     if (!r.tok || !C.get('tok_' + r.tok) || !Array.isArray(r.keys)) return { ok: false };
     var clean = r.keys.filter(function (x) { return /^[a-z0-9_]{1,30}$/.test(x); }).slice(0, 100);
     P.setProperty('shared', JSON.stringify(clean));
+    return { ok: true };
+  }
+  if (r.a === 'feedback') {                                // public: anonymous or named feedback
+    var stars = Math.round(Number(r.stars));
+    if (!(stars >= 1 && stars <= 5)) return { ok: false };
+    var dev = String(r.dev || 'x').slice(0, 40), ck = 'fb_' + dev, n = Number(C.get(ck) || 0);
+    if (n >= 5) return { ok: false, limit: true };           // max 5 per device per hour
+    C.put(ck, String(n + 1), 3600);
+    var clip = function (x, m) { return String(x || '').replace(/[\r\n\t]+/g, ' ').slice(0, m); };
+    var rowV = [new Date(), stars, clip(r.app, 60) || 'Whole Hub', clip(r.text, 1000), clip(r.name, 60) || 'Anonymous',
+                clip(r.lang, 4), clip(r.view, 8), clip(r.src, 40)];
+    rowV = rowV.map(function (v) { return (typeof v === 'string' && /^[=+\-@]/.test(v)) ? "'" + v : v; });
+    var ss, sid = P.getProperty('fbSheet');
+    try { ss = sid ? SpreadsheetApp.openById(sid) : null; } catch (e1) { ss = null; }
+    if (!ss) {
+      ss = SpreadsheetApp.create('EcoOils Hub Feedback'); P.setProperty('fbSheet', ss.getId());
+      ss.getSheets()[0].appendRow(['Time', 'Stars', 'App', 'Comment', 'Name', 'Lang', 'View', 'Source']);
+      ss.getSheets()[0].setFrozenRows(1);
+    }
+    ss.getSheets()[0].appendRow(rowV);
+    if (stars <= 2) {
+      try { MailApp.sendEmail(Session.getEffectiveUser().getEmail(), 'EcoOils Hub feedback: ' + stars + ' star(s) for ' + rowV[2],
+        'Stars: ' + stars + '\nApp: ' + rowV[2] + '\nFrom: ' + rowV[4] + '\n\n' + rowV[3] + '\n\nAll feedback: ' + ss.getUrl()); } catch (e2) {}
+    }
     return { ok: true };
   }
   if (r.a === 'forgot') {

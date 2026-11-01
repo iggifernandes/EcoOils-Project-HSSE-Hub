@@ -131,6 +131,18 @@
   .shbox .shl{font-size:13px;color:var(--muted);word-break:break-all;margin:0 0 4px}
   .shbox a,.shbox button.sho{display:flex;align-items:center;gap:10px;min-height:48px;padding:0 14px;border:1px solid var(--line);border-radius:8px;background:var(--white);color:var(--black);font:inherit;font-size:16px;text-decoration:none;cursor:pointer;text-align:left}
   .shbox .shx{border:0;background:none;color:var(--muted);min-height:44px;font:inherit;cursor:pointer}
+
+  .fbbtn{position:absolute;right:52px;top:0;height:44px;border:1px solid var(--line);background:var(--white);color:var(--black);border-radius:8px;display:flex;align-items:center;gap:6px;padding:0 12px;font:inherit;font-size:15px;cursor:pointer}
+  .fbbtn svg{width:20px;height:20px}
+  .stars{display:flex;gap:4px;justify-content:center;margin:4px 0}
+  .stars button{border:0;background:none;font-size:38px;line-height:1;color:#c9c9c9;cursor:pointer;min-width:48px;min-height:48px;padding:0}
+  .stars button.on{color:#fbce07}
+  .shbox select,.shbox textarea,.shbox input.fi{font:inherit;font-size:16px;border:1px solid var(--line);border-radius:8px;padding:10px 12px;width:100%;box-sizing:border-box;background:var(--white);color:var(--black)}
+  .shbox textarea{min-height:90px;resize:vertical}
+  .shbox .fm{font-size:14px;margin:0;min-height:18px}
+  .nudge{position:fixed;left:12px;right:12px;bottom:12px;max-width:460px;margin:0 auto;background:var(--white);border:1px solid var(--line);border-left:7px solid #fbce07;border-radius:8px;padding:12px 14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;z-index:50;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+  .nudge[hidden]{display:none}
+  .nudge span{flex:1 1 180px;font-size:15px}
   footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:14px 16px;text-align:center;color:var(--muted);font-size:14px}
   /* laptops and desktops: use the whole landscape screen */
   @media (min-width:900px){
@@ -244,7 +256,7 @@ header.eh .eh-l button.on,header.eh .eh-l button.active,header.eh .eh-l button[a
       <button type="button" data-lang="ms" aria-pressed="false">MS</button>
     </div><div id="verdate" class="eh-d" data-date="2026-10-28"></div></div></header>
 <div class="wrap">
-<div class="hubhead"><button type="button" class="shbtn" id="shbtn" aria-label="Share"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg></button><h1 class="ptitle">HSSE HUB</h1>
+<div class="hubhead"><button type="button" class="fbbtn" id="fbbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span id="fbbtnt">Feedback</span></button><button type="button" class="shbtn" id="shbtn" aria-label="Share"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg></button><h1 class="ptitle">HSSE HUB</h1>
   <div class="rule"></div>
   <p class="sub"><span data-i18n="heroSub">Pick a tab, then open the tool you need.</span> <button type="button" class="acc" id="acc"></button></p>
   <div class="icbar" id="icbar"></div></div>
@@ -259,6 +271,17 @@ header.eh .eh-l button.on,header.eh .eh-l button.active,header.eh .eh-l button[a
   </div>
 </div>
 
+<div class="shbg" id="fbbg" hidden><div class="shbox" role="dialog" aria-modal="true" aria-labelledby="fbttl">
+  <h2 id="fbttl"></h2>
+  <div class="stars" id="fbstars" role="radiogroup"></div>
+  <select id="fbapp" aria-label="App"></select>
+  <textarea id="fbtxt" maxlength="1000"></textarea>
+  <input class="fi" id="fbname" maxlength="60" autocomplete="off">
+  <p class="fm" id="fbmsg" role="status"></p>
+  <button type="button" class="pbtn" id="fbsend"></button>
+  <button type="button" class="shx" id="fbcl"></button>
+</div></div>
+<div class="nudge" id="nudge" hidden><span id="nudget"></span><button type="button" class="pbtn" id="nudgego"></button><button type="button" class="plink" id="nudgex"></button></div>
 <div class="shbg" id="shbg" hidden><div class="shbox" role="dialog" aria-modal="true" aria-labelledby="shttl">
   <h2 id="shttl"></h2><p class="shl" id="shlink"></p>
   <button type="button" class="sho" id="shnat"></button>
@@ -295,7 +318,7 @@ const B = "https://iggifernandes.github.io/";
 
 /* VERSION of this hub. Same format in every app: "v1.0 · 2026-10-10", always in the footer.
    Small change = bump the second number (1.0 -> 1.1). Big change = bump the first (1.1 -> 2.0). */
-const HUB_VERSION = "1.42", HUB_DATE = "2026-11-01";
+const HUB_VERSION = "1.43", HUB_DATE = "2026-11-01";
 
 /* QUICK ACCESS SHEETS: buttons on the front tab (Projects) that open a Google Sheet directly.
    To rename a button, change its two names. To add one, copy a line. */
@@ -841,6 +864,59 @@ const SHARE_TXT = {
     const fb = () => { const r = document.createRange(); r.selectNodeContents(document.getElementById("shlink")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); try { document.execCommand("copy"); done(); } catch(e){} };
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url()).then(done, fb); else fb();
   });
+})();
+
+/* ---- Feedback: stars + comment + optional name, saved via the hub script ---- */
+const FB_TXT = {
+  en:{btn:"Feedback", t:"Your feedback", ph:"What works, what does not, what is missing? (optional)", nm:"Your name (optional, leave blank to stay anonymous)", whole:"The whole Hub", send:"Send feedback", cl:"Close", pick:"Please tap a star rating.", ok:"Thank you. Your feedback was sent.", err:"Could not send. Please try again later.", lim:"Too many messages from this device. Try again later.", nt:"How is the Hub working for you?", ng:"Rate it", nx:"Not now", st:"stars"},
+  id:{btn:"Masukan", t:"Masukan Anda", ph:"Apa yang berjalan baik, apa yang tidak, apa yang kurang? (opsional)", nm:"Nama Anda (opsional, kosongkan untuk anonim)", whole:"Seluruh Hub", send:"Kirim masukan", cl:"Tutup", pick:"Silakan pilih bintang.", ok:"Terima kasih. Masukan Anda telah terkirim.", err:"Gagal mengirim. Coba lagi nanti.", lim:"Terlalu banyak pesan dari perangkat ini. Coba lagi nanti.", nt:"Bagaimana Hub ini bagi Anda?", ng:"Beri nilai", nx:"Nanti", st:"bintang"},
+  ms:{btn:"Maklum balas", t:"Maklum balas anda", ph:"Apa yang berfungsi, apa yang tidak, apa yang kurang? (pilihan)", nm:"Nama anda (pilihan, kosongkan untuk kekal tanpa nama)", whole:"Keseluruhan Hub", send:"Hantar maklum balas", cl:"Tutup", pick:"Sila pilih bintang.", ok:"Terima kasih. Maklum balas anda telah dihantar.", err:"Gagal dihantar. Cuba lagi nanti.", lim:"Terlalu banyak mesej dari peranti ini. Cuba lagi nanti.", nt:"Bagaimana Hub ini berfungsi untuk anda?", ng:"Beri penilaian", nx:"Kemudian", st:"bintang"}
+};
+(function(){
+  const $ = id => document.getElementById(id);
+  const bg = $("fbbg"), btn = $("fbbtn"), nud = $("nudge"); if (!bg || !btn) return;
+  const F = () => FB_TXT[lang] || FB_TXT.en;
+  let stars = 0;
+  const ls = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch(e){} return null; };
+  let dev = ls("hubDev"); if (!dev) { dev = Math.random().toString(36).slice(2, 12); ls("hubDev", dev); }
+  function drawStars(){ $("fbstars").innerHTML = [1,2,3,4,5].map(n => `<button type="button" role="radio" aria-checked="${stars===n}" aria-label="${n} ${F().st}" data-n="${n}" class="${n<=stars?"on":""}">\u2605</button>`).join(""); }
+  function fill(pre){
+    const f = F(); $("fbbtnt").textContent = f.btn; $("fbttl").textContent = f.t; $("fbtxt").placeholder = f.ph; $("fbname").placeholder = f.nm;
+    $("fbsend").textContent = f.send; $("fbcl").textContent = f.cl; $("fbmsg").textContent = "";
+    const cur = $("fbapp").value;
+    $("fbapp").innerHTML = `<option value="">${f.whole}</option>` + ALL_APPS.map(a => `<option value="${a.key}">${(a[lang]||a.en).name}</option>`).join("");
+    $("fbapp").value = cur || ""; drawStars();
+  }
+  const open = src => { stars = 0; $("fbtxt").value = ""; $("fbapp").value = ""; bg.dataset.src = src || "hub"; fill(); bg.hidden = false; };
+  const close = () => { bg.hidden = true; btn.focus(); };
+  btn.addEventListener("click", () => open("hub"));
+  $("fbcl").addEventListener("click", close);
+  bg.addEventListener("click", e => { if (e.target === bg) close(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && !bg.hidden) close(); });
+  $("fbstars").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { stars = +b.dataset.n; drawStars(); $("fbmsg").textContent = ""; } });
+  $("fbsend").addEventListener("click", async () => {
+    const f = F(), m = $("fbmsg");
+    if (!stars) { m.textContent = f.pick; return; }
+    if (!AUTH_API) { m.textContent = f.err; return; }
+    $("fbsend").disabled = true;
+    try {
+      const k = $("fbapp").value, ap = ALL_APPS.find(a => a.key === k);
+      const r = await authCall({a:"feedback", stars, app: ap ? ap.en.name : "", text: $("fbtxt").value, name: $("fbname").value, lang, view: (typeof team !== "undefined" && team) ? "team" : "ic", src: bg.dataset.src, dev});
+      if (r && r.ok) { m.textContent = f.ok; ls("hubRated", String(Date.now())); nud.hidden = true; setTimeout(close, 1400); }
+      else m.textContent = r && r.limit ? f.lim : f.err;
+    } catch(e){ m.textContent = f.err; }
+    $("fbsend").disabled = false;
+  });
+  // gentle nudge: from the 3rd visit, once, then not again for 30 days
+  let v = +(ls("hubVisits") || 0); if (!sessionStorage.getItem("hubVisitCounted")) { v++; ls("hubVisits", String(v)); try { sessionStorage.setItem("hubVisitCounted","1"); } catch(e){} }
+  const last = +(ls("hubRated") || 0), asked = +(ls("hubAsked") || 0), D30 = 30*864e5;
+  if (v >= 3 && Date.now() - last > D30 && Date.now() - asked > D30 && AUTH_API) {
+    setTimeout(() => { const f = F(); $("nudget").textContent = f.nt; $("nudgego").textContent = f.ng; $("nudgex").textContent = f.nx; nud.hidden = false; }, 4000);
+  }
+  $("nudgego").addEventListener("click", () => { ls("hubAsked", String(Date.now())); nud.hidden = true; open("nudge"); });
+  $("nudgex").addEventListener("click", () => { ls("hubAsked", String(Date.now())); nud.hidden = true; });
+  document.querySelectorAll(".lang button").forEach(b => b.addEventListener("click", () => { $("fbbtnt").textContent = (FB_TXT[b.dataset.lang]||FB_TXT.en).btn; }));
+  $("fbbtnt").textContent = F().btn;
 })();
 </script>
 </body>
