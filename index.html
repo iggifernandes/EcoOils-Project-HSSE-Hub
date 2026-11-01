@@ -318,7 +318,7 @@ const B = "https://iggifernandes.github.io/";
 
 /* VERSION of this hub. Same format in every app: "v1.0 · 2026-10-10", always in the footer.
    Small change = bump the second number (1.0 -> 1.1). Big change = bump the first (1.1 -> 2.0). */
-const HUB_VERSION = "1.43", HUB_DATE = "2026-11-01";
+const HUB_VERSION = "1.44", HUB_DATE = "2026-11-01";
 
 /* QUICK ACCESS SHEETS: buttons on the front tab (Projects) that open a Google Sheet directly.
    To rename a button, change its two names. To add one, copy a line. */
@@ -397,6 +397,11 @@ const ALL_APPS = [
     en:{name:"Training Matrix",         desc:"Mandatory trainings by level (Induction, Permit to Work and more), tracked per person after induction."},
     id:{name:"Matriks Pelatihan",       desc:"Pelatihan wajib per level (Induksi, Izin Kerja, dan lainnya), dilacak per orang setelah induksi."},
     ms:{name:"Matriks Latihan", desc:"Latihan wajib mengikut tahap (Induksi, Permit Kerja dan lain-lain), dijejaki bagi setiap orang selepas induksi."} },
+
+  { key:"driverlog", cat:"safety", access:"open", icon:"truck", sheet:"", drive:"", ver:"", url:B+"EcoOils-Project-Driver-Log/",
+    en:{name:"Driver's Log & Pre-Use Checklist", desc:"Start-of-shift and end-of-day vehicle checklist and driver log, for every assigned driver."},
+    id:{name:"Log Pengemudi & Pemeriksaan Awal", desc:"Pemeriksaan kendaraan dan log pengemudi di awal dan akhir shift, untuk setiap pengemudi yang ditugaskan."},
+    ms:{name:"Log Pemandu & Semakan Pra-Guna", desc:"Semakan kenderaan dan log pemandu pada permulaan dan penghujung syif, untuk setiap pemandu yang ditugaskan."} },
 
   { key:"ppe", cat:"safety", access:"team", icon:"hat", sheet:"", drive:"", ver:"", url:B+"EcoOils-Project-PPE-Database/",
     en:{name:"PPE Database",            desc:"PPE requests, approvals and store issue records."},
