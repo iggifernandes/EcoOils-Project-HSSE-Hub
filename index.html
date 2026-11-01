@@ -119,6 +119,18 @@
   .empty{color:var(--grey);padding:36px 0;text-align:center;text-transform:uppercase;letter-spacing:.12em;font-size:14px}
   .empty::before{content:"";display:block;width:56px;height:56px;margin:0 auto 14px;background:var(--dots) center/contain no-repeat}
 
+
+  .hubhead{position:relative}
+  .shbtn{position:absolute;right:0;top:0;width:44px;height:44px;border:1px solid var(--line);background:var(--white);color:var(--black);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .shbtn svg{width:22px;height:22px}
+  .shbg{position:fixed;inset:0;background:rgba(35,31,32,.5);z-index:60;display:flex;align-items:flex-end;justify-content:center}
+  .shbg[hidden]{display:none}
+  .shbox{background:var(--white);width:100%;max-width:440px;border-radius:12px 12px 0 0;padding:16px;display:flex;flex-direction:column;gap:8px}
+  @media(min-width:600px){.shbg{align-items:center}.shbox{border-radius:12px}}
+  .shbox h2{margin:0 0 4px;font-size:18px}
+  .shbox .shl{font-size:13px;color:var(--muted);word-break:break-all;margin:0 0 4px}
+  .shbox a,.shbox button.sho{display:flex;align-items:center;gap:10px;min-height:48px;padding:0 14px;border:1px solid var(--line);border-radius:8px;background:var(--white);color:var(--black);font:inherit;font-size:16px;text-decoration:none;cursor:pointer;text-align:left}
+  .shbox .shx{border:0;background:none;color:var(--muted);min-height:44px;font:inherit;cursor:pointer}
   footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:14px 16px;text-align:center;color:var(--muted);font-size:14px}
   /* laptops and desktops: use the whole landscape screen */
   @media (min-width:900px){
@@ -232,7 +244,7 @@ header.eh .eh-l button.on,header.eh .eh-l button.active,header.eh .eh-l button[a
       <button type="button" data-lang="ms" aria-pressed="false">MS</button>
     </div><div id="verdate" class="eh-d" data-date="2026-10-28"></div></div></header>
 <div class="wrap">
-<div class="hubhead"><h1 class="ptitle">HSSE HUB</h1>
+<div class="hubhead"><button type="button" class="shbtn" id="shbtn" aria-label="Share"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg></button><h1 class="ptitle">HSSE HUB</h1>
   <div class="rule"></div>
   <p class="sub"><span data-i18n="heroSub">Pick a tab, then open the tool you need.</span> <button type="button" class="acc" id="acc"></button></p>
   <div class="icbar" id="icbar"></div></div>
@@ -247,6 +259,15 @@ header.eh .eh-l button.on,header.eh .eh-l button.active,header.eh .eh-l button[a
   </div>
 </div>
 
+<div class="shbg" id="shbg" hidden><div class="shbox" role="dialog" aria-modal="true" aria-labelledby="shttl">
+  <h2 id="shttl"></h2><p class="shl" id="shlink"></p>
+  <button type="button" class="sho" id="shnat"></button>
+  <a id="shwa" target="_blank" rel="noopener">WhatsApp</a>
+  <a id="shtg" target="_blank" rel="noopener">Telegram</a>
+  <a id="shem">Email</a>
+  <button type="button" class="sho" id="shcp"></button>
+  <button type="button" class="shx" id="shcl"></button>
+</div></div>
 <div class="pinbg" id="pinbg" hidden><div class="pinbox" role="dialog" aria-modal="true" aria-labelledby="pinttl">
   <h2 id="pinttl"></h2><p id="pinmsg" class="pm"></p>
   <input id="pinin" type="password" inputmode="numeric" autocomplete="off" maxlength="12">
@@ -274,7 +295,7 @@ const B = "https://iggifernandes.github.io/";
 
 /* VERSION of this hub. Same format in every app: "v1.0 · 2026-10-10", always in the footer.
    Small change = bump the second number (1.0 -> 1.1). Big change = bump the first (1.1 -> 2.0). */
-const HUB_VERSION = "1.41", HUB_DATE = "2026-10-31";
+const HUB_VERSION = "1.42", HUB_DATE = "2026-11-01";
 
 /* QUICK ACCESS SHEETS: buttons on the front tab (Projects) that open a Google Sheet directly.
    To rename a button, change its two names. To add one, copy a line. */
@@ -783,6 +804,44 @@ if (AUTH_API) authCall({a:"shared"}).then(r => {
 q.addEventListener("input", render);
 render();
 </script>
-<script>/* eco-std-header */(function(){var v=document.getElementById('ver'),d=document.getElementById('verdate');if(!v||!d)return;function n(){var m=(v.textContent||'').match(/\d+(?:\.\d+)+|\d+/);return m?'v'+m[0]:''}function s(){var x=n();if(x&&v.textContent!==x)v.textContent=x;d.textContent=x?x+' \u00b7 '+d.getAttribute('data-date'):''}s();new MutationObserver(s).observe(v,{childList:true,characterData:true,subtree:true})})();</script>
+<script>/* eco-std-header */(function(){var v=document.getElementById('ver'),d=document.getElementById('verdate');if(!v||!d)return;function n(){var m=(v.textContent||'').match(/\d+(?:\.\d+)+|\d+/);return m?'v'+m[0]:''}function s(){var x=n();if(x&&v.textContent!==x)v.textContent=x;d.textContent=x?x+' \u00b7 '+d.getAttribute('data-date'):''}s();new MutationObserver(s).observe(v,{childList:true,characterData:true,subtree:true})})();
+/* ---- Share the Hub (always the IC link, never the team view) ---- */
+const SHARE_TXT = {
+  en:{t:"Share the Hub", msg:"EcoOils HSSE Hub: all apps in one place. Updated regularly.", nat:"Share via device", cp:"Copy link", cl:"Close", ok:"Link copied", sub:"EcoOils HSSE Hub"},
+  id:{t:"Bagikan Hub", msg:"EcoOils HSSE Hub: semua aplikasi di satu tempat. Diperbarui secara berkala.", nat:"Bagikan lewat perangkat", cp:"Salin tautan", cl:"Tutup", ok:"Tautan disalin", sub:"EcoOils HSSE Hub"},
+  ms:{t:"Kongsi Hub", msg:"EcoOils HSSE Hub: semua aplikasi di satu tempat. Dikemas kini dari semasa ke semasa.", nat:"Kongsi melalui peranti", cp:"Salin pautan", cl:"Tutup", ok:"Pautan disalin", sub:"EcoOils HSSE Hub"}
+};
+(function(){
+  const bg = document.getElementById("shbg"), btn = document.getElementById("shbtn"); if (!bg || !btn) return;
+  const url = () => location.origin + location.pathname + "?view=ic";
+  const T2 = () => SHARE_TXT[lang] || SHARE_TXT.en;
+  function fill(){
+    const x = T2(), u = url(), m = x.msg + " " + u;
+    document.getElementById("shttl").textContent = x.t;
+    document.getElementById("shlink").textContent = u;
+    document.getElementById("shnat").textContent = x.nat;
+    document.getElementById("shnat").hidden = !navigator.share;
+    document.getElementById("shcp").textContent = x.cp;
+    document.getElementById("shcl").textContent = x.cl;
+    document.getElementById("shwa").href = "https://wa.me/?text=" + encodeURIComponent(m);
+    document.getElementById("shtg").href = "https://t.me/share/url?url=" + encodeURIComponent(u) + "&text=" + encodeURIComponent(x.msg);
+    document.getElementById("shem").href = "mailto:?subject=" + encodeURIComponent(x.sub) + "&body=" + encodeURIComponent(m);
+    btn.setAttribute("aria-label", x.t);
+  }
+  const close = () => { bg.hidden = true; btn.focus(); };
+  btn.addEventListener("click", () => { fill(); bg.hidden = false; document.getElementById("shcl").focus(); });
+  document.getElementById("shcl").addEventListener("click", close);
+  bg.addEventListener("click", e => { if (e.target === bg) close(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && !bg.hidden) close(); });
+  document.getElementById("shnat").addEventListener("click", () => {
+    navigator.share({title: T2().sub, text: T2().msg, url: url()}).catch(()=>{});
+  });
+  document.getElementById("shcp").addEventListener("click", () => {
+    const done = () => { document.getElementById("shcp").textContent = T2().ok; };
+    const fb = () => { const r = document.createRange(); r.selectNodeContents(document.getElementById("shlink")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); try { document.execCommand("copy"); done(); } catch(e){} };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url()).then(done, fb); else fb();
+  });
+})();
+</script>
 </body>
 </html>
