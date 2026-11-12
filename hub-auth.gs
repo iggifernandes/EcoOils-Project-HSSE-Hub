@@ -1,4 +1,4 @@
-// VERSION: 2.1.0
+// VERSION: 2.2.0
 /**
  * EcoOils HSSE Hub - Team PIN service (free, runs in your own Google account).
  * - No PIN is stored in this code. The PIN is set only through the "Forgot PIN / set PIN" email flow.
@@ -7,6 +7,7 @@
  * - 5 wrong PINs lock logins for 15 minutes.
  * - Also stores which tools ICs can see (the 'Share with ICs' switches in the hub).
  * - v2.1.0: 'feedback' action. Star rating + comment + optional name saved to a Google Sheet 'EcoOils Hub Feedback' in your Drive; email to you on 1-2 stars.
+ * - v2.2.0: trusted device. Login with remember:true returns a 90-day token (kept in Script Properties) so your own device opens as admin without asking again; 'check' and 'lock' actions.
  * Deploy: Extensions > Apps Script > paste this > Deploy > New deployment > Web app
  *         Execute as: Me   |   Who has access: Anyone   > copy the Web app URL into AUTH_API in the hub.
  */
@@ -21,6 +22,16 @@ function hash_(s, salt) {
   var b = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, salt + ':' + s, Utilities.Charset.UTF_8);
   return b.map(function (x) { return ('0' + (x & 0xff).toString(16)).slice(-2); }).join('');
 }
+function tokOk_(P, C, tok) {
+  tok = String(tok || ''); if (!/^[0-9a-f-]{36}$/.test(tok)) return false;
+  if (C.get('tok_' + tok)) return true;
+  var exp = Number(P.getProperty('TOK_' + tok) || 0);
+  return exp > Date.now();
+}
+function cleanToks_(P) {
+  var all = P.getProperties(), now = Date.now();
+  Object.keys(all).forEach(function (k) { if (k.indexOf('TOK_') === 0 && Number(all[k]) < now) P.deleteProperty(k); });
+}
 function handle_(r) {
   var P = PropertiesService.getScriptProperties(), C = CacheService.getScriptCache();
   if (r.a === 'login') {
@@ -29,17 +40,20 @@ function handle_(r) {
     if (hash_(String(r.pin || ''), P.getProperty('salt')) === P.getProperty('pinHash')) {
       C.remove('fails');
       var tok = Utilities.getUuid(); C.put('tok_' + tok, '1', 21600);   // session token, valid 6 hours
+      if (r.remember) { cleanToks_(P); P.setProperty('TOK_' + tok, String(Date.now() + 90 * 864e5)); }   // trusted device: 90 days
       return { ok: true, tok: tok };
     }
     C.put('fails', String(Number(C.get('fails') || 0) + 1), 900);
     return { ok: false };
   }
+  if (r.a === 'check') { return { ok: tokOk_(P, C, r.tok) }; }
+  if (r.a === 'lock') { if (r.tok) { P.deleteProperty('TOK_' + r.tok); C.remove('tok_' + r.tok); } return { ok: true }; }
   if (r.a === 'shared') {                                 // public: which tools ICs can see
     var k = P.getProperty('shared');
     return k ? { ok: true, keys: JSON.parse(k) } : { ok: true, keys: null };
   }
   if (r.a === 'setshared') {                               // team only: needs a valid login token
-    if (!r.tok || !C.get('tok_' + r.tok) || !Array.isArray(r.keys)) return { ok: false };
+    if (!tokOk_(P, C, r.tok) || !Array.isArray(r.keys)) return { ok: false };
     var clean = r.keys.filter(function (x) { return /^[a-z0-9_]{1,30}$/.test(x); }).slice(0, 100);
     P.setProperty('shared', JSON.stringify(clean));
     return { ok: true };
